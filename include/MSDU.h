@@ -1,4 +1,6 @@
 #include <map>
+#include <vector>
+#include "SequenceType.h"
 
 #ifndef _MSDU_H_
 #define _MSDU_H_
@@ -14,20 +16,20 @@ namespace GOESDump {
             int APID;
             int Type;
             bool SecondHeader;
-            //GOESDump::SequenceType Sequence;
+            SequenceType Sequence;
             int PacketNumber;
             int PacketLength;
-            uint8_t* Data;
-            uint8_t* RemainingData;
+            vector<uint8_t> Data;
+            vector<uint8_t> RemainingData;
 
             MSDU() { }
 
-            void addDataBytes(uint8_t data);
+            void addDataBytes(vector<uint8_t> data);
 
             GOESDump::MSDU parseMSDU(uint8_t data);
 
             bool Full() { 
-                //return Data.Length == PacketLength + 2;
+                return Data.size() == PacketLength + 2;
             }
 
             uint16_t CRC() {
@@ -39,12 +41,15 @@ namespace GOESDump {
             }
 
             bool Valid() {
+                return true;
                 //return Data.Take(Data.Length - 2).ToArray().CRC() == CRC;
             }
 
             bool FillPacket() {
                 return APID == 2047;
             }
+
+            void parseMSDU(vector<uint8_t> data);
     };
 }
 

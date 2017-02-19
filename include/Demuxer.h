@@ -1,11 +1,17 @@
-#include <string.h>
+#include <string>
 #include <vector>
+#include <tuple>
 #include <map>
 #include "WatchMan.h"
 #include "MSDU.h"
 
 #ifndef _DEMUXER_H_
 #define _DEMUXER_H_
+
+typedef struct {
+    int8_t lastAPID;
+    vector<uint8_t> data;
+} packet;
 
 using namespace std;
 namespace GOESDump {
@@ -20,6 +26,8 @@ namespace GOESDump {
             string filename;
             vector<uint8_t> buffer;
             map<int,GOESDump::MSDU> temporaryStorage;
+            packet CreatePacket(vector<uint8_t> data);
+            void FinishMSDU(GOESDump:MSDU msdu);
 
         public:
             Demuxer() { }

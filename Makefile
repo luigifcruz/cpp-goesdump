@@ -30,20 +30,8 @@ tester:
 ticket:
 	$(CC) $(CFLAGS) spikes/ticket.cpp $(INC) $(LIB) -o bin/ticket
 
-.PHONY: clean
+# Run
+run:
+	./${TARGET}
 
-#CC=g++
-#CFLAGS=-std=c++11 -c -Wall
-#LDFLAGS=-lsathelper
-#SOURCES=main.cpp DataHandler.cpp StatisticsHandler.cpp WatchMan.cpp Demuxer.cpp
-#OBJECTS=$(SOURCES:.cpp=.o)
-#EXECUTABLE=GOESDump
-#
-#all: $(SOURCES) $(EXECUTABLE)
-#
-#$(EXECUTABLE): $(OBJECTS)
-#	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
-#
-#.cpp.o:
-#	$(CC) $(CFLAGS) $< -o $@
-#
+.PHONY: clean
