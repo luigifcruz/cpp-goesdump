@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "*h*h*hexception": "cpp",
+        "*h*htypeinfo": "cpp",
+        "new": "cpp",
+        "ostream": "cpp",
+        "cstdlib": "cpp",
+        "cstdint": "cpp",
+        "iosfwd": "cpp",
+        "istream": "cpp",
+        "*tcc*tcc*tcc*tcc*h*h*h*h*h*h*h*h*h*h*h*h*h*hmemory": "cpp"
+    }
+}
