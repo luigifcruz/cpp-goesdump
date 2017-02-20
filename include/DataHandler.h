@@ -5,6 +5,9 @@
 #include "WatchMan.h"
 #include "Demuxer.h"
 
+#ifndef _DATAHANDLER_H_
+#define _DATAHANDLER_H_
+
 using namespace std;
 namespace GOESDump {
     class DataHandler {
@@ -30,3 +33,5 @@ namespace GOESDump {
         void Init(GOESDump::WatchMan watchMan);
     }; 
 }
+
+#endif

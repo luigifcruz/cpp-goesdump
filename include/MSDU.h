@@ -1,6 +1,6 @@
 #include <map>
 #include <vector>
-#include "SequenceType.h"
+#include "Types/SequenceType.h"
 
 #ifndef _MSDU_H_
 #define _MSDU_H_
@@ -9,6 +9,11 @@ using namespace std;
 namespace GOESDump {
     class MSDU {
         private:
+            uint16_t CRC() {
+                uint16_t o = ((uint16_t)Data.at(Data.size()-2) << 8) | Data.at(Data.size()-1);
+                return (o>>8) | (o<<8);
+            }
+
         public:
             bool FrameLost = false;
             int Version;
@@ -22,34 +27,24 @@ namespace GOESDump {
             vector<uint8_t> Data;
             vector<uint8_t> RemainingData;
 
-            MSDU() { }
-
             void addDataBytes(vector<uint8_t> data);
-
+            void parseMSDU(vector<uint8_t> data);
             GOESDump::MSDU parseMSDU(uint8_t data);
+
+            MSDU() { }
 
             bool Full() { 
                 return Data.size() == PacketLength + 2;
             }
 
-            uint16_t CRC() {
-                /*uint16_t o = Data.Skip(Data.Length - 2).ToArray();
-                if (BitConverter.IsLittleEndian) {
-                    Array.Reverse(o);
-                }
-                return BitConverter.ToUInt16(o, 0);*/
-            }
-
             bool Valid() {
-                return true;
+                return false;
                 //return Data.Take(Data.Length - 2).ToArray().CRC() == CRC;
             }
 
             bool FillPacket() {
                 return APID == 2047;
-            }
-
-            void parseMSDU(vector<uint8_t> data);
+            }            
     };
 }
 

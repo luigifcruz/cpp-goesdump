@@ -5,6 +5,9 @@
 #include <SatHelper/sathelper.h>
 #include "WatchMan.h"
 
+#ifndef _STATISTICSHANDLER_H_
+#define _STATISTICSHANDLER_H_
+
 using namespace std;
 namespace GOESDump {
     class StatisticsHandler {
@@ -28,3 +31,5 @@ namespace GOESDump {
             void Init(GOESDump::WatchMan watchMan);
     }; 
 }
+
+#endif

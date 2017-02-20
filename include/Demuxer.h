@@ -3,6 +3,7 @@
 #include <tuple>
 #include <map>
 #include "WatchMan.h"
+#include "Types/SequenceType.h"
 #include "MSDU.h"
 
 #ifndef _DEMUXER_H_
@@ -27,7 +28,9 @@ namespace GOESDump {
             vector<uint8_t> buffer;
             map<int,GOESDump::MSDU> temporaryStorage;
             packet CreatePacket(vector<uint8_t> data);
-            void FinishMSDU(GOESDump:MSDU msdu);
+            void FinishMSDU(GOESDump::MSDU msdu);
+            int Packets = 0;
+            int CRCFails = 0;
 
         public:
             Demuxer() { }

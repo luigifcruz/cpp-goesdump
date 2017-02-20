@@ -1,3 +1,6 @@
+#ifndef _WEBSERVER_H_
+#define _WEBSERVER_H_
+
 using namespace std;
 namespace GOESDump {
     class WebServer {
@@ -10,3 +13,5 @@ namespace GOESDump {
             int ServeFile(char * filename);
     }; 
 }
+
+#endif

@@ -25,7 +25,7 @@ namespace GOESDump {
                 pk.lastAPID = -1;
             }
             
-            if (msdu.RemainingData.size() > 0 || msdu.Full) {
+            if (msdu.RemainingData.size() > 0 || msdu.Full()) {
                 data = msdu.RemainingData;
                 msdu.RemainingData.clear();
                 FinishMSDU(msdu);
@@ -38,12 +38,44 @@ namespace GOESDump {
         return pk;
     } 
 
-    void Demuxer::FinishMSDU(GOESDump:MSDU msdu) {
+    void Demuxer::FinishMSDU(GOESDump::MSDU msdu) {
         if (msdu.APID == 2047) {
             // Skip fill packet
             return;
         }
 
+        bool firstOrSinglePacket = msdu.Sequence == FIRST_SEGMENT || msdu.Sequence == SINGLE_DATA;
+
+        cout << ">> " << firstOrSinglePacket << "\n";
+
+        Packets++;
+
+        if (!msdu.Valid()) {
+            cout << "Wrong CRC!" << "\n";
+            CRCFails++;
+        }
+
+        if (!msdu.Valid() || !msdu.Full()) {
+            cout << "Got a invalid MSDU :(" << "\n";
+            cout << "New Packet for APID " << msdu.APID << " - Valid CRC: " << msdu.Valid() << " - Full: " << msdu.Full() << " - Remaining Bytes: " <<  msdu.RemainingData.size() << " - Frame Lost: " << msdu.FrameLost << "\n";
+            cout << "  Total Size: " << (msdu.PacketLength + 2) << " Current Size: " << msdu.Data.size() << "\n";
+        }
+
+        if (msdu.Sequence == FIRST_SEGMENT || msdu.Sequence == SINGLE_DATA) {
+            //fileHeader = FileParser.GetHeader(msdu.Data.Skip(10).ToArray());
+            if (msdu.Sequence == FIRST_SEGMENT) {
+                startnum = msdu.PacketNumber;
+            }
+        } else if (msdu.Sequence == LAST_SEGMENT) {
+            endnum = msdu.PacketNumber;
+            if (startnum == -1) {
+                cout << "NOT BIG DEAL: Orphan Packet. Dropping\n";
+                return;
+            }
+        } else if (msdu.Sequence != SINGLE_DATA && startnum == -1) {
+            cout << "NOT BIG DEAL: Orphan Packet. Dropping\n";
+            return;
+        }
     }
 
     void Demuxer::ParseBytes(uint8_t* data) {

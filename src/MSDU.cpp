@@ -8,6 +8,9 @@ namespace GOESDump {
             cout << "(MSDU) Overflow in MSDU!\n";
         }
         Data.insert(Data.end(), data.begin(), data.end());
+        if (Data.size() > PacketLength + 2) {
+            Data.erase(Data.begin()+(PacketLength+2), data.end());
+        }
     }
 
     void MSDU::parseMSDU(vector<uint8_t> data) {
