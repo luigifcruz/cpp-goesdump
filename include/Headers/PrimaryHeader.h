@@ -20,6 +20,8 @@ namespace GOESDump {
             FileTypeCode FileType;
             uint32_t HeaderLength;
             uint64_t DataLength;
+            
+            PrimaryHeader(){}
 
             PrimaryHeader(PrimaryRecord data) {
                 Type = (HeaderType)0;

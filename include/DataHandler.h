@@ -1,12 +1,12 @@
+#ifndef _DATAHANDLER_H_
+#define _DATAHANDLER_H_
+
 #include <map>
 #include <thread>
 #include <iostream>
 #include <SatHelper/sathelper.h>
 #include "WatchMan.h"
 #include "Demuxer.h"
-
-#ifndef _DATAHANDLER_H_
-#define _DATAHANDLER_H_
 
 using namespace std;
 namespace GOESDump {

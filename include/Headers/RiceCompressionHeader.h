@@ -19,6 +19,8 @@ namespace GOESDump {
             uint16_t Flags;
             uint8_t Pixel;
             uint8_t Line;
+            
+            RiceCompressionHeader(){}
 
             RiceCompressionHeader(RiceCompressionRecord data) {
                 Type = (HeaderType)131;

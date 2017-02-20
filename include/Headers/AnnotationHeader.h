@@ -16,10 +16,14 @@ namespace GOESDump {
     class AnnotationHeader: public XRITBaseHeader {
         public:
             string Filename;
+            bool Init = false;
+
+            AnnotationHeader() {}
 
             AnnotationHeader(AnnotationRecord data) {
                 Type = (HeaderType)4;
                 Filename = data.Filename;
+                Init = true;
             }
     };
 }

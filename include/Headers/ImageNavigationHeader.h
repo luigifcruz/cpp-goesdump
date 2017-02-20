@@ -24,6 +24,8 @@ namespace GOESDump {
             uint32_t LineScalingFactor;
             uint32_t ColumnOffset;
             uint32_t LineOffset;
+            
+            ImageNavigationHeader(){}
 
             ImageNavigationHeader(ImageNavigationRecord data) {
                 Type = (HeaderType)2;

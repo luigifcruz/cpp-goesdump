@@ -6,7 +6,7 @@ TARGET := bin/GOESDump
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -std=c++11 -c -Wall
+CFLAGS := -std=c++11 -c -Wall -ferror-limit=90
 LIB := -lsathelper
 INC := -I include
 

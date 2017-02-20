@@ -15,8 +15,8 @@ enum FileTypeCode {
     METEOROLOGICAL_DATA = 128,
 
     // NOAA
-    DCS = 130,
-    EMWIN = 214
+    DCS2 = 130,
+    EMWIN2 = 214
 };
 
 #endif

@@ -16,6 +16,8 @@ namespace GOESDump {
     class ImageDataFunctionHeader: public XRITBaseHeader {
         public:
             string Data;
+            
+            ImageDataFunctionHeader(){}
 
             ImageDataFunctionHeader(ImageDataFunctionRecord data) {
                 Type = (HeaderType)3;

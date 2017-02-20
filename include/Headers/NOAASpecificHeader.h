@@ -3,6 +3,9 @@
 
 #include "XRITBaseHeader.h"
 #include "../Types/CompressionType.h"
+#include "../NOAAProduct.h"
+#include "../NOAASubproduct.h"
+#include "../Presets.h"
 
 using namespace std;
 namespace GOESDump {
@@ -20,18 +23,23 @@ namespace GOESDump {
     class NOAASpecificHeader: public XRITBaseHeader {
         public:
             string Signature;
-            NOAAProduct Product; // MAKE CLASS
-            NOAASubproduct SubProduct; // MAKE CLASS
+            NOAAProduct Product;
+            NOAASubproduct SubProduct;
             uint16_t Parameter;
             CompressionType Compression;
+            Presets presets;
+            bool Init = false;
+            
+            NOAASpecificHeader(){}
 
             NOAASpecificHeader(NOAASpecificRecord data) {
                 Type = (HeaderType)129;
                 Signature = data.Signature;
-                Product = Presets.GetProductById(data.ProductID); // MAKE CLASS
-                SubProduct = Product.getSubProduct(data.ProductSubID); // MAKE CLASS
+                Product = presets.GetProductById(data.ProductID); 
+                SubProduct = Product.getSubProduct(data.ProductSubID);
                 Parameter = data.Parameter;
                 Compression = (CompressionType)data.Compression;
+                Init = true;
             }
     };
 }

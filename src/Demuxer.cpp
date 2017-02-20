@@ -61,8 +61,9 @@ namespace GOESDump {
             cout << "  Total Size: " << (msdu.PacketLength + 2) << " Current Size: " << msdu.Data.size() << "\n";
         }
 
+        GOESDump::FileParser fileParser;
         if (msdu.Sequence == FIRST_SEGMENT || msdu.Sequence == SINGLE_DATA) {
-            //fileHeader = FileParser.GetHeader(msdu.Data.Skip(10).ToArray());
+            fileHeader = fileParser.GetHeader(msdu.Data);
             if (msdu.Sequence == FIRST_SEGMENT) {
                 startnum = msdu.PacketNumber;
             }
@@ -101,7 +102,7 @@ namespace GOESDump {
         cb = (cb>>8) | (cb<<8);
         uint16_t fhp = (cb & 0x7FF);
         
-        //cout << channelId << "-" << counter << "-" << fhp << "\n";
+        cout << channelId << "-" << counter << "-" << fhp << "\n";
 
         data = (data+8);
         packet p;

@@ -16,6 +16,8 @@ namespace GOESDump {
     class HeaderStructuredHeader: public XRITBaseHeader {
         public:
             string Data;
+            
+            HeaderStructuredHeader(){}
 
             HeaderStructuredHeader(HeaderStructuredRecord data) {
                 Type = (HeaderType)130;

@@ -16,10 +16,14 @@ namespace GOESDump {
     class DCSFilenameHeader: public XRITBaseHeader {
         public:
             string Filename;
+            bool Init = false;
+            
+            DCSFilenameHeader(){}
 
             DCSFilenameHeader(DCSFilenameRecord data) {
                 Type = (HeaderType)132;
                 Filename = data.Filename;
+                Init = true;
             }
     };
 }

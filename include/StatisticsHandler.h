@@ -1,12 +1,12 @@
+#ifndef _STATISTICSHANDLER_H_
+#define _STATISTICSHANDLER_H_
+
 #include <thread>
 #include <cstdint>
 #include <cstring>
 #include <iostream>
 #include <SatHelper/sathelper.h>
 #include "WatchMan.h"
-
-#ifndef _STATISTICSHANDLER_H_
-#define _STATISTICSHANDLER_H_
 
 using namespace std;
 namespace GOESDump {

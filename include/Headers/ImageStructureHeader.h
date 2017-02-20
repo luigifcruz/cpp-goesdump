@@ -22,13 +22,17 @@ namespace GOESDump {
             uint16_t Columns;
             uint16_t Lines;
             CompressionType Compression;
-
+            bool Init = false;
+            
+            ImageStructureHeader(){}
+            
             ImageStructureHeader(ImageStructureRecord data) {
                 Type = (HeaderType)1;
                 BitsPerPixel = data.BitsPerPixel;
                 Columns = data.Columns;
                 Lines = data.Lines;
                 Compression = (CompressionType)data.Compression;
+                Init = true;
             }
     };
 }

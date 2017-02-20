@@ -27,6 +27,8 @@ namespace GOESDump {
             uint16_t MaxSegments;
             uint16_t MaxColumns;
             uint16_t MaxRows;
+            
+            SegmentIdentificationHeader(){}
 
             SegmentIdentificationHeader(SegmentIdentificationRecord data) {
                 Type = (HeaderType)128;

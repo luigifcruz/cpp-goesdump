@@ -1,13 +1,15 @@
+#ifndef _DEMUXER_H_
+#define _DEMUXER_H_
+
 #include <string>
 #include <vector>
 #include <tuple>
 #include <map>
 #include "WatchMan.h"
+#include "FileParser.h"
+#include "XRITHeader.h"
 #include "Types/SequenceType.h"
 #include "MSDU.h"
-
-#ifndef _DEMUXER_H_
-#define _DEMUXER_H_
 
 typedef struct {
     int8_t lastAPID;
@@ -29,6 +31,7 @@ namespace GOESDump {
             map<int,GOESDump::MSDU> temporaryStorage;
             packet CreatePacket(vector<uint8_t> data);
             void FinishMSDU(GOESDump::MSDU msdu);
+            XRITHeader fileHeader;
             int Packets = 0;
             int CRCFails = 0;
 

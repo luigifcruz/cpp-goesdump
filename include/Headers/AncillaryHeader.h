@@ -17,6 +17,8 @@ namespace GOESDump {
         public:
             string Filename;
 
+            AncillaryHeader() {}
+
             AncillaryHeader(AncillaryText data) {
                 Type = (HeaderType)6;
                 Filename = data.Data;

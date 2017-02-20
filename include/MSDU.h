@@ -1,9 +1,9 @@
+#ifndef _MSDU_H_
+#define _MSDU_H_
+
 #include <map>
 #include <vector>
 #include "Types/SequenceType.h"
-
-#ifndef _MSDU_H_
-#define _MSDU_H_
 
 using namespace std;
 namespace GOESDump {
