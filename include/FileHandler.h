@@ -4,6 +4,8 @@
 #include <map>
 #include <string>
 #include <XRITHeader.h>
+#include "PacketManager.h"
+#include "Tools.h"
 
 using namespace std;
 namespace GOESDump {
@@ -19,8 +21,11 @@ namespace GOESDump {
 
     class FileHandler {
         private:
+            Tools Tools;
+            PacketManager PacketManager;
             map<int, FileHandlerFunction> byCompressionTypeHandler;
             map<int, FileHandlerFunction> byProductIdHandler;
+
         public:
             FileHandler() { }
 

@@ -47,7 +47,7 @@ namespace GOESDump {
                 } else if (AnnotationHeader.Init) {
                     return AnnotationHeader.Filename;
                 } else {
-                    return NULL;
+                    return "";
                 }
             }
 

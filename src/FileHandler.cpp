@@ -13,11 +13,11 @@ namespace GOESDump {
     }
 
     void FileHandler::DefaultHandler(string filename, XRITHeader fileHeader) {
-        /*string dir = Path.GetDirectoryName(filename);
-        string ofilename = fileHeader.Filename == null ? Path.GetFileName(filename) : fileHeader.Filename; 
-        string f = PacketManager.FixFileFolder(dir, ofilename, fileHeader.Product, fileHeader.SubProduct);
+        string dir = Tools.GetDirectoryName(filename);
+        string ofilename = fileHeader.Filename() == "" ? Tools.GetFileName(filename) : fileHeader.Filename(); 
+        string f = PacketManager.FixFileFolder(dir, ofilename, fileHeader.Product(), fileHeader.SubProduct());
 
-        if (File.Exists(f)) {
+        /*if (File.Exists(f)) {
             string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
             string ext = Path.GetExtension(f);
             string append = String.Format("--dup-{0}{1}", timestamp, ext);

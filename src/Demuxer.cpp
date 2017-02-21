@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Demuxer.h"
 
 #define BUFFER_SIZE 892
@@ -8,14 +7,14 @@ namespace GOESDump {
     packet Demuxer::CreatePacket(vector<uint8_t> data) {
         packet pk;
         pk.lastAPID = -1;
-        while (true) {
-            GOESDump::MSDU msdu;
 
+        while (true) {
             if (data.size() < 6) {
                 pk.data = data;
                 return pk;
             }
-            
+
+            MSDU msdu;
             msdu.parseMSDU(data);
 
             if (msdu.APID != 2047) {
@@ -24,7 +23,7 @@ namespace GOESDump {
             } else {
                 pk.lastAPID = -1;
             }
-            
+
             if (msdu.RemainingData.size() > 0 || msdu.Full()) {
                 data = msdu.RemainingData;
                 msdu.RemainingData.clear();
@@ -45,8 +44,6 @@ namespace GOESDump {
         }
 
         bool firstOrSinglePacket = msdu.Sequence == FIRST_SEGMENT || msdu.Sequence == SINGLE_DATA;
-
-        cout << ">> " << firstOrSinglePacket << "\n";
 
         Packets++;
 
@@ -78,12 +75,10 @@ namespace GOESDump {
             return;
         }
 
-        char dirName[255];
-        const char *prefix = "./channels/";
-        snprintf(dirName, 255, "%s%d", prefix, channelId);
-        struct stat st = {0};
-        if (stat(dirName, &st) == -1) {
-            mkdir(dirName, 0700);
+        ostringstream path;
+        path << "./channels/" << channelId;
+        if (!Tools.DirExists(path.str())) {
+            Tools.CreateDir(path.str());
         }
 
         switch (fileHeader.Compression()) {
@@ -93,6 +88,24 @@ namespace GOESDump {
             default: // For 0, 2, 5 runs the default
                 filename << "channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << ".lrit";
             break;
+        }
+
+        if (msdu.Sequence == LAST_SEGMENT || msdu.Sequence == SINGLE_DATA) {
+            if (fileHeader.Compression() == LRIT_RICE) { // # Rice
+                /* IMPLEMENT DECOMPRESSOR
+                string decompressed;
+                if (msdu.Sequence == SINGLE_DATA) {
+                    decompressed = PacketManager.Decompressor(filename, fileHeader.ImageStructureHeader.Columns);
+                } else {
+                    decompressed = PacketManager.Decompressor(String.Format("channels/{0}/{1}_{2}_", channelId, msdu.APID, msdu.Version), fileHeader.ImageStructureHeader.Columns, startnum, endnum);
+                }
+
+                FileHandler.HandleFile(decompressed, fileHeader);
+                startnum = -1;
+                endnum = -1;*/
+            } else {
+                FileHandler.HandleFile(filename.str(), fileHeader);
+            }
         }
 
     }
@@ -124,6 +137,7 @@ namespace GOESDump {
 
         data = (data+8);
         packet p;
+        p.lastAPID = 0;
         
         if (fhp != 2047) {
             if (lastAPID == -1 && buffer.size() > 0) {
@@ -132,7 +146,9 @@ namespace GOESDump {
                 }         
 
                 p = CreatePacket(buffer);
-                if (p.lastAPID == -1) {
+                lastAPID = p.lastAPID;
+
+                if (lastAPID == -1) {
                     buffer = p.data;
                 } else {
                     buffer.clear();
@@ -141,35 +157,49 @@ namespace GOESDump {
 
             if (lastAPID != -1) {
                 if (fhp > 0) {
-                    buffer.insert(buffer.end(), data+fhp, data+BUFFER_SIZE-8);
+                    buffer.insert(buffer.end(), data, data+fhp);
                     temporaryStorage[lastAPID].addDataBytes(buffer);
+                    buffer.clear();
                 }
 
                 if (!temporaryStorage[lastAPID].Full()) {
                     //Maybe a bug?
                 }
-
+                FinishMSDU(temporaryStorage[lastAPID]);
                 temporaryStorage.erase(lastAPID);
                 lastAPID = -1;
             }
 
             buffer.insert(buffer.end(), data+fhp, data+BUFFER_SIZE-8);
             p = CreatePacket(buffer);
-            if (p.lastAPID == -1) {
+            lastAPID = p.lastAPID;
+ 
+            if (lastAPID == -1) {
                 buffer = p.data;
             } else {
                 buffer.clear();
             }
         } else {
-            if (buffer.size() > 0) {
+            if (buffer.size() > 0 && lastAPID != -1) {
                 buffer.insert(buffer.end(), data, data+BUFFER_SIZE-8);
                 p = CreatePacket(buffer);
-                if (p.lastAPID == -1) {
+                lastAPID = p.lastAPID;
+                if (lastAPID == -1) {
+                    buffer = p.data;
+                } else {
+                    buffer.clear();
+                }
+            } else if (lastAPID == -1) {
+                buffer.insert(buffer.end(), data, data+BUFFER_SIZE-8);
+                p = CreatePacket(buffer);
+                lastAPID = p.lastAPID;
+                if (lastAPID == -1) {
                     buffer = p.data;
                 } else {
                     buffer.clear();
                 }
             } else {
+                cout << "01" << endl;
                 vector<uint8_t> vecData;
                 vecData.insert(vecData.end(), data, data+BUFFER_SIZE-8);
                 temporaryStorage[lastAPID].addDataBytes(vecData);

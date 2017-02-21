@@ -8,6 +8,8 @@ namespace GOESDump {
         int maxLength = data.size(); // Initial Guess
         int c = 0;
 
+        cout << "maxLength: " << maxLength << "\n";
+
         while (c < maxLength) {
             uint8_t type = data.at(0);
 
@@ -91,14 +93,13 @@ namespace GOESDump {
                     h = new RiceCompressionHeader(rcr);
                     break;
                 default:
-                    h = new XRITBaseHeader();
-                    h.Type = HeaderType.Unknown;
                     break;*/
             }
-        
+            cout << "OUT LOOP" << endl;
             c += size;
             data.erase(data.begin()+size, data.end());
         }
+        cout << "\n==================\n" << endl;
         return header;
     }
 }
