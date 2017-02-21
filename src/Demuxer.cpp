@@ -77,6 +77,22 @@ namespace GOESDump {
             cout << "NOT BIG DEAL: Orphan Packet. Dropping\n";
             return;
         }
+
+        const char *path = "./channels/";
+        struct stat st = {0};
+        if (stat(path, &st) == -1) {
+            mkdir(path, 0700);
+        }
+
+        switch (fileHeader.Compression()) {
+            case LRIT_RICE: 
+                filename << "channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << "_" << msdu.PacketNumber << ".lrit";
+            break;
+            default: // For 0, 2, 5 runs the default
+                filename << "channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << ".lrit";
+            break;
+        }
+
     }
 
     void Demuxer::ParseBytes(uint8_t* data) {

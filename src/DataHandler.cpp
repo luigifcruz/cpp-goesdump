@@ -19,8 +19,7 @@ namespace GOESDump {
 
             if (!demuxers.count(vcid)) {
                 cout << "[DataHandler] Creating new demuxer for #" << (vcid) << "...\n";
-                GOESDump::Demuxer newDemuxer;
-                demuxers[vcid] = newDemuxer;
+                demuxers[vcid] = Demuxer();
             }
 
             demuxers[vcid].ParseBytes(data);

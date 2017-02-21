@@ -5,6 +5,10 @@
 #include <vector>
 #include <tuple>
 #include <map>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <sstream>
 #include "WatchMan.h"
 #include "FileParser.h"
 #include "XRITHeader.h"
@@ -26,7 +30,7 @@ namespace GOESDump {
             int lastAPID = -1;
             int startnum = -1;
             int endnum = -1;
-            string filename;
+            ostringstream filename;
             vector<uint8_t> buffer;
             map<int,GOESDump::MSDU> temporaryStorage;
             packet CreatePacket(vector<uint8_t> data);
