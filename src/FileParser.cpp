@@ -4,14 +4,7 @@
 using namespace std;
 namespace GOESDump {
     XRITHeader FileParser::GetHeader(vector<uint8_t> data) {
-        data.erase(data.begin(), data.begin()+10);
-        vector<XRITBaseHeader> headers = GetHeaderData(data);
-        GOESDump::XRITHeader xritHeader(headers);
-        return xritHeader;
-    }
-
-    vector<XRITBaseHeader> GetHeaderData(vector<uint8_t> data) {
-        vector<XRITBaseHeader> headers;
+        XRITHeader header;
         int maxLength = data.size(); // Initial Guess
         int c = 0;
 
@@ -29,11 +22,16 @@ namespace GOESDump {
                 break;
             }
 
-            XRITBaseHeader h;
             cout << "TYPE: " << type << "\n";
-            /*
+            
             switch (type) {
-                case (int)PrimaryHeader:
+                case (int)DCSFileNameRecord:
+                    DCSFilenameRecord record;
+                    record.Filename = "MAKE THE UTF8 CONV";
+                    header.DCSFilenameHeader.RawData = tmp;
+                    header.DCSFilenameHeader.Define(record);
+                    break;
+                /*case (int)PrimaryHeader:
                     PrimaryRecord fh = LLTools.ByteArrayToStruct<PrimaryRecord>(tmp);
                     fh = LLTools.StructToSystemEndian(fh);
                     h = new PrimaryHeader(fh);
@@ -92,22 +90,15 @@ namespace GOESDump {
                     rcr = LLTools.StructToSystemEndian(rcr);
                     h = new RiceCompressionHeader(rcr);
                     break;
-                case (int)DCSFileNameRecord:
-                    DCSFilenameRecord dfr = new DCSFilenameRecord();
-                    dfr.Filename = System.Text.Encoding.UTF8.GetString(tmp.Skip(3).ToArray());
-                    h = new DCSFilenameHeader(dfr);
-                    break;
                 default:
                     h = new XRITBaseHeader();
                     h.Type = HeaderType.Unknown;
-                    break;
+                    break;*/
             }
-            */
-            h.RawData = tmp;
-            headers.push_back(h);
+        
             c += size;
             data.erase(data.begin()+size, data.end());
         }
-        return headers;
+        return header;
     }
 }

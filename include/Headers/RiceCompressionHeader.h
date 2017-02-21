@@ -22,7 +22,7 @@ namespace GOESDump {
             
             RiceCompressionHeader(){}
 
-            RiceCompressionHeader(RiceCompressionRecord data) {
+            void Define(RiceCompressionRecord data) {
                 Type = (HeaderType)131;
                 Flags = data.Flags;
                 Pixel = data.Pixel;

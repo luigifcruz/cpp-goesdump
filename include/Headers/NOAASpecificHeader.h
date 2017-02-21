@@ -32,7 +32,7 @@ namespace GOESDump {
             
             NOAASpecificHeader(){}
 
-            NOAASpecificHeader(NOAASpecificRecord data) {
+            void Define(NOAASpecificRecord data) {
                 Type = (HeaderType)129;
                 Signature = data.Signature;
                 Product = presets.GetProductById(data.ProductID); 

@@ -41,12 +41,6 @@ namespace GOESDump {
                 
             }
 
-            XRITHeader(vector<XRITBaseHeader> headers) {
-                for(XRITBaseHeader header: headers) {
-                    SetHeader(header);
-                }
-            }
-
             string Filename() {
                 if (DCSFilenameHeader.Init) {
                     return DCSFilenameHeader.Filename;
@@ -75,8 +69,7 @@ namespace GOESDump {
                 if (NOAASpecificHeader.Init) {
                     return NOAASpecificHeader.Product;
                 } else {
-                    GOESDump::NOAAProduct noaaProduct(-1);
-                    return noaaProduct;
+                    return NOAAProduct(-1);
                 }
             }
 
@@ -84,12 +77,9 @@ namespace GOESDump {
                 if (NOAASpecificHeader.Init) {
                     return NOAASpecificHeader.SubProduct;
                 } else {
-                    GOESDump::NOAASubproduct noaaSubproduct(-1);
-                    return noaaSubproduct;
+                    return NOAASubproduct(-1);
                 }
             }
-
-            void SetHeader(XRITBaseHeader header);
     };
 }
 

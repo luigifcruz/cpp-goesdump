@@ -37,8 +37,7 @@ namespace GOESDump {
             }
 
             NOAASubproduct getSubProduct(int id) {
-                GOESDump::NOAASubproduct noaaSubproduct;
-                return noaaSubproduct;
+                return NOAASubproduct();
             }
     }; 
 }

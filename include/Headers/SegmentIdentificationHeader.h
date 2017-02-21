@@ -30,7 +30,7 @@ namespace GOESDump {
             
             SegmentIdentificationHeader(){}
 
-            SegmentIdentificationHeader(SegmentIdentificationRecord data) {
+            void Define(SegmentIdentificationRecord data) {
                 Type = (HeaderType)128;
                 ImageID = data.ImageID;
                 Sequence = data.Sequence;

@@ -19,7 +19,7 @@ namespace GOESDump {
             
             ImageDataFunctionHeader(){}
 
-            ImageDataFunctionHeader(ImageDataFunctionRecord data) {
+            void Define(ImageDataFunctionRecord data) {
                 Type = (HeaderType)3;
                 Data = data.Data;
             }

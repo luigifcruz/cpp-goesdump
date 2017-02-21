@@ -27,7 +27,7 @@ namespace GOESDump {
             
             ImageNavigationHeader(){}
 
-            ImageNavigationHeader(ImageNavigationRecord data) {
+            void Define(ImageNavigationRecord data) {
                 Type = (HeaderType)2;
                 ProjectionName = data.ProjectionName;
                 ColumnScalingFactor = data.ColumnScalingFactor;

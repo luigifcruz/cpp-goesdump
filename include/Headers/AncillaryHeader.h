@@ -19,7 +19,7 @@ namespace GOESDump {
 
             AncillaryHeader() {}
 
-            AncillaryHeader(AncillaryText data) {
+            void Define(AncillaryText data) {
                 Type = (HeaderType)6;
                 Filename = data.Data;
             }

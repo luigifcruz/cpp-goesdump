@@ -20,7 +20,7 @@ namespace GOESDump {
             
             DCSFilenameHeader(){}
 
-            DCSFilenameHeader(DCSFilenameRecord data) {
+            void Define(DCSFilenameRecord data) {
                 Type = (HeaderType)132;
                 Filename = data.Filename;
                 Init = true;

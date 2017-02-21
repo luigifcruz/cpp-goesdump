@@ -26,7 +26,7 @@ namespace GOESDump {
             
             ImageStructureHeader(){}
             
-            ImageStructureHeader(ImageStructureRecord data) {
+            void Define(ImageStructureRecord data) {
                 Type = (HeaderType)1;
                 BitsPerPixel = data.BitsPerPixel;
                 Columns = data.Columns;

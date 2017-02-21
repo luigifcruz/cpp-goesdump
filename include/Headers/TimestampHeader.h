@@ -28,7 +28,7 @@ namespace GOESDump {
             
             TimestampHeader(){}
 
-            TimestampHeader(TimestampRecord data) {
+            void Define(TimestampRecord data) {
                 Type = (HeaderType)5;
                 DateTime = data.getDateTime();
             }

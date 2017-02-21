@@ -2,47 +2,47 @@
 
 using namespace std;
 namespace GOESDump {
-    void XRITHeader::SetHeader(XRITBaseHeader header) {
+    /*void XRITHeader::SetHeader(XRITFragment header) {
         switch (header.Type) {
             case (int)AncillaryTextRecord:
-                AncillaryHeader = (AncillaryHeader)header;
+                AncillaryHeader.Define((AncillaryHeader)header);
                 break;
             case (int)AnnotationRecord:
-                AnnotationHeader = (AnnotationHeader)header;
+                AnnotationHeader.DefineBase(header);
                 break;
             case (int)DCSFileNameRecord:
-                DCSFilenameHeader = (DCSFilenameHeader)header;
+                DCSFilenameHeader.DefineBase(header);
                 break;
             case (int)HeaderStructuredRecord:
-                HeaderStructuredHeader = (HeaderStructuredHeader)header;
+                HeaderStructuredHeader.DefineBase(header);
                 break;
             case (int)ImageDataFunctionRecord:
-                ImageDataFunctionHeader = (ImageDataFunctionHeader)header;
+                ImageDataFunctionHeader.DefineBase(header);
                 break;
             case (int)ImageNavigationRecord:
-                ImageNavigationHeader = (ImageNavigationHeader)header;
+                ImageNavigationHeader.DefineBase(header);
                 break;
             case (int)ImageStructureRecord:
-                ImageStructureHeader = (ImageStructureHeader)header;
+                ImageStructureHeader.DefineBase(header);
                 break;
             case (int)NOAASpecificHeader:
-                NOAASpecificHeader = (NOAASpecificHeader)header;
+                NOAASpecificHeader.DefineBase(header);
                 break;
             case (int)PrimaryHeader:
-                PrimaryHeader = (PrimaryHeader)header;
+                PrimaryHeader.DefineBase(header);
                 break;
             case (int)RiceCompressionRecord:
-                RiceCompressionHeader = (RiceCompressionHeader)header;
+                RiceCompressionHeader.DefineBase(header);
                 break;
             case (int)SegmentIdentificationRecord:
-                SegmentIdentificationHeader = (SegmentIdentificationHeader)header;
+                SegmentIdentificationHeader.DefineBase(header);
                 break;
             case (int)TimestampRecord:
-                TimestampHeader = (TimestampHeader)header;
+                TimestampHeader.DefineBase(header);
                 break;
             default:
                 UnknownHeaders.push_back(header);
                 break;
         }
-    }
+    }*/
 }

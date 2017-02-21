@@ -20,7 +20,7 @@ namespace GOESDump {
 
             AnnotationHeader() {}
 
-            AnnotationHeader(AnnotationRecord data) {
+            void Define(AnnotationRecord data) {
                 Type = (HeaderType)4;
                 Filename = data.Filename;
                 Init = true;

@@ -19,7 +19,7 @@ namespace GOESDump {
             
             HeaderStructuredHeader(){}
 
-            HeaderStructuredHeader(HeaderStructuredRecord data) {
+            void Define(HeaderStructuredRecord data) {
                 Type = (HeaderType)130;
                 Data = data.Data;
             }

@@ -23,7 +23,7 @@ namespace GOESDump {
             
             PrimaryHeader(){}
 
-            PrimaryHeader(PrimaryRecord data) {
+            void Define(PrimaryRecord data) {
                 Type = (HeaderType)0;
                 FileType = (FileTypeCode)data.FileTypeCode;
                 HeaderLength = data.HeaderLength;
