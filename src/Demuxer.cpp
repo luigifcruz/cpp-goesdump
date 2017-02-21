@@ -78,10 +78,12 @@ namespace GOESDump {
             return;
         }
 
-        const char *path = "./channels/";
+        char dirName[255];
+        const char *prefix = "./channels/";
+        snprintf(dirName, 255, "%s%d", prefix, channelId);
         struct stat st = {0};
-        if (stat(path, &st) == -1) {
-            mkdir(path, 0700);
+        if (stat(dirName, &st) == -1) {
+            mkdir(dirName, 0700);
         }
 
         switch (fileHeader.Compression()) {
