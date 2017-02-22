@@ -25,9 +25,9 @@ namespace GOESDump {
 
         public:
             string FixFileFolder(string dir, string filename, NOAAProduct product, NOAASubproduct subProduct);
-            void HandleWeatherData(string filename, XRITHeader header);
-            void HandleTextData(string filename, XRITHeader header);
-            void DumpFile(string filename, XRITHeader fileHeader, string newExt);
+            bool HandleWeatherData(string filename, XRITHeader header);
+            bool HandleTextData(string filename, XRITHeader header);
+            bool DumpFile(string filename, XRITHeader fileHeader, string newExt);
             string Decompressor(string filename, int pixels);
             string Decompressor(string prefix, int pixels, int startnum, int endnum);
     }; 

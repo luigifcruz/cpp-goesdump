@@ -2,59 +2,70 @@
 
 using namespace std;
 namespace GOESDump {
+    
     string PacketManager::FixFileFolder(string dir, string filename, NOAAProduct product, NOAASubproduct subProduct) {
         string basedir = Tools.DirParentName(dir);
 
         string folderName = UnknownDataFolder;
-        if (product.ID == (int)SCANNER_DATA_1 || product.ID == (int)SCANNER_DATA_2) {
+        if (product.ID == (int)NOAAProductID::SCANNER_DATA_1 || product.ID == (int)NOAAProductID::SCANNER_DATA_2) {
             switch (subProduct.ID) {
-                case (int)INFRARED_AREA_OF_INTEREST:
-                case (int)VISIBLE_AREA_OF_INTEREST:
-                case (int)WATERVAPOUR_AREA_OF_INTEREST:
+                case (int)ScannerSubProduct::INFRARED_AREA_OF_INTEREST:
+                case (int)ScannerSubProduct::VISIBLE_AREA_OF_INTEREST:
+                case (int)ScannerSubProduct::WATERVAPOUR_AREA_OF_INTEREST: {
                     folderName = Tools.Combine(ImagesFolder, "Area of Interest");
                     break;
-                case (int)INFRARED_FULLDISK:
-                case (int)VISIBLE_FULLDISK:
-                case (int)WATERVAPOUR_FULLDISK:
+                }
+                case (int)ScannerSubProduct::INFRARED_FULLDISK:
+                case (int)ScannerSubProduct::VISIBLE_FULLDISK:
+                case (int)ScannerSubProduct::WATERVAPOUR_FULLDISK: {
                     folderName = Tools.Combine(ImagesFolder, "Full Disk");
                     break;
-                case (int)INFRARED_NORTHERN:
-                case (int)VISIBLE_NORTHERN:
-                case (int)WATERVAPOUR_NORTHERN:
+                }
+                case (int)ScannerSubProduct::INFRARED_NORTHERN:
+                case (int)ScannerSubProduct::VISIBLE_NORTHERN:
+                case (int)ScannerSubProduct::WATERVAPOUR_NORTHERN: {
                     folderName = Tools.Combine(ImagesFolder, "Northern Hemisphere");
                     break;
-                case (int)INFRARED_SOUTHERN:
-                case (int)VISIBLE_SOUTHERN:
-                case (int)WATERVAPOUR_SOUTHERN:
+                }
+                case (int)ScannerSubProduct::INFRARED_SOUTHERN:
+                case (int)ScannerSubProduct::VISIBLE_SOUTHERN:
+                case (int)ScannerSubProduct::WATERVAPOUR_SOUTHERN: {
                     folderName = Tools.Combine(ImagesFolder, "Southern Hemisphere");
                     break;
-                case (int)INFRARED_UNITEDSTATES:
-                case (int)VISIBLE_UNITEDSTATES:
-                case (int)WATERVAPOUR_UNITEDSTATES:
+                }
+                case (int)ScannerSubProduct::INFRARED_UNITEDSTATES:
+                case (int)ScannerSubProduct::VISIBLE_UNITEDSTATES:
+                case (int)ScannerSubProduct::WATERVAPOUR_UNITEDSTATES: {
                     folderName = Tools.Combine(ImagesFolder, "United States");
                     break;
+                }
                 default:
                     folderName = Tools.Combine(ImagesFolder, UnknownDataFolder);
                     break;
             }
         } else {
             switch (product.ID) {
-                case (int)DCS:
+                case (int)NOAAProductID::DCS: {
                     folderName = DCSFolder;
                     break;
-                case (int)EMWIN:
+                }
+                case (int)NOAAProductID::EMWIN: {
                     folderName = EMWINFolder;
                     break;
-                case (int)NOAA_TEXT:
+                }
+                case (int)NOAAProductID::NOAA_TEXT: {
                     folderName = TextFolder;
                     break;
-                case (int)OTHER_SATELLITES_1:
-                case (int)OTHER_SATELLITES_2:
+                }
+                case (int)NOAAProductID::OTHER_SATELLITES_1:
+                case (int)NOAAProductID::OTHER_SATELLITES_2: {
                     folderName = OtherSatellitesFolder;
                     break;
-                case (int)WEATHER_DATA:
+                }
+                case (int)NOAAProductID::WEATHER_DATA: {
                     folderName = WeatherDataFolder;
                     break;
+                }
                 default:
                     folderName = UnknownDataFolder;
                     break;
@@ -70,10 +81,10 @@ namespace GOESDump {
         return Tools.Combine("./" + dir, filename);;
     }
 
-    void PacketManager::HandleWeatherData(string filename, XRITHeader header) {
-        if (header.PrimaryHeader.FileType == IMAGE) {
+    bool PacketManager::HandleWeatherData(string filename, XRITHeader header) {
+        if (header.PrimaryHeader.FileType == FileTypeCode::IMAGE) {
             string basedir = Tools.DirParentName(filename);
-            if (header.Product().ID == (int)OTHER_SATELLITES_1 || header.Product().ID == (int)OTHER_SATELLITES_2) {
+            if (header.Product().ID == (int)NOAAProductID::OTHER_SATELLITES_1 || header.Product().ID == (int)NOAAProductID::OTHER_SATELLITES_2) {
                 basedir = Tools.Combine(basedir, OtherSatellitesFolder);
             } else {
                 basedir = Tools.Combine(basedir, WeatherDataFolder);
@@ -81,17 +92,17 @@ namespace GOESDump {
 
             cout << "New Weather Data - " << header.SubProduct().Name << " - " << header.Filename() << endl;
             //ImageHandler.Handler.HandleFile(filename, basedir);
-            Tools.Delete(filename);
-
-            //cout << "Failed to parse Weather Data Image at " << filename << ": " << e << endl;
-
+            if (!Tools.Delete(filename)) {
+                cout << "Failed to parse Weather Data Image at " << filename << endl;
+            }
         } else {
-            //FileHandler.DefaultHandler(filename, header);
+            return true;
         }
+        return false;
     }
 
-    /*void PacketManager::HandleTextData(string filename, XRITHeader header) {
-        if (header.PrimaryHeader.FileType == FileTypeCode.TEXT) {
+    bool PacketManager::HandleTextData(string filename, XRITHeader header) {
+        /*if (header.PrimaryHeader.FileType == FileTypeCode.TEXT) {
             string basedir = new DirectoryInfo(Path.GetDirectoryName(filename)).Parent.FullName;
             basedir = Path.Combine(basedir, TextFolder);
 
@@ -104,11 +115,11 @@ namespace GOESDump {
             }
         } else {
             FileHandler.DefaultHandler(filename, header);
-        }
+        }*/
     }
 
-    void PacketManager::DumpFile(string filename, XRITHeader fileHeader, string newExt) {
-        string dir = Path.GetDirectoryName(filename);
+    bool PacketManager::DumpFile(string filename, XRITHeader fileHeader, string newExt) {
+        /*string dir = Path.GetDirectoryName(filename);
         string f = FixFileFolder(dir, fileHeader.Filename, fileHeader.Product, fileHeader.SubProduct);
         f = f.Replace(".lrit", "." + newExt);
 
@@ -150,11 +161,11 @@ namespace GOESDump {
         os.Close();
 
         // Keep the original lrit file
-        File.Move(filename, f.Replace("." + newExt, ".lrit"));
+        File.Move(filename, f.Replace("." + newExt, ".lrit"));*/
     }
 
     string PacketManager::Decompressor(string filename, int pixels) {
-        try {
+        /*try {
             Process decompressor = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -195,11 +206,11 @@ namespace GOESDump {
             UIConsole.GlobalConsole.Error(String.Format("Error running decompressor: {0}", e));
         }
 
-        return String.Format("{0}_decomp.lrit", filename);
+        return String.Format("{0}_decomp.lrit", filename);*/
     }
 
     string PacketManager::Decompressor(string prefix, int pixels, int startnum, int endnum) {
-        try {
+        /*try {
             Process decompressor = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -242,6 +253,6 @@ namespace GOESDump {
             UIConsole.GlobalConsole.Error(String.Format("Error running decompressor: {0}", e));
         }
 
-        return String.Format("{0}_decomp{1}.lrit", prefix, startnum);
-    }*/
+        return String.Format("{0}_decomp{1}.lrit", prefix, startnum);*/
+    }
 }

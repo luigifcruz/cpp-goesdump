@@ -51,18 +51,18 @@ namespace GOESDump {
                 }
             }
 
-            CompressionType Compression() {
+            HeaderType::CompressionType Compression() {
                 if (NOAASpecificHeader.Init) {
                     return NOAASpecificHeader.Compression;
                 } else if (ImageStructureHeader.Init) {
                     return ImageStructureHeader.Compression;
                 } else {
-                    return NO_COMPRESSION;
+                    return HeaderType::NO_COMPRESSION;
                 }
             }
 
             bool IsCompressed() {
-                return Compression() != NO_COMPRESSION;
+                return Compression() != HeaderType::NO_COMPRESSION;
             }
 
             NOAAProduct Product() {

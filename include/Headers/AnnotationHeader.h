@@ -25,7 +25,7 @@ namespace GOESDump {
             AnnotationHeader() {}
 
             void Define(AnnotationRecord data) {
-                Type = (HeaderType)4;
+                Type = HeaderType::AnnotationRecord;
                 Filename = data.Filename;
                 Init = true;
             }

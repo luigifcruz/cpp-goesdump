@@ -27,21 +27,43 @@ namespace GOESDump {
 
             cout << "TYPE: " << (int)type << "\n";
             
-            switch ((HeaderType)type) {
-                case HeaderType::PrimaryHeader:
-                    PrimaryRecord fh;
-                    char* buffer = Tools.Vector2Byte(tmp);
-                    header.PrimaryHeader.Define(fh);
-                    header.PrimaryHeader.RawData = tmp;
-                    maxLength = (int)fh.HeaderLength;
+            switch ((int)type) {
+                case HeaderType::PrimaryHeader: {
+
                     break;
-                /*case HeaderType::DCSFileNameRecord:
+                }
+                case HeaderType::DCSFileNameRecord: {
                     DCSFilenameRecord record;
                     record.Filename = "MAKE THE UTF8 CONV";
                     header.DCSFilenameHeader.RawData = tmp;
                     header.DCSFilenameHeader.Define(record);
                     break;
-                case (int)ImageStructureRecord:
+                }
+                case HeaderType::ImageStructureRecord: {}
+                    break;
+                case HeaderType::ImageNavigationRecord: {}
+                    break;
+                case HeaderType::ImageDataFunctionRecord: {}
+                    break;
+                case HeaderType::AnnotationRecord: {}
+                    break;
+                case HeaderType::TimestampRecord: {}
+                    break;
+                case HeaderType::AncillaryTextRecord: {}
+                    break;
+                case HeaderType::KeyRecord: {}
+                    break;
+                case HeaderType::SegmentIdentificationRecord: {}
+                    break;
+                case HeaderType::NOAASpecificHeader: {}
+                    break;
+                case HeaderType::HeaderStructuredRecord: {}
+                    break;
+                case HeaderType::RiceCompressionRecord: {}
+                    break;
+                default:
+                    break;
+                /*case (int)ImageStructureRecord:
                     ImageStructureRecord isr = LLTools.ByteArrayToStruct<ImageStructureRecord>(tmp);
                     isr = LLTools.StructToSystemEndian(isr);
                     h = new ImageStructureHeader(isr);

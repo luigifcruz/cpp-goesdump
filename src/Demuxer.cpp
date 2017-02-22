@@ -68,11 +68,11 @@ namespace GOESDump {
         } else if (msdu.Sequence == LAST_SEGMENT) {
             endnum = msdu.PacketNumber;
             if (startnum == -1) {
-                cout << "NOT BIG DEAL: Orphan Packet. Dropping\n";
+                //cout << "NOT BIG DEAL: Orphan Packet. Dropping\n";
                 return;
             }
         } else if (msdu.Sequence != SINGLE_DATA && startnum == -1) {
-            cout << "NOT BIG DEAL: Orphan Packet. Dropping\n";
+            //cout << "NOT BIG DEAL: Orphan Packet. Dropping\n";
             return;
         }
 
@@ -83,16 +83,17 @@ namespace GOESDump {
         }
         
         switch (fileHeader.Compression()) {
-            case LRIT_RICE: 
+            case HeaderType::LRIT_RICE: {
                 filename << "channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << "_" << msdu.PacketNumber << ".lrit";
-            break;
+                break;
+            }
             default:
                 filename << "channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << ".lrit";
             break;
         }
 
         if (msdu.Sequence == LAST_SEGMENT || msdu.Sequence == SINGLE_DATA) {
-            if (fileHeader.Compression() == LRIT_RICE) {
+            if (fileHeader.Compression() == HeaderType::LRIT_RICE) {
                 /* IMPLEMENT DECOMPRESSOR
                 string decompressed;
                 if (msdu.Sequence == SINGLE_DATA) {

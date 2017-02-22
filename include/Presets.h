@@ -15,7 +15,7 @@ namespace GOESDump {
 
             Presets() {
                 map<int, NOAASubproduct> tmp;
-                noaaProducts[(int)NOAA_TEXT] = NOAAProduct(NOAA_TEXT, "NOAA Text");
+                noaaProducts[(int)NOAAProductID::NOAA_TEXT] = NOAAProduct(NOAAProductID::NOAA_TEXT, "NOAA Text");
 
                 tmp = {
                     { 0, NOAASubproduct(0, "None") },
@@ -23,7 +23,7 @@ namespace GOESDump {
                     { 3, NOAASubproduct(3, "Visible Full Disk") }
                 };
                 
-                noaaProducts[(int)OTHER_SATELLITES_1] = NOAAProduct(OTHER_SATELLITES_1, "Other Satellites", tmp);
+                noaaProducts[(int)NOAAProductID::OTHER_SATELLITES_1] = NOAAProduct(NOAAProductID::OTHER_SATELLITES_1, "Other Satellites", tmp);
 
                 tmp = {
                     { 0, NOAASubproduct(0, "None") },
@@ -31,55 +31,55 @@ namespace GOESDump {
                     { 3, NOAASubproduct(3, "Visible Full Disk") }
                 };
 
-                noaaProducts[(int)OTHER_SATELLITES_2] = NOAAProduct(OTHER_SATELLITES_2, "Other Satellites", tmp);
+                noaaProducts[(int)NOAAProductID::OTHER_SATELLITES_2] = NOAAProduct(NOAAProductID::OTHER_SATELLITES_2, "Other Satellites", tmp);
 
-                noaaProducts[(int)WEATHER_DATA] = NOAAProduct(WEATHER_DATA, "Weather Data");
+                noaaProducts[(int)NOAAProductID::WEATHER_DATA] = NOAAProduct(NOAAProductID::WEATHER_DATA, "Weather Data");
 
-                noaaProducts[(int)DCS] = NOAAProduct(DCS, "DCS");
-
-                tmp = { 
-                    { (int)NONE,                         NOAASubproduct(NONE,                          "None") },
-                    { (int)INFRARED_FULLDISK,            NOAASubproduct(INFRARED_FULLDISK,             "Infrared Full Disk") },
-                    { (int)INFRARED_NORTHERN,            NOAASubproduct(INFRARED_NORTHERN,             "Infrared Northern Hemisphere") },
-                    { (int)INFRARED_SOUTHERN,            NOAASubproduct(INFRARED_SOUTHERN,             "Infrared Southern Hemisphere") },
-                    { (int)INFRARED_UNITEDSTATES,        NOAASubproduct(INFRARED_UNITEDSTATES,         "Infrared United States") },
-                    { (int)INFRARED_AREA_OF_INTEREST,    NOAASubproduct(INFRARED_AREA_OF_INTEREST,     "Infrared Area of Interest") },
-                    { (int)VISIBLE_FULLDISK,             NOAASubproduct(VISIBLE_FULLDISK,              "Visible Full Disk") },
-                    { (int)VISIBLE_NORTHERN,             NOAASubproduct(VISIBLE_NORTHERN,              "Visible Northern Hemisphere") },
-                    { (int)VISIBLE_SOUTHERN,             NOAASubproduct(VISIBLE_SOUTHERN,              "Visible Southern Hemisphere") },
-                    { (int)VISIBLE_UNITEDSTATES,         NOAASubproduct(VISIBLE_UNITEDSTATES,          "Visible United States") },
-                    { (int)VISIBLE_AREA_OF_INTEREST,     NOAASubproduct(VISIBLE_AREA_OF_INTEREST,      "Visible Area of Interest") },
-                    { (int)WATERVAPOUR_FULLDISK,         NOAASubproduct(WATERVAPOUR_FULLDISK,          "Water Vapour Full Disk") },
-                    { (int)WATERVAPOUR_NORTHERN,         NOAASubproduct(WATERVAPOUR_NORTHERN,          "Water Vapour Northern Hemisphere") },
-                    { (int)WATERVAPOUR_SOUTHERN,         NOAASubproduct(WATERVAPOUR_SOUTHERN,          "Water Vapour Southern Hemisphere") },
-                    { (int)WATERVAPOUR_UNITEDSTATES,     NOAASubproduct(WATERVAPOUR_UNITEDSTATES,      "Water Vapour United States") },
-                    { (int)WATERVAPOUR_AREA_OF_INTEREST, NOAASubproduct(WATERVAPOUR_AREA_OF_INTEREST,  "Water Vapour Area of Interest") }
-                };
-
-                noaaProducts[(int)SCANNER_DATA_1] = NOAAProduct(SCANNER_DATA_1, "Scanner Image", tmp);
+                noaaProducts[(int)NOAAProductID::DCS] = NOAAProduct(NOAAProductID::DCS, "DCS");
 
                 tmp = { 
-                    { (int)NONE,                         NOAASubproduct(NONE,                          "None") },
-                    { (int)INFRARED_FULLDISK,            NOAASubproduct(INFRARED_FULLDISK,             "Infrared Full Disk") },
-                    { (int)INFRARED_NORTHERN,            NOAASubproduct(INFRARED_NORTHERN,             "Infrared Northern Hemisphere") },
-                    { (int)INFRARED_SOUTHERN,            NOAASubproduct(INFRARED_SOUTHERN,             "Infrared Southern Hemisphere") },
-                    { (int)INFRARED_UNITEDSTATES,        NOAASubproduct(INFRARED_UNITEDSTATES,         "Infrared United States") },
-                    { (int)INFRARED_AREA_OF_INTEREST,    NOAASubproduct(INFRARED_AREA_OF_INTEREST,     "Infrared Area of Interest") },
-                    { (int)VISIBLE_FULLDISK,             NOAASubproduct(VISIBLE_FULLDISK,              "Visible Full Disk") },
-                    { (int)VISIBLE_NORTHERN,             NOAASubproduct(VISIBLE_NORTHERN,              "Visible Northern Hemisphere") },
-                    { (int)VISIBLE_SOUTHERN,             NOAASubproduct(VISIBLE_SOUTHERN,              "Visible Southern Hemisphere") },
-                    { (int)VISIBLE_UNITEDSTATES,         NOAASubproduct(VISIBLE_UNITEDSTATES,          "Visible United States") },
-                    { (int)VISIBLE_AREA_OF_INTEREST,     NOAASubproduct(VISIBLE_AREA_OF_INTEREST,      "Visible Area of Interest") },
-                    { (int)WATERVAPOUR_FULLDISK,         NOAASubproduct(WATERVAPOUR_FULLDISK,          "Water Vapour Full Disk") },
-                    { (int)WATERVAPOUR_NORTHERN,         NOAASubproduct(WATERVAPOUR_NORTHERN,          "Water Vapour Northern Hemisphere") },
-                    { (int)WATERVAPOUR_SOUTHERN,         NOAASubproduct(WATERVAPOUR_SOUTHERN,          "Water Vapour Southern Hemisphere") },
-                    { (int)WATERVAPOUR_UNITEDSTATES,     NOAASubproduct(WATERVAPOUR_UNITEDSTATES,      "Water Vapour United States") },
-                    { (int)WATERVAPOUR_AREA_OF_INTEREST, NOAASubproduct(WATERVAPOUR_AREA_OF_INTEREST,  "Water Vapour Area of Interest") }
+                    { (int)ScannerSubProduct::NONE,                         NOAASubproduct(ScannerSubProduct::NONE,                          "None") },
+                    { (int)ScannerSubProduct::INFRARED_FULLDISK,            NOAASubproduct(ScannerSubProduct::INFRARED_FULLDISK,             "Infrared Full Disk") },
+                    { (int)ScannerSubProduct::INFRARED_NORTHERN,            NOAASubproduct(ScannerSubProduct::INFRARED_NORTHERN,             "Infrared Northern Hemisphere") },
+                    { (int)ScannerSubProduct::INFRARED_SOUTHERN,            NOAASubproduct(ScannerSubProduct::INFRARED_SOUTHERN,             "Infrared Southern Hemisphere") },
+                    { (int)ScannerSubProduct::INFRARED_UNITEDSTATES,        NOAASubproduct(ScannerSubProduct::INFRARED_UNITEDSTATES,         "Infrared United States") },
+                    { (int)ScannerSubProduct::INFRARED_AREA_OF_INTEREST,    NOAASubproduct(ScannerSubProduct::INFRARED_AREA_OF_INTEREST,     "Infrared Area of Interest") },
+                    { (int)ScannerSubProduct::VISIBLE_FULLDISK,             NOAASubproduct(ScannerSubProduct::VISIBLE_FULLDISK,              "Visible Full Disk") },
+                    { (int)ScannerSubProduct::VISIBLE_NORTHERN,             NOAASubproduct(ScannerSubProduct::VISIBLE_NORTHERN,              "Visible Northern Hemisphere") },
+                    { (int)ScannerSubProduct::VISIBLE_SOUTHERN,             NOAASubproduct(ScannerSubProduct::VISIBLE_SOUTHERN,              "Visible Southern Hemisphere") },
+                    { (int)ScannerSubProduct::VISIBLE_UNITEDSTATES,         NOAASubproduct(ScannerSubProduct::VISIBLE_UNITEDSTATES,          "Visible United States") },
+                    { (int)ScannerSubProduct::VISIBLE_AREA_OF_INTEREST,     NOAASubproduct(ScannerSubProduct::VISIBLE_AREA_OF_INTEREST,      "Visible Area of Interest") },
+                    { (int)ScannerSubProduct::WATERVAPOUR_FULLDISK,         NOAASubproduct(ScannerSubProduct::WATERVAPOUR_FULLDISK,          "Water Vapour Full Disk") },
+                    { (int)ScannerSubProduct::WATERVAPOUR_NORTHERN,         NOAASubproduct(ScannerSubProduct::WATERVAPOUR_NORTHERN,          "Water Vapour Northern Hemisphere") },
+                    { (int)ScannerSubProduct::WATERVAPOUR_SOUTHERN,         NOAASubproduct(ScannerSubProduct::WATERVAPOUR_SOUTHERN,          "Water Vapour Southern Hemisphere") },
+                    { (int)ScannerSubProduct::WATERVAPOUR_UNITEDSTATES,     NOAASubproduct(ScannerSubProduct::WATERVAPOUR_UNITEDSTATES,      "Water Vapour United States") },
+                    { (int)ScannerSubProduct::WATERVAPOUR_AREA_OF_INTEREST, NOAASubproduct(ScannerSubProduct::WATERVAPOUR_AREA_OF_INTEREST,  "Water Vapour Area of Interest") }
                 };
 
-                noaaProducts[(int)SCANNER_DATA_2] = NOAAProduct(SCANNER_DATA_2, "Scanner Image", tmp);
+                noaaProducts[(int)NOAAProductID::SCANNER_DATA_1] = NOAAProduct(NOAAProductID::SCANNER_DATA_1, "Scanner Image", tmp);
 
-                noaaProducts[(int)EMWIN] = NOAAProduct(EMWIN, "EMWIN");
+                tmp = { 
+                    { (int)ScannerSubProduct::NONE,                         NOAASubproduct(ScannerSubProduct::NONE,                          "None") },
+                    { (int)ScannerSubProduct::INFRARED_FULLDISK,            NOAASubproduct(ScannerSubProduct::INFRARED_FULLDISK,             "Infrared Full Disk") },
+                    { (int)ScannerSubProduct::INFRARED_NORTHERN,            NOAASubproduct(ScannerSubProduct::INFRARED_NORTHERN,             "Infrared Northern Hemisphere") },
+                    { (int)ScannerSubProduct::INFRARED_SOUTHERN,            NOAASubproduct(ScannerSubProduct::INFRARED_SOUTHERN,             "Infrared Southern Hemisphere") },
+                    { (int)ScannerSubProduct::INFRARED_UNITEDSTATES,        NOAASubproduct(ScannerSubProduct::INFRARED_UNITEDSTATES,         "Infrared United States") },
+                    { (int)ScannerSubProduct::INFRARED_AREA_OF_INTEREST,    NOAASubproduct(ScannerSubProduct::INFRARED_AREA_OF_INTEREST,     "Infrared Area of Interest") },
+                    { (int)ScannerSubProduct::VISIBLE_FULLDISK,             NOAASubproduct(ScannerSubProduct::VISIBLE_FULLDISK,              "Visible Full Disk") },
+                    { (int)ScannerSubProduct::VISIBLE_NORTHERN,             NOAASubproduct(ScannerSubProduct::VISIBLE_NORTHERN,              "Visible Northern Hemisphere") },
+                    { (int)ScannerSubProduct::VISIBLE_SOUTHERN,             NOAASubproduct(ScannerSubProduct::VISIBLE_SOUTHERN,              "Visible Southern Hemisphere") },
+                    { (int)ScannerSubProduct::VISIBLE_UNITEDSTATES,         NOAASubproduct(ScannerSubProduct::VISIBLE_UNITEDSTATES,          "Visible United States") },
+                    { (int)ScannerSubProduct::VISIBLE_AREA_OF_INTEREST,     NOAASubproduct(ScannerSubProduct::VISIBLE_AREA_OF_INTEREST,      "Visible Area of Interest") },
+                    { (int)ScannerSubProduct::WATERVAPOUR_FULLDISK,         NOAASubproduct(ScannerSubProduct::WATERVAPOUR_FULLDISK,          "Water Vapour Full Disk") },
+                    { (int)ScannerSubProduct::WATERVAPOUR_NORTHERN,         NOAASubproduct(ScannerSubProduct::WATERVAPOUR_NORTHERN,          "Water Vapour Northern Hemisphere") },
+                    { (int)ScannerSubProduct::WATERVAPOUR_SOUTHERN,         NOAASubproduct(ScannerSubProduct::WATERVAPOUR_SOUTHERN,          "Water Vapour Southern Hemisphere") },
+                    { (int)ScannerSubProduct::WATERVAPOUR_UNITEDSTATES,     NOAASubproduct(ScannerSubProduct::WATERVAPOUR_UNITEDSTATES,      "Water Vapour United States") },
+                    { (int)ScannerSubProduct::WATERVAPOUR_AREA_OF_INTEREST, NOAASubproduct(ScannerSubProduct::WATERVAPOUR_AREA_OF_INTEREST,  "Water Vapour Area of Interest") }
+                };
+
+                noaaProducts[(int)NOAAProductID::SCANNER_DATA_2] = NOAAProduct(NOAAProductID::SCANNER_DATA_2, "Scanner Image", tmp);
+
+                noaaProducts[(int)NOAAProductID::EMWIN] = NOAAProduct(NOAAProductID::EMWIN, "EMWIN");
             }
 
             NOAAProduct GetProductById(int productId) {

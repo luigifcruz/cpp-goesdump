@@ -49,7 +49,7 @@ namespace GOESDump {
                     lsb = (uint8_t)(x ^ (x << 5));
                 }
 
-                return ((((uint8_t)msb) << 8) + lsb) == CRC();
+                return (((int)msb) << 8) == CRC();
             }
 
             bool FillPacket() {

@@ -24,11 +24,11 @@ namespace GOESDump {
 
             }
 
-            NOAAProduct(NOAAProductID id, string name) {
+            NOAAProduct(NOAAProductID::NOAAProductID id, string name) {
 
             }
 
-            NOAAProduct(NOAAProductID id, string name, map<int, NOAASubproduct> subProducts) {
+            NOAAProduct(NOAAProductID::NOAAProductID id, string name, map<int, NOAASubproduct> subProducts) {
 
             }
 

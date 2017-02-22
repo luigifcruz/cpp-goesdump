@@ -5,12 +5,34 @@
 using namespace std;
 namespace GOESDump {
     void FileHandler::HandleFile(string filename, XRITHeader fileHeader) {
-        if (byCompressionTypeHandler.count((int)fileHeader.Compression())) {
-            byCompressionTypeHandler[(int)fileHeader.Compression()].Define(filename, fileHeader);
-        } else if (byProductIdHandler.count(fileHeader.Product().ID)) {
-            byProductIdHandler[fileHeader.Product().ID].Define(filename, fileHeader);
-        } else {
-            DefaultHandler(filename, fileHeader);
+        switch(fileHeader.Compression()) {
+            case HeaderType::CompressionType::JPEG: {
+                PacketManager.DumpFile(filename, fileHeader, "jpg");
+                break;
+            }
+            case HeaderType::CompressionType::GIF: {
+                PacketManager.DumpFile(filename, fileHeader, "gif");
+                break;
+            }
+            default:
+                DefaultHandler(filename, fileHeader);
+                break;
+        }
+
+        switch(fileHeader.Product().ID) {
+            case NOAAProductID::WEATHER_DATA:
+            case NOAAProductID::OTHER_SATELLITES_1:
+            case NOAAProductID::OTHER_SATELLITES_2: {
+                if (PacketManager.HandleWeatherData(filename, fileHeader)) { DefaultHandler(filename, fileHeader); }
+                break;
+            }
+            case NOAAProductID::NOAA_TEXT: {
+                PacketManager.HandleTextData(filename, fileHeader);
+                break;
+            }
+            default:
+                DefaultHandler(filename, fileHeader);
+                break;
         }
     }
 
@@ -19,8 +41,6 @@ namespace GOESDump {
         string ofilename = fileHeader.Filename() == "" ? Tools.GetFileName(filename) : fileHeader.Filename(); 
         string f = PacketManager.FixFileFolder(dir, ofilename, fileHeader.Product(), fileHeader.SubProduct());
 
-        cout << "Filename: " << f << endl;
-
         if (Tools.FileExists(f)) {
             string timestamp = Tools.GetTimeNow();
             string ext = Tools.GetExtension(f);
@@ -28,6 +48,7 @@ namespace GOESDump {
             f.replace(f.find(ext), ext.length(), append);
         }
 
+        cout << "Filename: " << f << endl;
         
         if (Tools.GetFileName(f) != ofilename) {
             if (fileHeader.SubProduct().Name != "Unknown") {

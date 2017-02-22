@@ -30,19 +30,19 @@ namespace GOESDump {
             NOAAProduct Product;
             NOAASubproduct SubProduct;
             uint16_t Parameter;
-            CompressionType Compression;
+            HeaderType::CompressionType Compression;
             Presets presets;
             bool Init = false;
             
             NOAASpecificHeader(){}
 
             void Define(NOAASpecificRecord data) {
-                Type = (HeaderType)129;
+                Type = HeaderType::NOAASpecificHeader;
                 Signature = data.Signature;
                 Product = presets.GetProductById(data.ProductID); 
                 SubProduct = Product.getSubProduct(data.ProductSubID);
                 Parameter = data.Parameter;
-                Compression = (CompressionType)data.Compression;
+                Compression = (HeaderType::CompressionType)data.Compression;
                 Init = true;
             }
     };

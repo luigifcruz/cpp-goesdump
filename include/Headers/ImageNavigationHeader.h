@@ -32,7 +32,7 @@ namespace GOESDump {
             ImageNavigationHeader(){}
 
             void Define(ImageNavigationRecord data) {
-                Type = (HeaderType)2;
+                Type = HeaderType::ImageNavigationRecord;
                 ProjectionName = data.ProjectionName;
                 ColumnScalingFactor = data.ColumnScalingFactor;
                 LineScalingFactor = data.LineScalingFactor;

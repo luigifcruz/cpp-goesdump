@@ -65,7 +65,7 @@ namespace GOESDump {
     char* Tools::Vector2Byte(vector<uint8_t> vec) {
         char* data = nullptr;
         for(uint8_t byte: vec) {
-            data += byte;
+            data += (char)byte;
         }
         return data;
     }

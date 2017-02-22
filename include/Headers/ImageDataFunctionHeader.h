@@ -24,7 +24,7 @@ namespace GOESDump {
             ImageDataFunctionHeader(){}
 
             void Define(ImageDataFunctionRecord data) {
-                Type = (HeaderType)3;
+                Type = HeaderType::ImageDataFunctionRecord;
                 Data = data.Data;
             }
     };

@@ -21,15 +21,15 @@ namespace GOESDump {
 
     class PrimaryHeader: public XRITBaseHeader {
         public:
-            FileTypeCode FileType;
+            FileTypeCode::FileTypeCode FileType;
             uint32_t HeaderLength;
             uint64_t DataLength;
             
             PrimaryHeader(){}
 
             void Define(PrimaryRecord data) {
-                Type = (HeaderType)0;
-                FileType = (FileTypeCode)data.FileTypeCode;
+                Type = HeaderType::PrimaryHeader;
+                FileType = (FileTypeCode::FileTypeCode)data.FileTypeCode;
                 HeaderLength = data.HeaderLength;
                 DataLength = data.DataLength;
             }

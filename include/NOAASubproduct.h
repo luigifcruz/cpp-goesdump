@@ -18,8 +18,8 @@ namespace GOESDump {
                 Name = "Unknown";
             }
 
-            NOAASubproduct(ScannerSubProduct id, string name) {
-                ID = (ScannerSubProduct)id;
+            NOAASubproduct(ScannerSubProduct::ScannerSubProduct id, string name) {
+                ID = (ScannerSubProduct::ScannerSubProduct)id;
                 Name = name;
             }
 

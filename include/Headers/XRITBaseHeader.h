@@ -8,14 +8,14 @@ using namespace std;
 namespace GOESDump {
     class XRITBaseHeader {
         public:
-            HeaderType Type;
+            HeaderType::HeaderType Type;
             vector<uint8_t> RawData;
 
             XRITBaseHeader() {
                 Type = HeaderType::Unknown;
             }
 
-            XRITBaseHeader(HeaderType type, vector<uint8_t> rawData) {
+            XRITBaseHeader(HeaderType::HeaderType type, vector<uint8_t> rawData) {
                 Type = type;
                 RawData = rawData;
             }

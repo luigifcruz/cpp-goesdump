@@ -24,7 +24,7 @@ namespace GOESDump {
             AncillaryHeader() {}
 
             void Define(AncillaryText data) {
-                Type = (HeaderType)6;
+                Type = HeaderType::AncillaryTextRecord;
                 Filename = data.Data;
             }
     };

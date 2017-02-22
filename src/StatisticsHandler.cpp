@@ -29,7 +29,7 @@ using namespace std;
 namespace GOESDump {
     void StatisticsHandler::Init(GOESDump::WatchMan watchMan) {
         SatHelper::TcpClient tcpClient((string)"127.0.0.1", port);
-        uint8_t buffer[BUFFER_SIZE];
+        char buffer[BUFFER_SIZE];
 
         try {
             tcpClient.Connect();
@@ -46,7 +46,7 @@ namespace GOESDump {
                 tcpClient.Receive((char *)buffer, BUFFER_SIZE);
                 Statistics_st tmp;
                 memcpy(&tmp, buffer, BUFFER_SIZE);
-                cout << tmp.signalQuality << "\n";
+                cout << tmp.scid << "\n";
                 cout << tmp.packetNumber << "\n";
                 cout << tmp.totalPackets << "\n";
                 cout << tmp.vitErrors << "\n";

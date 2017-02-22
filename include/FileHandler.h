@@ -9,37 +9,14 @@
 
 using namespace std;
 namespace GOESDump {
-    typedef struct {
-        string Filename;
-        XRITHeader FileHeader;
-
-        void Define(string filename, XRITHeader fileHeader) {
-            Filename = filename;
-            FileHeader = fileHeader;
-        }
-    } FileHandlerFunction;
-
     class FileHandler {
         private:
             Tools Tools;
             PacketManager PacketManager;
-            map<int, FileHandlerFunction> byCompressionTypeHandler;
-            map<int, FileHandlerFunction> byProductIdHandler;
+            void DefaultHandler(string filename, XRITHeader fileHeader);
 
         public:
-            FileHandler() { }
-
-            void AttachByCompressionHandler(int compressionType, FileHandlerFunction handler) {
-                byCompressionTypeHandler[compressionType] = handler;
-            }
-            
-            void AttachByProductIdHandler(int productId, FileHandlerFunction handler) {
-                byProductIdHandler[productId] = handler;
-            }
-
             void HandleFile(string filename, XRITHeader fileHeader);
-
-            void DefaultHandler(string filename, XRITHeader fileHeader);
     };
 }
 

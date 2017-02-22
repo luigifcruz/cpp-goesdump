@@ -33,7 +33,7 @@ namespace GOESDump {
             TimestampHeader(){}
 
             void Define(TimestampRecord data) {
-                Type = (HeaderType)5;
+                Type = HeaderType::TimestampRecord;
                 DateTime = data.getDateTime();
             }
     };
