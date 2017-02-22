@@ -3,13 +3,12 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <boost/filesystem.hpp>
-
-#include <iostream>
 
 using namespace std;
 namespace GOESDump {
@@ -44,6 +43,14 @@ namespace GOESDump {
             string Combine(string one, string two);
 
             string Binary2String(vector<uint8_t> binary);
+
+            string GetExtension(string str);
+
+            string GetTimeNow();
+
+            int Move(string filename, string f);
+            
+            int Delete(string filename);
 
             char* Vector2Byte(vector<uint8_t> vec);
     }; 

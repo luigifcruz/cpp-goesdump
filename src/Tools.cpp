@@ -27,12 +27,33 @@ namespace GOESDump {
         return p.filename().string();
     };
 
+    string Tools::GetExtension(string str) {
+        return boost::filesystem::extension(str);
+    }
+
     string Tools::Combine(string one, string two) {
         return (one+"/"+two);
     };
 
     int Tools::FileExists(const char* path) {
         return boost::filesystem::exists(path);
+    }
+
+    string Tools::GetTimeNow() {
+        char buff[50];
+        stringstream ss;
+        time_t now = time(0);
+        strftime(buff, 20, "%Y%m%d%H%M%S", localtime(&now));
+        ss << buff;
+        return ss.str();
+    }
+
+    int Tools::Move(string filename, string f) {
+        return 1;
+    }
+
+    int Tools::Delete(string filename) {
+        return 1;
     }
 
     string Tools::Binary2String(vector<uint8_t> binary) {

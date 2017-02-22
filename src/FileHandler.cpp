@@ -1,5 +1,7 @@
 #include "FileHandler.h"
 
+#include <iostream>
+
 using namespace std;
 namespace GOESDump {
     void FileHandler::HandleFile(string filename, XRITHeader fileHeader) {
@@ -17,31 +19,30 @@ namespace GOESDump {
         string ofilename = fileHeader.Filename() == "" ? Tools.GetFileName(filename) : fileHeader.Filename(); 
         string f = PacketManager.FixFileFolder(dir, ofilename, fileHeader.Product(), fileHeader.SubProduct());
 
-        /*if (File.Exists(f)) {
-            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
-            string ext = Path.GetExtension(f);
-            string append = String.Format("--dup-{0}{1}", timestamp, ext);
-            f = f.Replace(String.Format("{0}", ext), append);
+        cout << "Filename: " << f << endl;
+
+        if (Tools.FileExists(f)) {
+            string timestamp = Tools.GetTimeNow();
+            string ext = Tools.GetExtension(f);
+            string append = "--dup-" + timestamp + ext;
+            f.replace(f.find(ext), ext.length(), append);
         }
 
-        if (!String.Equals(Path.GetFileName(f), ofilename)) {
-            if (fileHeader.SubProduct.Name != "Unknown") {
-                UIConsole.GlobalConsole.Log(String.Format("New {0} - {1} ({2}) saved as {3}", fileHeader.Product.Name, fileHeader.SubProduct.Name, ofilename, Path.GetFileName(f)));
+        
+        if (Tools.GetFileName(f) != ofilename) {
+            if (fileHeader.SubProduct().Name != "Unknown") {
+                cout << "New " << fileHeader.Product().Name << " - " << fileHeader.SubProduct().Name << " (" << ofilename << ") saved as " << Tools.GetFileName(f) << endl;
             } else {
-                UIConsole.GlobalConsole.Log(String.Format("New {0} ({1}) saved as {2}", fileHeader.Product.Name, ofilename, Path.GetFileName(f)));
+                cout << "New " << fileHeader.Product().Name << " (" << ofilename << ") saved as " << Tools.GetFileName(f) << endl;
             }
         } else {
-            if (fileHeader.SubProduct.Name != "Unknown") {
-                UIConsole.GlobalConsole.Log(String.Format("New {0} - {1} ({2})", fileHeader.Product.Name, fileHeader.SubProduct.Name, ofilename));
+            if (fileHeader.SubProduct().Name != "Unknown") {
+                cout << "New " << fileHeader.Product().Name << " - " << fileHeader.SubProduct().Name << " (" << ofilename << ")" << endl;
             } else {
-                UIConsole.GlobalConsole.Log(String.Format("New {0} ({1})", fileHeader.Product.Name, ofilename));
+                cout << "New " << fileHeader.Product().Name << " (" << ofilename << ")" << endl;
             }
         }
 
-        try {
-            File.Move((char)filename, f);
-        } catch (IOException e) {
-            UIConsole.GlobalConsole.Error(String.Format("Error moving file {0} to {1}: {2}", filename, f, e));
-        }*/
+        Tools.Move(filename, f);
     }
 }

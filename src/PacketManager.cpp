@@ -3,127 +3,94 @@
 using namespace std;
 namespace GOESDump {
     string PacketManager::FixFileFolder(string dir, string filename, NOAAProduct product, NOAASubproduct subProduct) {
-        string filef = filename;
         string basedir = Tools.DirParentName(dir);
 
-        if (product.ID != -1) {
-            // New way
-            string folderName = UnknownDataFolder;
-            if (product.ID == (int)SCANNER_DATA_1 || product.ID == (int)SCANNER_DATA_2) {
-                switch (subProduct.ID) {
-                    case (int)INFRARED_AREA_OF_INTEREST:
-                    case (int)VISIBLE_AREA_OF_INTEREST:
-                    case (int)WATERVAPOUR_AREA_OF_INTEREST:
-                        folderName = Tools.Combine(ImagesFolder, "Area of Interest");
-                        break;
-                    case (int)INFRARED_FULLDISK:
-                    case (int)VISIBLE_FULLDISK:
-                    case (int)WATERVAPOUR_FULLDISK:
-                        folderName = Tools.Combine(ImagesFolder, "Full Disk");
-                        break;
-                    case (int)INFRARED_NORTHERN:
-                    case (int)VISIBLE_NORTHERN:
-                    case (int)WATERVAPOUR_NORTHERN:
-                        folderName = Tools.Combine(ImagesFolder, "Northern Hemisphere");
-                        break;
-                    case (int)INFRARED_SOUTHERN:
-                    case (int)VISIBLE_SOUTHERN:
-                    case (int)WATERVAPOUR_SOUTHERN:
-                        folderName = Tools.Combine(ImagesFolder, "Southern Hemisphere");
-                        break;
-                    case (int)INFRARED_UNITEDSTATES:
-                    case (int)VISIBLE_UNITEDSTATES:
-                    case (int)WATERVAPOUR_UNITEDSTATES:
-                        folderName = Tools.Combine(ImagesFolder, "United States");
-                        break;
-                    default:
-                        folderName = Tools.Combine(ImagesFolder, UnknownDataFolder);
-                        break;
-                }
-            } else {
-                switch (product.ID) {
-                    case (int)DCS:
-                        folderName = DCSFolder;
-                        break;
-                    case (int)EMWIN:
-                        folderName = EMWINFolder;
-                        break;
-                    case (int)NOAA_TEXT:
-                        folderName = TextFolder;
-                        break;
-                    case (int)OTHER_SATELLITES_1:
-                    case (int)OTHER_SATELLITES_2:
-                        folderName = OtherSatellitesFolder;
-                        break;
-                    case (int)WEATHER_DATA:
-                        folderName = WeatherDataFolder;
-                        break;
-                    default:
-                        folderName = UnknownDataFolder;
-                        break;
-                }
+        string folderName = UnknownDataFolder;
+        if (product.ID == (int)SCANNER_DATA_1 || product.ID == (int)SCANNER_DATA_2) {
+            switch (subProduct.ID) {
+                case (int)INFRARED_AREA_OF_INTEREST:
+                case (int)VISIBLE_AREA_OF_INTEREST:
+                case (int)WATERVAPOUR_AREA_OF_INTEREST:
+                    folderName = Tools.Combine(ImagesFolder, "Area of Interest");
+                    break;
+                case (int)INFRARED_FULLDISK:
+                case (int)VISIBLE_FULLDISK:
+                case (int)WATERVAPOUR_FULLDISK:
+                    folderName = Tools.Combine(ImagesFolder, "Full Disk");
+                    break;
+                case (int)INFRARED_NORTHERN:
+                case (int)VISIBLE_NORTHERN:
+                case (int)WATERVAPOUR_NORTHERN:
+                    folderName = Tools.Combine(ImagesFolder, "Northern Hemisphere");
+                    break;
+                case (int)INFRARED_SOUTHERN:
+                case (int)VISIBLE_SOUTHERN:
+                case (int)WATERVAPOUR_SOUTHERN:
+                    folderName = Tools.Combine(ImagesFolder, "Southern Hemisphere");
+                    break;
+                case (int)INFRARED_UNITEDSTATES:
+                case (int)VISIBLE_UNITEDSTATES:
+                case (int)WATERVAPOUR_UNITEDSTATES:
+                    folderName = Tools.Combine(ImagesFolder, "United States");
+                    break;
+                default:
+                    folderName = Tools.Combine(ImagesFolder, UnknownDataFolder);
+                    break;
             }
-             
-            dir = Tools.Combine(basedir, folderName);
-
-            if (!Tools.DirExists(dir)) {
-                Tools.CreateDir(dir);
-            }
-
-            filef = Tools.Combine(dir, filename);
-
         } else {
-            /*// Old way
-            string folderName = UnknownDataFolder;
-            if (dcsRegex.IsMatch(filename)) {
-                folderName = DCSFolder;
-            } else if (xxRegex.IsMatch(filename)) {
-                folderName = Tools.Combine(ImagesFolder, "Area of Interest");
-            } else if (fdRegex.IsMatch(filename)) { 
-                folderName = Tools.Combine(ImagesFolder, "Full Disk");
-            } else if (chartRegex.IsMatch(filename)) {
-                folderName = WeatherDataFolder;
-            } else if (gosRegex.IsMatch(filename)) {
-                folderName = Tools.Combine(ImagesFolder, UnknownDataFolder);
-            } else if (textRegex.IsMatch(filename)) {
-                folderName = TextFolder;
-            } else {
-                folderName = UnknownDataFolder;
+            switch (product.ID) {
+                case (int)DCS:
+                    folderName = DCSFolder;
+                    break;
+                case (int)EMWIN:
+                    folderName = EMWINFolder;
+                    break;
+                case (int)NOAA_TEXT:
+                    folderName = TextFolder;
+                    break;
+                case (int)OTHER_SATELLITES_1:
+                case (int)OTHER_SATELLITES_2:
+                    folderName = OtherSatellitesFolder;
+                    break;
+                case (int)WEATHER_DATA:
+                    folderName = WeatherDataFolder;
+                    break;
+                default:
+                    folderName = UnknownDataFolder;
+                    break;
             }
-
-            dir = Tools.Combine(basedir, folderName);
-
-            if (!Tools.DirExists(dir)) {
-                Tools.CreateDir(dir);
-            }
-
-            filef = Tools.Combine(dir, filename);*/
         }
-        return filef;
+         
+        dir = Tools.Combine(basedir, folderName);
+
+        if (!Tools.DirExists(dir)) {
+            Tools.CreateDir(dir);
+        }
+
+        return Tools.Combine("./" + dir, filename);;
     }
 
-    /*void PacketManager::HandleWeatherData(string filename, XRITHeader header) {
-        if (header.PrimaryHeader.FileType == FileTypeCode.IMAGE) {
-            string basedir = new DirectoryInfo(Path.GetDirectoryName(filename)).Parent.FullName;
-            if (header.Product.ID == (int)OTHER_SATELLITES_1 || header.Product.ID == (int)OTHER_SATELLITES_2) {
-                basedir = Path.Combine(basedir, OtherSatellitesFolder);
+    void PacketManager::HandleWeatherData(string filename, XRITHeader header) {
+        if (header.PrimaryHeader.FileType == IMAGE) {
+            string basedir = Tools.DirParentName(filename);
+            if (header.Product().ID == (int)OTHER_SATELLITES_1 || header.Product().ID == (int)OTHER_SATELLITES_2) {
+                basedir = Tools.Combine(basedir, OtherSatellitesFolder);
             } else {
-                basedir = Path.Combine(basedir, WeatherDataFolder);
+                basedir = Tools.Combine(basedir, WeatherDataFolder);
             }
 
-            try {
-                UIConsole.GlobalConsole.Log(string.Format("New Weather Data - {0} - {1}", header.SubProduct.Name, header.Filename));
-                ImageHandler.Handler.HandleFile(filename, basedir);
-                File.Delete(filename);
-            } catch (Exception e) {
-                UIConsole.GlobalConsole.Warn(string.Format("Failed to parse Weather Data Image at {0}: {1}", filename, e));
-            }
+            cout << "New Weather Data - " << header.SubProduct().Name << " - " << header.Filename() << endl;
+            //ImageHandler.Handler.HandleFile(filename, basedir);
+            Tools.Delete(filename);
+
+            //cout << "Failed to parse Weather Data Image at " << filename << ": " << e << endl;
+
         } else {
-            FileHandler.DefaultHandler(filename, header);
+            //FileHandler.DefaultHandler(filename, header);
         }
     }
 
-    void PacketManager::HandleTextData(string filename, XRITHeader header) {
+    /*void PacketManager::HandleTextData(string filename, XRITHeader header) {
         if (header.PrimaryHeader.FileType == FileTypeCode.TEXT) {
             string basedir = new DirectoryInfo(Path.GetDirectoryName(filename)).Parent.FullName;
             basedir = Path.Combine(basedir, TextFolder);

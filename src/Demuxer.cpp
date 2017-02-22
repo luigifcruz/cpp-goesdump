@@ -59,7 +59,7 @@ namespace GOESDump {
         }*/
         ostringstream filename;
         FileParser fileParser;
-        
+
         if (msdu.Sequence == FIRST_SEGMENT || msdu.Sequence == SINGLE_DATA) {
             fileHeader = fileParser.GetHeader(msdu.Data);
             if (msdu.Sequence == FIRST_SEGMENT) {
@@ -86,7 +86,7 @@ namespace GOESDump {
             case LRIT_RICE: 
                 filename << "channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << "_" << msdu.PacketNumber << ".lrit";
             break;
-            default: // For 0, 2, 5 runs the default
+            default:
                 filename << "channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << ".lrit";
             break;
         }

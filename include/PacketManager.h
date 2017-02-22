@@ -3,6 +3,7 @@
 
 #include <regex>
 #include <string>
+#include <iostream>
 #include "XRITHeader.h"
 #include "NOAAProduct.h"
 #include "NOAASubproduct.h"
@@ -12,13 +13,6 @@ using namespace std;
 namespace GOESDump {
     class PacketManager {
         private: 
-            string DCSRgex = "DCSdat(.*)";
-            string XXRgex = "gos(.*)XX(.*).lrit";
-            string FDRgex = "(.*)FD(.*).lrit";
-            string GOSRgex = "gos(.*).lrit";
-            string ChartRgex = "NWSchrt(.*).lrit";
-            string TextRgex = "(.*)TEXTdat(.*).lrit";
-
             string DCSFolder = "DCS";
             string ImagesFolder = "Images";
             string TextFolder = "Text";
