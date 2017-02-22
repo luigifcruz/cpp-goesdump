@@ -1,7 +1,5 @@
 #include "FileHandler.h"
 
-#include <iostream>
-
 using namespace std;
 namespace GOESDump {
     void FileHandler::HandleFile(string filename, XRITHeader fileHeader) {
@@ -27,7 +25,7 @@ namespace GOESDump {
                 break;
             }
             case NOAAProductID::NOAA_TEXT: {
-                PacketManager.HandleTextData(filename, fileHeader);
+                if (PacketManager.HandleTextData(filename, fileHeader)) { DefaultHandler(filename, fileHeader); }
                 break;
             }
             default:

@@ -92,6 +92,7 @@ namespace GOESDump {
 
             cout << "New Weather Data - " << header.SubProduct().Name << " - " << header.Filename() << endl;
             //ImageHandler.Handler.HandleFile(filename, basedir);
+
             if (!Tools.Delete(filename)) {
                 cout << "Failed to parse Weather Data Image at " << filename << endl;
             }
@@ -102,20 +103,20 @@ namespace GOESDump {
     }
 
     bool PacketManager::HandleTextData(string filename, XRITHeader header) {
-        /*if (header.PrimaryHeader.FileType == FileTypeCode.TEXT) {
-            string basedir = new DirectoryInfo(Path.GetDirectoryName(filename)).Parent.FullName;
-            basedir = Path.Combine(basedir, TextFolder);
+        if (header.PrimaryHeader.FileType == FileTypeCode::TEXT) {
+            string basedir = Tools.DirParentName(filename);
+            basedir = Tools.Combine(basedir, TextFolder);
 
-            try {
-                UIConsole.GlobalConsole.Log(string.Format("New NOAA Text ({0})", header.Filename));
-                TextHandler.Handler.HandleFile(filename, basedir);
-                File.Delete(filename);
-            } catch (Exception e) {
-                UIConsole.GlobalConsole.Warn(string.Format("Failed to parse Weather Data Image at {0}: {1}", filename, e));
+            cout << "New NOAA Text (" << header.Filename() << ")" << endl;
+            //TextHandler.Handler.HandleFile(filename, basedir);
+
+            if (!Tools.Delete(filename)) {
+                cout << "Failed to parse Weather Data Image at " << filename << endl;
             }
         } else {
-            FileHandler.DefaultHandler(filename, header);
-        }*/
+            return true;
+        }
+        return false;
     }
 
     bool PacketManager::DumpFile(string filename, XRITHeader fileHeader, string newExt) {
