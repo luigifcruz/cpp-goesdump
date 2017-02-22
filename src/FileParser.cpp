@@ -29,7 +29,6 @@ namespace GOESDump {
             
             switch ((int)type) {
                 case HeaderType::PrimaryHeader: {
-
                     break;
                 }
                 case HeaderType::DCSFileNameRecord: {

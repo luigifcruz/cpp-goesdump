@@ -13,7 +13,7 @@ namespace GOESDump {
     class DataHandler {
         private: 
             int port;
-            map<int,GOESDump::Demuxer> demuxers;
+            map<int, Demuxer> demuxers;
             thread dataThread;
             void DemuxManager(uint8_t* packet);
 
@@ -26,11 +26,11 @@ namespace GOESDump {
             if(dataThread.joinable()) dataThread.join();
         }
 
-        void Start(GOESDump::WatchMan watchMan){
+        void Start(WatchMan watchMan){
             dataThread = std::thread(&DataHandler::Init, this, watchMan);
         }
 
-        void Init(GOESDump::WatchMan watchMan);
+        void Init(WatchMan watchMan);
     }; 
 }
 

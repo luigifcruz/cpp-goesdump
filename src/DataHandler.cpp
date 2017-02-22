@@ -28,7 +28,7 @@ namespace GOESDump {
         }
     }
 
-    void DataHandler::Init(GOESDump::WatchMan watchMan) {
+    void DataHandler::Init(WatchMan watchMan) {
         SatHelper::TcpClient tcpClient((string)"127.0.0.1", port);
         uint8_t data[BUFFER_SIZE];
 
