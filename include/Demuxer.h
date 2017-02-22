@@ -32,7 +32,6 @@ namespace GOESDump {
             int endnum = -1;
             int Packets = 0;
             int CRCFails = 0;
-            ostringstream filename;
             vector<uint8_t> buffer;
             map<int, MSDU> temporaryStorage;
             packet CreatePacket(vector<uint8_t> data);

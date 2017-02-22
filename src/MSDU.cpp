@@ -4,9 +4,9 @@
 using namespace std;
 namespace GOESDump {
     void MSDU::addDataBytes(vector<uint8_t> data) {
-        cout << "New Data: " << data.size() << "\n" << 
+        /*cout << "New Data: " << data.size() << "\n" << 
                 "Old Data: " << Data.size()  << "\n" << 
-                "PacketLength: " << PacketLength << endl;
+                "PacketLength: " << PacketLength << endl;*/
 
         if (data.size() + Data.size() > PacketLength + 2) {
             cout << "(MSDU) Overflow in MSDU!\n";
@@ -48,7 +48,7 @@ namespace GOESDump {
         this->Data.insert(this->Data.end(), data.begin(), data.end());
         this->FrameLost = false;
         
-        cout << "this->Version: " << this->Version << "\n" << 
+        /*cout << "this->Version: " << this->Version << "\n" << 
                 "this->Type: " << this->Type << "\n" << 
                 "this->SecondHeader: " << this->SecondHeader << "\n" << 
                 "this->APID: " << this->APID << "\n" <<
@@ -56,7 +56,7 @@ namespace GOESDump {
                 "this->PacketNumber: " << this->PacketNumber << "\n" << 
                 "this->PacketLength: " << this->PacketLength << "\n" <<
                 "this->RemainingData: " << this->RemainingData.size() << "\n" << 
-                "this->Data: " << this->Data.size() << "\n";
+                "this->Data: " << this->Data.size() << "\n";*/
         
    }
 }

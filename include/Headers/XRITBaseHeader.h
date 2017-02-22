@@ -12,7 +12,7 @@ namespace GOESDump {
             vector<uint8_t> RawData;
 
             XRITBaseHeader() {
-                Type = Unknown;
+                Type = HeaderType::Unknown;
             }
 
             XRITBaseHeader(HeaderType type, vector<uint8_t> rawData) {

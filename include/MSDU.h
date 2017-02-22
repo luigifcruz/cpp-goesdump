@@ -38,8 +38,18 @@ namespace GOESDump {
             }
 
             bool Valid() {
-                return false;
-                //return Data.Take(Data.Length - 2).ToArray().CRC() == CRC;
+                vector<uint8_t> data = Data;
+                data.erase(data.begin(), data.end()-2);
+                uint8_t lsb = 0xFF, msb = 0xFF, x;
+
+                for(uint8_t b: data) {
+                    x = (uint8_t)(b ^ msb);
+                    x ^= (uint8_t)(x >> 4);
+                    msb = (uint8_t)(lsb ^ (x >> 3) ^ (x << 4));
+                    lsb = (uint8_t)(x ^ (x << 5));
+                }
+
+                return ((((uint8_t)msb) << 8) + lsb) == CRC();
             }
 
             bool FillPacket() {

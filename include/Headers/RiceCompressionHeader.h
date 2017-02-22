@@ -1,10 +1,13 @@
 #ifndef _RICECOMPRESSIONHEADER_H
 #define _RICECOMPRESSIONHEADER_H
 
+#include <cstdint>
+#include <cstring>
 #include "XRITBaseHeader.h"
 
 using namespace std;
 namespace GOESDump {
+    #pragma pack(push, 1)
     struct RiceCompressionRecord {
         uint8_t type;
         uint16_t size;
@@ -13,6 +16,7 @@ namespace GOESDump {
         uint8_t Pixel;
         uint8_t Line;
     };
+    #pragma pack(pop)
 
     class RiceCompressionHeader: public XRITBaseHeader {
         public:

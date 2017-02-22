@@ -1,11 +1,14 @@
 #ifndef _TIMESTAMPHEADER_H
 #define _TIMESTAMPHEADER_H
 
+#include <cstdint>
+#include <cstring>
 #include <ctime>
 #include "XRITBaseHeader.h"
 
 using namespace std;
 namespace GOESDump {
+    #pragma pack(push, 1)
     struct TimestampRecord {
         uint8_t type;
         uint16_t size;
@@ -21,6 +24,7 @@ namespace GOESDump {
             return time;
         }
     };
+    #pragma pack(pop)
 
     class TimestampHeader: public XRITBaseHeader {
         public:

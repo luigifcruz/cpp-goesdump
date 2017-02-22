@@ -1,11 +1,14 @@
 #ifndef _IMAGESTRUCTUREHEADER_H
 #define _IMAGESTRUCTUREHEADER_H
 
+#include <cstdint>
+#include <cstring>
 #include "XRITBaseHeader.h"
 #include "../Types/CompressionType.h"
 
 using namespace std;
 namespace GOESDump {
+    #pragma pack(push, 1)
     struct ImageStructureRecord {
         uint8_t type;
         uint16_t size;
@@ -15,6 +18,7 @@ namespace GOESDump {
         uint16_t Lines;
         uint8_t Compression;
     };
+    #pragma pack(pop)
 
     class ImageStructureHeader: public XRITBaseHeader {
         public:

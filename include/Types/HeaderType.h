@@ -1,7 +1,7 @@
 #ifndef _HEADERTYPE_H_
 #define _HEADERTYPE_H_
 
-enum HeaderType {
+enum class HeaderType {
     Unknown = -1,
     PrimaryHeader = 0,
     ImageStructureRecord = 1,

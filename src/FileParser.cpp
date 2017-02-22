@@ -5,6 +5,7 @@ using namespace std;
 namespace GOESDump {
     XRITHeader FileParser::GetHeader(vector<uint8_t> data) {
         XRITHeader header;
+        data.erase(data.begin(), data.begin()+10);
         int maxLength = data.size(); // Initial Guess
         int c = 0;
 
@@ -24,20 +25,21 @@ namespace GOESDump {
                 break;
             }
 
-            cout << "TYPE: " << type << "\n";
+            cout << "TYPE: " << (int)type << "\n";
             
-            switch (type) {
-                case (int)DCSFileNameRecord:
+            switch ((HeaderType)type) {
+                case HeaderType::PrimaryHeader:
+                    PrimaryRecord fh;
+                    char* buffer = Tools.Vector2Byte(tmp);
+                    header.PrimaryHeader.Define(fh);
+                    header.PrimaryHeader.RawData = tmp;
+                    maxLength = (int)fh.HeaderLength;
+                    break;
+                /*case HeaderType::DCSFileNameRecord:
                     DCSFilenameRecord record;
                     record.Filename = "MAKE THE UTF8 CONV";
                     header.DCSFilenameHeader.RawData = tmp;
                     header.DCSFilenameHeader.Define(record);
-                    break;
-                /*case (int)PrimaryHeader:
-                    PrimaryRecord fh = LLTools.ByteArrayToStruct<PrimaryRecord>(tmp);
-                    fh = LLTools.StructToSystemEndian(fh);
-                    h = new PrimaryHeader(fh);
-                    maxLength = (int)fh.HeaderLength; // Set the correct size
                     break;
                 case (int)ImageStructureRecord:
                     ImageStructureRecord isr = LLTools.ByteArrayToStruct<ImageStructureRecord>(tmp);
@@ -99,7 +101,6 @@ namespace GOESDump {
             c += size;
             data.erase(data.begin()+size, data.end());
         }
-        cout << "\n==================\n" << endl;
         return header;
     }
 }

@@ -17,7 +17,7 @@ namespace GOESDump {
                 return;
             }
 
-            cout << "\n==================\n" << endl;
+            cout << "==================" << endl;
 
             if (!demuxers.count(vcid)) {
                 cout << "[DataHandler] Creating new demuxer for #" << (vcid) << "...\n";

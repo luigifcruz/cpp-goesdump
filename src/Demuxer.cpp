@@ -42,10 +42,10 @@ namespace GOESDump {
             // Skip fill packet
             return;
         }
-
-        bool firstOrSinglePacket = msdu.Sequence == FIRST_SEGMENT || msdu.Sequence == SINGLE_DATA;
-
+        
         Packets++;
+
+        /*bool firstOrSinglePacket = msdu.Sequence == FIRST_SEGMENT || msdu.Sequence == SINGLE_DATA;
 
         if (!msdu.Valid()) {
             cout << "Wrong CRC!" << "\n";
@@ -56,9 +56,10 @@ namespace GOESDump {
             cout << "Got a invalid MSDU :(" << "\n";
             cout << "New Packet for APID " << msdu.APID << " - Valid CRC: " << msdu.Valid() << " - Full: " << msdu.Full() << " - Remaining Bytes: " <<  msdu.RemainingData.size() << " - Frame Lost: " << msdu.FrameLost << "\n";
             cout << "  Total Size: " << (msdu.PacketLength + 2) << " Current Size: " << msdu.Data.size() << "\n";
-        }
-
-        GOESDump::FileParser fileParser;
+        }*/
+        ostringstream filename;
+        FileParser fileParser;
+        
         if (msdu.Sequence == FIRST_SEGMENT || msdu.Sequence == SINGLE_DATA) {
             fileHeader = fileParser.GetHeader(msdu.Data);
             if (msdu.Sequence == FIRST_SEGMENT) {
@@ -80,7 +81,7 @@ namespace GOESDump {
         if (!Tools.DirExists(path.str())) {
             Tools.CreateDir(path.str());
         }
-
+        
         switch (fileHeader.Compression()) {
             case LRIT_RICE: 
                 filename << "channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << "_" << msdu.PacketNumber << ".lrit";
@@ -91,7 +92,7 @@ namespace GOESDump {
         }
 
         if (msdu.Sequence == LAST_SEGMENT || msdu.Sequence == SINGLE_DATA) {
-            if (fileHeader.Compression() == LRIT_RICE) { // # Rice
+            if (fileHeader.Compression() == LRIT_RICE) {
                 /* IMPLEMENT DECOMPRESSOR
                 string decompressed;
                 if (msdu.Sequence == SINGLE_DATA) {
@@ -107,7 +108,6 @@ namespace GOESDump {
                 FileHandler.HandleFile(filename.str(), fileHeader);
             }
         }
-
     }
 
     void Demuxer::ParseBytes(uint8_t* data) {
@@ -199,7 +199,6 @@ namespace GOESDump {
                     buffer.clear();
                 }
             } else {
-                cout << "01" << endl;
                 vector<uint8_t> vecData;
                 vecData.insert(vecData.end(), data, data+BUFFER_SIZE-8);
                 temporaryStorage[lastAPID].addDataBytes(vecData);

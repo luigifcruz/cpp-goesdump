@@ -1,6 +1,8 @@
 #ifndef _NOAASPECIFICHEADER_H
 #define _NOAASPECIFICHEADER_H
 
+#include <cstdint>
+#include <cstring>
 #include "XRITBaseHeader.h"
 #include "../Types/CompressionType.h"
 #include "../NOAAProduct.h"
@@ -9,6 +11,7 @@
 
 using namespace std;
 namespace GOESDump {
+    #pragma pack(push, 1)
     struct NOAASpecificRecord {
         uint8_t type;
         uint16_t size;
@@ -19,6 +22,7 @@ namespace GOESDump {
         uint16_t Parameter;
         uint8_t Compression;
     };
+    #pragma pack(pop)
 
     class NOAASpecificHeader: public XRITBaseHeader {
         public:

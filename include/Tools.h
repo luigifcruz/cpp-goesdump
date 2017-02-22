@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <boost/filesystem.hpp>
 
 #include <iostream>
 
@@ -35,24 +36,16 @@ namespace GOESDump {
             int FileExists(string path) {
                 return FileExists(path.c_str());
             }
-            // Make'em
-            string GetDirectoryName(string d) {
-                cout << "GetDirectoryName: " << d << endl;
-                return "./channels";
-            };
 
-            string GetFileName(string d) {
-                cout << "GetFileName: " << d << endl;
-                return "./channels";
-            };
+            string GetDirectoryName(string path);
 
-            string Combine(string one, string two) {
-                cout << "Combine: " << one << endl;
-                cout << "Combine: " << two << endl;
-                return "./channels";
-            };
+            string GetFileName(string d);
+
+            string Combine(string one, string two);
 
             string Binary2String(vector<uint8_t> binary);
+
+            char* Vector2Byte(vector<uint8_t> vec);
     }; 
 }
 

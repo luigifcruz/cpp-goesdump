@@ -1,10 +1,13 @@
 #ifndef _SEGMENTIDENTIFICATIONRECORD_H_
 #define _SEGMENTIDENTIFICATIONRECORD_H_
 
+#include <cstdint>
+#include <cstring>
 #include "XRITBaseHeader.h"
 
 using namespace std;
 namespace GOESDump {
+    #pragma pack(push, 1)
     struct SegmentIdentificationRecord {
         uint8_t type;
         uint16_t size;
@@ -17,6 +20,7 @@ namespace GOESDump {
         uint16_t MaxColumns;
         uint16_t MaxRows;
     };
+    #pragma pack(pop)
 
     class SegmentIdentificationHeader: public XRITBaseHeader {
         public:

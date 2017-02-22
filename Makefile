@@ -7,7 +7,7 @@ SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 CFLAGS := -std=c++11 -c -Wall 
-LIB := -lsathelper
+LIB := -lsathelper -lboost_system -lboost_filesystem
 INC := -I include
 
 $(TARGET): $(OBJECTS)

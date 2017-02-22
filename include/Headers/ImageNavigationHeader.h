@@ -2,10 +2,13 @@
 #define _IMAGENAVIGATIONHEADER_H
 
 #include <string>
+#include <cstdint>
+#include <cstring>
 #include "XRITBaseHeader.h"
 
 using namespace std;
 namespace GOESDump {
+    #pragma pack(push, 1)
     struct ImageNavigationRecord {
         uint8_t type;
         uint16_t size;
@@ -16,6 +19,7 @@ namespace GOESDump {
         uint32_t ColumnOffset;
         uint32_t LineOffset;
     };
+    #pragma pack(pop)
 
     class ImageNavigationHeader: public XRITBaseHeader {
         public:
