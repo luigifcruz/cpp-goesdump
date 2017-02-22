@@ -29,7 +29,7 @@ namespace GOESDump {
         o = ((uint16_t)data.at(3) << 8) | data.at(2);
         o = (o>>8) | (o<<8);
 
-        this->Sequence = (SequenceType)((o & 0xC000) >> 14);
+        this->Sequence = (SequenceType::SequenceType)((o & 0xC000) >> 14);
         this->PacketNumber = (o & 0x3FFF);
         
         o = ((uint16_t)data.at(5) << 8) | data.at(4);

@@ -21,7 +21,7 @@ namespace GOESDump {
             int APID;
             int Type;
             bool SecondHeader;
-            SequenceType Sequence;
+            SequenceType::SequenceType Sequence;
             int PacketNumber;
             int PacketLength;
             vector<uint8_t> Data;

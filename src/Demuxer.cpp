@@ -60,18 +60,18 @@ namespace GOESDump {
         ostringstream filename;
         FileParser fileParser;
 
-        if (msdu.Sequence == FIRST_SEGMENT || msdu.Sequence == SINGLE_DATA) {
+        if (msdu.Sequence == SequenceType::FIRST_SEGMENT || msdu.Sequence == SequenceType::SINGLE_DATA) {
             fileHeader = fileParser.GetHeader(msdu.Data);
-            if (msdu.Sequence == FIRST_SEGMENT) {
+            if (msdu.Sequence == SequenceType::FIRST_SEGMENT) {
                 startnum = msdu.PacketNumber;
             }
-        } else if (msdu.Sequence == LAST_SEGMENT) {
+        } else if (msdu.Sequence == SequenceType::LAST_SEGMENT) {
             endnum = msdu.PacketNumber;
             if (startnum == -1) {
                 //cout << "NOT BIG DEAL: Orphan Packet. Dropping\n";
                 return;
             }
-        } else if (msdu.Sequence != SINGLE_DATA && startnum == -1) {
+        } else if (msdu.Sequence != SequenceType::SINGLE_DATA && startnum == -1) {
             //cout << "NOT BIG DEAL: Orphan Packet. Dropping\n";
             return;
         }
@@ -92,7 +92,7 @@ namespace GOESDump {
             break;
         }
 
-        if (msdu.Sequence == LAST_SEGMENT || msdu.Sequence == SINGLE_DATA) {
+        if (msdu.Sequence == SequenceType::LAST_SEGMENT || msdu.Sequence == SequenceType::SINGLE_DATA) {
             if (fileHeader.Compression() == HeaderType::LRIT_RICE) {
                 /* IMPLEMENT DECOMPRESSOR
                 string decompressed;
