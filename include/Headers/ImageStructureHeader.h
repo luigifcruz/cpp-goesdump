@@ -5,6 +5,7 @@
 #include <cstring>
 #include "XRITBaseHeader.h"
 #include "../Types/CompressionType.h"
+#include "../Tools.h"
 
 using namespace std;
 namespace GOESDump {

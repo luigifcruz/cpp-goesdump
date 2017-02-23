@@ -5,6 +5,7 @@
 #include <cstring>
 #include <ctime>
 #include "XRITBaseHeader.h"
+#include "../Tools.h"
 
 using namespace std;
 namespace GOESDump {
@@ -22,6 +23,15 @@ namespace GOESDump {
             t.AddMilliseconds(Milisseconds);*/
             time_t time = 0;
             return time;
+        }
+
+        void Correct() {
+            if (Tools().isLittleEndian()) {
+                type = boost::endian::endian_reverse(type);
+                size = boost::endian::endian_reverse(size);
+                Days = boost::endian::endian_reverse(Days);
+                Milisseconds = boost::endian::endian_reverse(Milisseconds);
+            }
         }
     };
     #pragma pack(pop)

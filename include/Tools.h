@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <boost/filesystem.hpp>
+#include "boost/endian/conversion.hpp"
 
 using namespace std;
 namespace GOESDump {
@@ -53,7 +54,13 @@ namespace GOESDump {
             
             int Delete(string filename);
 
-            char* Vector2Byte(vector<uint8_t> vec);
+            bool isLittleEndian() {
+                ushort a=0x1234;
+                if (*((char *)&a)==0x12)
+                    return false;
+                else
+                    return true;
+            }
     }; 
 }
 

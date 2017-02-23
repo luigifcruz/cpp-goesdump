@@ -57,16 +57,10 @@ namespace GOESDump {
     }
 
     string Tools::Binary2String(vector<uint8_t> binary) {
-        std::string s;
-        for(uint8_t byte: binary) { s += to_string(byte); }
-        return s;
-    }
-
-    char* Tools::Vector2Byte(vector<uint8_t> vec) {
-        char* data = nullptr;
-        for(uint8_t byte: vec) {
-            data += (char)byte;
+        string s = "";
+        for(u_int8_t byte: binary) {
+            s += static_cast<char>(byte);
         }
-        return data;
+        return s;
     }
 }

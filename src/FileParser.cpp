@@ -29,98 +29,92 @@ namespace GOESDump {
             
             switch ((int)type) {
                 case HeaderType::PrimaryHeader: {
+                    header.PrimaryHeader.RawData = tmp;
+                    PrimaryRecord record;
+                    memcpy(&record, tmp.data(), tmp.size());
+                    record.Correct();
+                    header.PrimaryHeader.Define(record);
+                    maxLength = (uint32_t)record.HeaderLength;
+
+                    cout << "PH FileTypeCode: " << (int)record.FileTypeCode << endl;
+                    cout << "PH HeaderLength: " << (uint32_t)record.HeaderLength << endl;
+                    cout << "PH DataLength: " << (uint64_t)record.DataLength << endl;
                     break;
                 }
                 case HeaderType::DCSFileNameRecord: {
-                    DCSFilenameRecord record;
-                    record.Filename = "MAKE THE UTF8 CONV";
                     header.DCSFilenameHeader.RawData = tmp;
+                    DCSFilenameRecord record;
+                    tmp.erase(tmp.begin(), tmp.begin()+3);
+                    record.Filename = Tools.Binary2String(tmp);
                     header.DCSFilenameHeader.Define(record);
+
+                    cout << "DCS Filename: " << (string)record.Filename << endl;
                     break;
                 }
-                case HeaderType::ImageStructureRecord: {}
+                case HeaderType::ImageStructureRecord: {
                     break;
-                case HeaderType::ImageNavigationRecord: {}
+                }
+                case HeaderType::ImageNavigationRecord: {
                     break;
-                case HeaderType::ImageDataFunctionRecord: {}
+                }
+                case HeaderType::ImageDataFunctionRecord: {
                     break;
-                case HeaderType::AnnotationRecord: {}
+                }
+                case HeaderType::AnnotationRecord: {
+                    header.AnnotationHeader.RawData = tmp;
+                    AnnotationRecord record;
+                    tmp.erase(tmp.begin(), tmp.begin()+3);
+                    record.Filename = Tools.Binary2String(tmp);
+                    header.AnnotationHeader.Define(record);
+
+                    cout << "AR Filename: " << (string)record.Filename << endl;
                     break;
-                case HeaderType::TimestampRecord: {}
+                }
+                case HeaderType::TimestampRecord: {
+                    header.TimestampHeader.RawData = tmp;
+                    TimestampRecord record;
+                    memcpy(&record, tmp.data(), tmp.size());
+                    record.Correct();
+                    header.TimestampHeader.Define(record);
+
+                    cout << "TS Milissecods: " << (uint32_t)record.Milisseconds << endl;
+                    cout << "TS Days: " << (uint16_t)record.Days << endl;
                     break;
-                case HeaderType::AncillaryTextRecord: {}
+                }
+                case HeaderType::AncillaryTextRecord: {
                     break;
-                case HeaderType::KeyRecord: {}
+                }
+                case HeaderType::KeyRecord: {
                     break;
-                case HeaderType::SegmentIdentificationRecord: {}
+                }
+                case HeaderType::SegmentIdentificationRecord: {
                     break;
-                case HeaderType::NOAASpecificHeader: {}
+                }
+                case HeaderType::NOAASpecificHeader: {
+                    header.NOAASpecificHeader.RawData = tmp;
+                    NOAASpecificRecord record;
+                    memcpy(&record, tmp.data(), tmp.size());
+                    record.Correct();
+                    header.NOAASpecificHeader.Define(record);
+                    
+                    cout << "Signature: " << (string)record.Signature << endl;
+                    cout << "Compression: " << (int)record.Compression << endl;
+                    cout << "ProductID: " << (uint16_t)record.ProductID << endl;
                     break;
-                case HeaderType::HeaderStructuredRecord: {}
+                }
+                case HeaderType::HeaderStructuredRecord: {
                     break;
-                case HeaderType::RiceCompressionRecord: {}
+                }
+                case HeaderType::RiceCompressionRecord: {
                     break;
+                }
                 default:
                     break;
-                /*case (int)ImageStructureRecord:
-                    ImageStructureRecord isr = LLTools.ByteArrayToStruct<ImageStructureRecord>(tmp);
-                    isr = LLTools.StructToSystemEndian(isr);
-                    h = new ImageStructureHeader(isr);
-                    break;
-                case (int)ImageNavigationRecord:
-                    ImageNavigationRecord inr = LLTools.ByteArrayToStruct<ImageNavigationRecord>(tmp);
-                    inr = LLTools.StructToSystemEndian(inr);
-                    h = new ImageNavigationHeader(inr);
-                    break;
-                case (int)ImageDataFunctionRecord:
-                    ImageDataFunctionRecord idfr = new ImageDataFunctionRecord();
-                    idfr.Data = System.Text.Encoding.UTF8.GetString(tmp.Skip(3).ToArray());
-                    h = new ImageDataFunctionHeader(idfr);
-                    break;
-                case (int)AnnotationRecord:
-                    AnnotationRecord ar = new AnnotationRecord();
-                    ar.Filename = System.Text.Encoding.UTF8.GetString(tmp.Skip(3).ToArray());
-                    h = new AnnotationHeader(ar);
-                    break;
-                case (int)TimestampRecord:
-                    TimestampRecord tr = LLTools.ByteArrayToStruct<TimestampRecord>(tmp);
-                    tr = LLTools.StructToSystemEndian(tr);
-                    h = new TimestampHeader(tr);
-                    break;
-                case (int)AncillaryTextRecord:
-                    AncillaryText at = new AncillaryText();
-                    at.Data = System.Text.Encoding.UTF8.GetString(tmp.Skip(3).ToArray());
-                    h = new AncillaryHeader(at);
-                    break;
-                case (int)KeyRecord:
-                    h = new XRITBaseHeader(HeaderType.KeyRecord, tmp);
-                    break;
-                case (int)SegmentIdentificationRecord:
-                    SegmentIdentificationRecord sir = LLTools.ByteArrayToStruct<SegmentIdentificationRecord>(tmp);
-                    sir = LLTools.StructToSystemEndian(sir);
-                    h = new SegmentIdentificationHeader(sir);
-                    break;
-                case (int)NOAASpecificHeader:
-                    NOAASpecificRecord nsr = LLTools.ByteArrayToStruct<NOAASpecificRecord>(tmp);
-                    nsr = LLTools.StructToSystemEndian(nsr);
-                    h = new NOAASpecificHeader(nsr);
-                    break;
-                case (int)HeaderStructuredRecord:
-                    HeaderStructuredRecord hsr = new HeaderStructuredRecord();
-                    hsr.Data = System.Text.Encoding.UTF8.GetString(tmp.Skip(3).ToArray());
-                    h = new HeaderStructuredHeader(hsr);
-                    break;
-                case (int)RiceCompressionRecord:
-                    RiceCompressionRecord rcr = LLTools.ByteArrayToStruct<RiceCompressionRecord>(tmp);
-                    rcr = LLTools.StructToSystemEndian(rcr);
-                    h = new RiceCompressionHeader(rcr);
-                    break;
-                default:
-                    break;*/
             }
+            
             cout << "OUT LOOP" << endl;
             c += size;
-            data.erase(data.begin()+size, data.end());
+            data.erase(data.begin(), data.begin()+size);
         }
         return header;
     }

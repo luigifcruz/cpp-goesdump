@@ -46,7 +46,7 @@ namespace GOESDump {
                 tcpClient.Receive((char *)buffer, BUFFER_SIZE);
                 Statistics_st tmp;
                 memcpy(&tmp, buffer, BUFFER_SIZE);
-                cout << tmp.scid << "\n";
+                cout << (int)tmp.signalQuality << "\n";
                 cout << tmp.packetNumber << "\n";
                 cout << tmp.totalPackets << "\n";
                 cout << tmp.vitErrors << "\n";

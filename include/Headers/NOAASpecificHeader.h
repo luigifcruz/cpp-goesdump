@@ -8,6 +8,7 @@
 #include "../NOAAProduct.h"
 #include "../NOAASubproduct.h"
 #include "../Presets.h"
+#include "../Tools.h"
 
 using namespace std;
 namespace GOESDump {
@@ -16,11 +17,22 @@ namespace GOESDump {
         uint8_t type;
         uint16_t size;
 
-        string Signature;
+        char Signature[4];
         uint16_t ProductID;
         uint16_t ProductSubID;
         uint16_t Parameter;
         uint8_t Compression;
+
+        void Correct() {   
+            if (Tools().isLittleEndian()) {
+                type = boost::endian::endian_reverse(type);
+                size = boost::endian::endian_reverse(size);
+                ProductID = boost::endian::endian_reverse(ProductID);
+                ProductSubID = boost::endian::endian_reverse(ProductSubID);
+                Parameter = boost::endian::endian_reverse(Parameter);
+                Compression = boost::endian::endian_reverse(Compression);
+            }
+        }
     };
     #pragma pack(pop)
 
@@ -31,7 +43,7 @@ namespace GOESDump {
             NOAASubproduct SubProduct;
             uint16_t Parameter;
             HeaderType::CompressionType Compression;
-            Presets presets;
+            Presets Presets;
             bool Init = false;
             
             NOAASpecificHeader(){}
@@ -39,7 +51,7 @@ namespace GOESDump {
             void Define(NOAASpecificRecord data) {
                 Type = HeaderType::NOAASpecificHeader;
                 Signature = data.Signature;
-                Product = presets.GetProductById(data.ProductID); 
+                Product = Presets.GetProductById(data.ProductID); 
                 SubProduct = Product.getSubProduct(data.ProductSubID);
                 Parameter = data.Parameter;
                 Compression = (HeaderType::CompressionType)data.Compression;
