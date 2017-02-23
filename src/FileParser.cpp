@@ -52,12 +52,39 @@ namespace GOESDump {
                     break;
                 }
                 case HeaderType::ImageStructureRecord: {
+                    header.ImageStructureHeader.RawData = tmp;
+                    ImageStructureRecord record;
+                    memcpy(&record, tmp.data(), tmp.size());
+                    record.Correct();
+                    header.ImageStructureHeader.Define(record);
+
+                    cout << "BitsPerPixel: " << (int)record.BitsPerPixel << endl;
+                    cout << "Columns: " << (uint16_t)record.Columns << endl;
+                    cout << "Lines: " << (uint16_t)record.Lines << endl;
+                    cout << "Compression: " << (int)record.Compression << endl;
                     break;
                 }
                 case HeaderType::ImageNavigationRecord: {
+                    header.ImageNavigationHeader.RawData = tmp;
+                    ImageNavigationRecord record;
+                    memcpy(&record, tmp.data(), tmp.size());
+                    record.Correct();
+                    header.ImageNavigationHeader.Define(record);
+
+                    cout << "ColumnScalingFactor: " << (uint32_t)record.ColumnScalingFactor << endl;
+                    cout << "LineScalingFactor: " << (uint32_t)record.LineScalingFactor << endl;
+                    cout << "ColumnOffset: " << (uint32_t)record.ColumnOffset << endl;
+                    cout << "LineOffset: " << (uint32_t)record.LineOffset << endl;
                     break;
                 }
                 case HeaderType::ImageDataFunctionRecord: {
+                    header.ImageDataFunctionHeader.RawData = tmp;
+                    ImageDataFunctionRecord record;
+                    tmp.erase(tmp.begin(), tmp.begin()+3);
+                    record.Data = Tools.Binary2String(tmp);
+                    header.ImageDataFunctionHeader.Define(record);
+
+                    cout << "IDF Data: " << (string)record.Data << endl;
                     break;
                 }
                 case HeaderType::AnnotationRecord: {
@@ -82,12 +109,32 @@ namespace GOESDump {
                     break;
                 }
                 case HeaderType::AncillaryTextRecord: {
+                    header.AncillaryHeader.RawData = tmp;
+                    AncillaryText record;
+                    tmp.erase(tmp.begin(), tmp.begin()+3);
+                    record.Data = Tools.Binary2String(tmp);
+                    header.AncillaryHeader.Define(record);
+
+                    cout << "AT Data: " << (string)record.Data << endl;
                     break;
                 }
                 case HeaderType::KeyRecord: {
                     break;
                 }
                 case HeaderType::SegmentIdentificationRecord: {
+                    header.SegmentIdentificationHeader.RawData = tmp;
+                    SegmentIdentificationRecord record;
+                    memcpy(&record, tmp.data(), tmp.size());
+                    record.Correct();
+                    header.SegmentIdentificationHeader.Define(record);
+
+                    cout << "ImageID: " << (uint16_t)record.ImageID << endl;
+                    cout << "Sequence: " << (uint16_t)record.Sequence << endl;
+                    cout << "StartColumn: " << (uint16_t)record.StartColumn << endl;
+                    cout << "StartLine: " << (uint16_t)record.StartLine << endl;
+                    cout << "MaxSegments: " << (uint16_t)record.MaxSegments << endl;
+                    cout << "MaxColumns: " << (uint16_t)record.MaxColumns << endl;
+                    cout << "MaxRows: " << (uint16_t)record.MaxRows << endl;
                     break;
                 }
                 case HeaderType::NOAASpecificHeader: {
@@ -103,16 +150,32 @@ namespace GOESDump {
                     break;
                 }
                 case HeaderType::HeaderStructuredRecord: {
+                    header.HeaderStructuredHeader.RawData = tmp;
+                    HeaderStructuredRecord record;
+                    tmp.erase(tmp.begin(), tmp.begin()+3);
+                    record.Data = Tools.Binary2String(tmp);
+                    header.HeaderStructuredHeader.Define(record);
+
+                    cout << "HS Data: " << (string)record.Data << endl;
                     break;
                 }
                 case HeaderType::RiceCompressionRecord: {
+                    header.RiceCompressionHeader.RawData = tmp;
+                    RiceCompressionRecord record;
+                    memcpy(&record, tmp.data(), tmp.size());
+                    record.Correct();
+                    header.RiceCompressionHeader.Define(record);
+
+                    cout << "Flags: " << (uint16_t)record.Flags << endl;
+                    cout << "Pixel: " << (int)record.Pixel << endl;
+                    cout << "Line: " << (int)record.Line << endl;
                     break;
                 }
                 default:
                     break;
             }
-            
-            cout << "OUT LOOP" << endl;
+
+            cout << "---" << endl;
             c += size;
             data.erase(data.begin(), data.begin()+size);
         }

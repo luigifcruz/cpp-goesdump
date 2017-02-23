@@ -20,6 +20,20 @@ namespace GOESDump {
         uint16_t MaxSegments;
         uint16_t MaxColumns;
         uint16_t MaxRows;
+
+        void Correct() {
+            if (Tools().isLittleEndian()) {
+                type = boost::endian::endian_reverse(type);
+                size = boost::endian::endian_reverse(size);
+                ImageID = boost::endian::endian_reverse(ImageID);
+                Sequence = boost::endian::endian_reverse(Sequence);
+                StartColumn = boost::endian::endian_reverse(StartColumn);
+                StartLine = boost::endian::endian_reverse(StartLine);
+                MaxSegments = boost::endian::endian_reverse(MaxSegments);
+                MaxColumns = boost::endian::endian_reverse(MaxColumns);
+                MaxRows = boost::endian::endian_reverse(MaxRows);
+            }
+        }
     };
     #pragma pack(pop)
 

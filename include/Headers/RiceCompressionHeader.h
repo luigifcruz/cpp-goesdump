@@ -16,6 +16,16 @@ namespace GOESDump {
         uint16_t Flags;
         uint8_t Pixel;
         uint8_t Line;
+
+        void Correct() {
+            if (Tools().isLittleEndian()) {
+                type = boost::endian::endian_reverse(type);
+                size = boost::endian::endian_reverse(size);
+                Flags = boost::endian::endian_reverse(Flags);
+                Pixel = boost::endian::endian_reverse(Pixel);
+                Line = boost::endian::endian_reverse(Line);
+            }
+        }
     };
     #pragma pack(pop)
 

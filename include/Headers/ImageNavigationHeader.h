@@ -14,11 +14,22 @@ namespace GOESDump {
         uint8_t type;
         uint16_t size;
 
-        string ProjectionName;
+        char ProjectionName[32];
         uint32_t ColumnScalingFactor;
         uint32_t LineScalingFactor;
         uint32_t ColumnOffset;
         uint32_t LineOffset;
+
+        void Correct() {
+            if (Tools().isLittleEndian()) {
+                type = boost::endian::endian_reverse(type);
+                size = boost::endian::endian_reverse(size);
+                ColumnScalingFactor = boost::endian::endian_reverse(ColumnScalingFactor);
+                LineScalingFactor = boost::endian::endian_reverse(LineScalingFactor);
+                ColumnOffset = boost::endian::endian_reverse(ColumnOffset);
+                LineOffset = boost::endian::endian_reverse(LineOffset);
+            }
+        }
     };
     #pragma pack(pop)
 

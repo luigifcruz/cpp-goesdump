@@ -18,6 +18,17 @@ namespace GOESDump {
         uint16_t Columns;
         uint16_t Lines;
         uint8_t Compression;
+
+        void Correct() {
+            if (Tools().isLittleEndian()) {
+                type = boost::endian::endian_reverse(type);
+                size = boost::endian::endian_reverse(size);
+                BitsPerPixel = boost::endian::endian_reverse(BitsPerPixel);
+                Columns = boost::endian::endian_reverse(Columns);
+                Lines = boost::endian::endian_reverse(Lines);
+                Compression = boost::endian::endian_reverse(Compression);
+            }
+        }
     };
     #pragma pack(pop)
 

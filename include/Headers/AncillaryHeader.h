@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <cstring>
 #include "XRITBaseHeader.h"
-#include "../Tools.h"
 
 using namespace std;
 namespace GOESDump {
