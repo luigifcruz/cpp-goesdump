@@ -108,17 +108,16 @@ namespace GOESDump {
 
         if (msdu.Sequence == SequenceType::LAST_SEGMENT || msdu.Sequence == SequenceType::SINGLE_DATA) {
             if (fileHeader.Compression() == CompressionType::LRIT_RICE) {
-                /* IMPLEMENT DECOMPRESSOR
                 string decompressed;
-                if (msdu.Sequence == SINGLE_DATA) {
-                    decompressed = PacketManager.Decompressor(filename, fileHeader.ImageStructureHeader.Columns);
+                if (msdu.Sequence == SequenceType::SINGLE_DATA) {
+                    //decompressed = PacketManager.Decompressor(filename, fileHeader.ImageStructureHeader.Columns);
                 } else {
-                    decompressed = PacketManager.Decompressor(String.Format("channels/{0}/{1}_{2}_", channelId, msdu.APID, msdu.Version), fileHeader.ImageStructureHeader.Columns, startnum, endnum);
+                    //decompressed = PacketManager.Decompressor(String.Format("channels/{0}/{1}_{2}_", channelId, msdu.APID, msdu.Version), fileHeader.ImageStructureHeader.Columns, startnum, endnum);
                 }
 
                 FileHandler.HandleFile(decompressed, fileHeader);
                 startnum = -1;
-                endnum = -1;*/
+                endnum = -1;
             } else {
                 FileHandler.HandleFile(filename.str(), fileHeader);
             }

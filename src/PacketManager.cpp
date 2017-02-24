@@ -119,35 +119,34 @@ namespace GOESDump {
         return false;
     }
 
-    bool PacketManager::DumpFile(string filename, XRITHeader fileHeader, string newExt) {
-        /*string dir = Path.GetDirectoryName(filename);
-        string f = FixFileFolder(dir, fileHeader.Filename, fileHeader.Product, fileHeader.SubProduct);
-        f = f.Replace(".lrit", "." + newExt);
+    void PacketManager::DumpFile(string filename, XRITHeader fileHeader, string newExt) {
+        string dir = Tools.GetDirectoryName(filename);
+        string f = FixFileFolder(dir, fileHeader.Filename(), fileHeader.Product(), fileHeader.SubProduct());
+        f.replace(f.find(".lrit"), 6, "." + newExt);
 
-        if (File.Exists(f)) {
-            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
-            string ext = Path.GetExtension(f);
-            string append = String.Format("--dup-{0}{1}", timestamp, ext);
-            f = f.Replace(String.Format("{0}", ext), append);
+        if (Tools.FileExists(f)) {
+            string timestamp = Tools.GetTimeNow();
+            string ext = Tools.GetExtension(f);
+            string append = "--dup-" + timestamp + ext;
+            f.replace(f.find(ext), ext.length(), append);
         }
 
-        if (!String.Equals(Path.GetFileName(f), fileHeader.Filename)) {
-            if (fileHeader.SubProduct.Name != "Unknown") {
-                UIConsole.GlobalConsole.Log(String.Format("New {0} - {1} ({2}) saved as {3}", fileHeader.Product.Name, fileHeader.SubProduct.Name, fileHeader.Filename, Path.GetFileName(f)));
+         if (Tools.GetFileName(f) != fileHeader.Filename()) {
+            if (fileHeader.SubProduct().Name != "Unknown") {
+                cout << "New " << fileHeader.Product().Name << " - " << fileHeader.SubProduct().Name << " (" << fileHeader.Filename() << ") saved as " << Tools.GetFileName(f) << endl;
             } else {
-                UIConsole.GlobalConsole.Log(String.Format("New {0} ({1}) saved as {2}", fileHeader.Product.Name, fileHeader.Filename, Path.GetFileName(f)));
+                cout << "New " << fileHeader.Product().Name << " (" << fileHeader.Filename() << ") saved as " << Tools.GetFileName(f) << endl;
             }
         } else {
-            if (fileHeader.SubProduct.Name != "Unknown") {
-                UIConsole.GlobalConsole.Log(String.Format("New {0} - {1} ({2})", fileHeader.Product.Name, fileHeader.SubProduct.Name, fileHeader.Filename));
+            if (fileHeader.SubProduct().Name != "Unknown") {
+                cout << "New " << fileHeader.Product().Name << " - " << fileHeader.SubProduct().Name << " (" << fileHeader.Filename() << ")" << endl;
             } else {
-                UIConsole.GlobalConsole.Log(String.Format("New {0} ({1})", fileHeader.Product.Name, fileHeader.Filename));
+                cout << "New " << fileHeader.Product().Name << " (" << fileHeader.Filename() << ")" << endl;
             }
         }
 
-        //UIConsole.GlobalConsole.Log(String.Format("New JPEG file {0}", fileHeader.Filename));
-        Console.WriteLine("Renaming {0} to {1}", filename, f);
-        FileStream fs = File.OpenRead(filename);
+        cout << "Renaming " << filename << " to " << f << endl;
+        /*FileStream fs = File.OpenRead(filename);
         fs.Seek(fileHeader.PrimaryHeader.HeaderLength, SeekOrigin.Begin);
         FileStream os = File.OpenWrite(f);
 
@@ -159,101 +158,32 @@ namespace GOESDump {
         }
 
         fs.Close();
-        os.Close();
+        os.Close();*/
 
-        // Keep the original lrit file
-        File.Move(filename, f.Replace("." + newExt, ".lrit"));*/
+        Tools.Move(filename, f.replace(f.find("." + newExt), newExt.length()+1, ".lrit"));
     }
 
     string PacketManager::Decompressor(string filename, int pixels) {
-        /*try {
-            Process decompressor = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-
-            if (LLTools.IsLinux) {
-                startInfo.FileName = "wine";
-                startInfo.Arguments = String.Format("Decompress.exe {0} {1} a", pixels, filename);
-                startInfo.EnvironmentVariables.Add("WINEDEBUG", "fixme-all,err-winediag");
-            } else {
-                startInfo.FileName = "Decompress.exe";
-                startInfo.Arguments = String.Format("{0} {1} a", pixels, filename);
-            }
-
-            startInfo.RedirectStandardError = true;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.CreateNoWindow = true;
-            startInfo.UseShellExecute = false;
-
-            decompressor.StartInfo = startInfo;
-
-            UIConsole.GlobalConsole.Debug(String.Format("Calling {0}", startInfo.Arguments));
-            decompressor.Start();
-            decompressor.WaitForExit();
-
-            if (decompressor.ExitCode != 0) {
-                string stderr = decompressor.StandardError.ReadToEnd();
-                UIConsole.GlobalConsole.Error(String.Format("Error Decompressing: {0}", stderr));
-            } else {
-                UIConsole.GlobalConsole.Debug(String.Format("Decompress sucessful to {0}", String.Format("{0}_decomp.lrit", filename)));
-                try {
-                    File.Delete(filename);
-                } catch (Exception e) {
-                    Console.WriteLine("Cannot delete file {0}: {1}", filename, e);
-                }
-            }
-
-        } catch (Exception e) {
-            UIConsole.GlobalConsole.Error(String.Format("Error running decompressor: {0}", e));
-        }
-
-        return String.Format("{0}_decomp.lrit", filename);*/
+        return "s";
     }
 
     string PacketManager::Decompressor(string prefix, int pixels, int startnum, int endnum) {
-        /*try {
-            Process decompressor = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            if (LLTools.IsLinux) {
-                startInfo.FileName = "wine";
-                startInfo.Arguments = String.Format("Decompress.exe {0} {1} {2} {3} a", prefix, pixels, startnum + 1, endnum);
-                startInfo.EnvironmentVariables.Add("WINEDEBUG", "fixme-all,err-winediag");
-            } else {
-                startInfo.FileName = "Decompress.exe";
-                startInfo.Arguments =  String.Format("{0} {1} {2} {3} a", prefix, pixels, startnum + 1, endnum);
-            }
+        return "s";
+    }
 
-            startInfo.RedirectStandardError = true;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.CreateNoWindow = true;
-            startInfo.UseShellExecute = false;
+    int PacketManager::DecompressRICE(char *input, char *output, size_t inputLength, size_t outputLength, int bitsPerPixel, int pixelsPerBlock, int pixelsPerScanline, int mask) {
+        SZ_com_t params;
 
-            decompressor.StartInfo = startInfo;
+        mask = mask | SZ_RAW_OPTION_MASK; // By default NOAA dont as for RAW, but their images are RAW. No Compression header.
 
-            UIConsole.GlobalConsole.Debug(String.Format("Calling {0}", startInfo.Arguments));
-            decompressor.Start();
-            decompressor.WaitForExit();
+        params.options_mask = mask;
+        params.bits_per_pixel = bitsPerPixel;
+        params.pixels_per_block = pixelsPerBlock;
+        params.pixels_per_scanline = pixelsPerScanline;
 
-            if (decompressor.ExitCode != 0) {
-                string stderr = decompressor.StandardError.ReadToEnd();
-                UIConsole.GlobalConsole.Error(String.Format("Error Decompressing: {0}", stderr));
-            } else {
-                UIConsole.GlobalConsole.Debug(String.Format("Decompress sucessful to {0}", String.Format("{0}_decomp{1}.lrit", prefix, startnum)));
-                for (int i=startnum; i<endnum+1; i++) {
-                    string f = string.Format("{0}{1}.lrit", prefix, i);
-                    try {
-                        File.Delete(f);
-                    } catch (Exception e) {
-                        Console.WriteLine("Error deleting file {0}: {1}", f, e);
-                    }
-                }
-            }
+        size_t destLen = pixelsPerScanline;
+        int status = SZ_BufftoBuffDecompress(output, &destLen, input, inputLength, &params);
 
-        } catch (Exception e) {
-            UIConsole.GlobalConsole.Error(String.Format("Error running decompressor: {0}", e));
-        }
-
-        return String.Format("{0}_decomp{1}.lrit", prefix, startnum);*/
+        return status != SZ_OK ? status : destLen;
     }
 }
