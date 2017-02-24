@@ -5,6 +5,7 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include <fstream>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -17,14 +18,11 @@ namespace GOESDump {
     class Tools {
         private: 
             int DirExists(const char* path);
-            int CreateDir(const char* path);
             string DirParentName(const char* path);
             int FileExists(const char* path);
 
         public:
-            int CreateDir(string path) {
-                return CreateDir(path.c_str());
-            }
+            int CreateDir(string path);
             
             int DirExists(string path) {
                 return DirExists(path.c_str());
@@ -61,6 +59,8 @@ namespace GOESDump {
                 else
                     return true;
             }
+
+            vector<uint8_t> ReadAllBytes(string filename);
     }; 
 }
 

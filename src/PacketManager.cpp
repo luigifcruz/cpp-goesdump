@@ -78,7 +78,7 @@ namespace GOESDump {
             Tools.CreateDir(dir);
         }
 
-        return Tools.Combine("./" + dir, filename);;
+        return Tools.Combine("./" + dir, filename);
     }
 
     bool PacketManager::HandleWeatherData(string filename, XRITHeader header) {
@@ -91,7 +91,7 @@ namespace GOESDump {
             }
 
             cout << "New Weather Data - " << header.SubProduct().Name << " - " << header.Filename() << endl;
-            //ImageHandler.Handler.HandleFile(filename, basedir);
+            ImageHandler.HandleFile(filename, basedir);
 
             if (!Tools.Delete(filename)) {
                 cout << "Failed to parse Weather Data Image at " << filename << endl;
@@ -148,53 +148,102 @@ namespace GOESDump {
         cout << "Renaming " << filename << " to " << f << endl;
 
         ifstream fs;
+        ofstream os;
+
         fs.open(filename);
         fs.seekg(fileHeader.PrimaryHeader.HeaderLength);
-
-        ofstream os;
         os.open(f);
 
-        fs.close();
-        os.close();
+        char *buffer = new char[1024];
 
-        /*FileStream fs = File.OpenRead(filename);
-        fs.Seek(fileHeader.PrimaryHeader.HeaderLength, SeekOrigin.Begin);
-        FileStream os = File.OpenWrite(f);
-
-        byte[] buffer = new Byte[1024];
-        int bytesRead;
-
-        while ((bytesRead = fs.Read(buffer, 0, 1024)) > 0) {
-            os.Write(buffer, 0, bytesRead);
+        while (fs.read(buffer, 1024)) {
+            os.write(buffer, fs.gcount());
         }
 
-        fs.Close();
-        os.Close();*/
+        if (fs.eof()) {
+            if (fs.gcount() > 0) {
+                os.write(buffer, fs.gcount());
+            }
+        }
+
+        delete[] buffer;
+        fs.close();
+        os.close();
 
         Tools.Move(filename, f.replace(f.find("." + newExt), newExt.length()+1, ".lrit"));
     }
 
     string PacketManager::Decompressor(string filename, int pixels) {
+        cout << "Single Decompressor" << endl;
+        exit(0);
         return "s";
     }
 
     string PacketManager::Decompressor(string prefix, int pixels, int startnum, int endnum) {
-        return "s";
+        ostringstream outputFile;
+        ostringstream inputFile;
+        vector<uint8_t> buffer;
+
+        outputFile << prefix << "_decomp" << startnum << ".lrit"; 
+        inputFile << prefix << startnum << ".lrit";
+
+        vector<uint8_t> input = Tools.ReadAllBytes(inputFile.str());
+        buffer.insert(buffer.end(), input.begin(), input.end());
+
+        char *outputData = new char[pixels];
+        int outputDataSize = sizeof(char)*pixels;
+    
+        startnum++;
+        int overflowCaseLast = -1;
+
+        if (endnum < startnum) {
+            overflowCaseLast = endnum;
+            endnum = 16383;
+        }
+
+        for (int i = startnum; i <= endnum; i++) {
+            ostringstream ifile;
+            ifile << prefix << i << ".lrit";
+
+            input = Tools.ReadAllBytes(ifile.str());
+
+            for (int z = 0; z < pixels; z++) {
+                outputData[z] = 0x00;
+            }
+
+            if (!DecompressRice(reinterpret_cast<char*>(input.data()), outputData, input.size(), sizeof(char)*pixels, 8, 16, pixels,  1 | 16 | 32)) {
+                cout << "AEC Decompress problem decompressing file " << ifile.str() << endl;
+                cout << "AEC Params: 8 - 16 - " << pixels << endl;
+            }
+
+            buffer.insert(buffer.end(), outputData, outputData+outputDataSize);
+        }
+
+        if (overflowCaseLast != -1) {
+            cout << "CASE LAST" << endl;
+            exit(0);
+        }
+
+        ofstream f(outputFile.str(), ios::out | ios::binary);
+        copy(buffer.begin(), buffer.end(), ostreambuf_iterator<char>(f));
+        f.close();
+
+        return outputFile.str();
     }
-}
 
-int DecompressRICE(char *input, char *output, size_t inputLength, size_t outputLength, int bitsPerPixel, int pixelsPerBlock, int pixelsPerScanline, int mask) {
-    SZ_com_t params;
+    int PacketManager::DecompressRice(char *input, char *output, size_t inputLength, size_t outputLength, int bitsPerPixel, int pixelsPerBlock, int pixelsPerScanline, int mask) {
+        SZ_com_t params;
 
-    mask = mask | SZ_RAW_OPTION_MASK; // By default NOAA dont as for RAW, but their images are RAW. No Compression header.
+        mask = mask | SZ_RAW_OPTION_MASK; // By default NOAA dont as for RAW, but their images are RAW. No Compression header.
 
-    params.options_mask = mask;
-    params.bits_per_pixel = bitsPerPixel;
-    params.pixels_per_block = pixelsPerBlock;
-    params.pixels_per_scanline = pixelsPerScanline;
+        params.options_mask = mask;
+        params.bits_per_pixel = bitsPerPixel;
+        params.pixels_per_block = pixelsPerBlock;
+        params.pixels_per_scanline = pixelsPerScanline;
 
-    size_t destLen = pixelsPerScanline;
-    int status = SZ_BufftoBuffDecompress(output, &destLen, input, inputLength, &params);
+        size_t destLen = pixelsPerScanline;
+        int status = SZ_BufftoBuffDecompress(output, &destLen, input, inputLength, &params);
 
-    return status != SZ_OK ? status : destLen;
+        return status != SZ_OK ? status : destLen;
+    }
 }

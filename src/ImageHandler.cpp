@@ -13,6 +13,7 @@ namespace GOESDump {
             }
 
             int size = BitConverter.ToUInt16(tmp, 0);
+
             firstHeader = new byte[size - 3];
             f.Seek(0, SeekOrigin.Begin);
             f.Read(firstHeader, 0, size - 3);

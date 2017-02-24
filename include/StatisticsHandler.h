@@ -5,8 +5,8 @@
 #include <cstdint>
 #include <cstring>
 #include <iostream>
+#include <unistd.h>
 #include <SatHelper/sathelper.h>
-#include "WatchMan.h"
 #include "StatisticsStruct.h"
 
 using namespace std;
@@ -15,6 +15,7 @@ namespace GOESDump {
         private: 
             int port;
             thread statisticsThread;
+            StatisticsStruct StatisticsData;
 
         public:
             StatisticsHandler(int port) : statisticsThread() {
@@ -25,11 +26,11 @@ namespace GOESDump {
                 if(statisticsThread.joinable()) statisticsThread.join();
             }
 
-            void Start(GOESDump::WatchMan watchMan){
-                statisticsThread = std::thread(&StatisticsHandler::Init, this, watchMan);
+            void Start(){
+                statisticsThread = std::thread(&StatisticsHandler::Init, this);
             }
 
-            void Init(GOESDump::WatchMan watchMan);
+            void Init();
     }; 
 }
 

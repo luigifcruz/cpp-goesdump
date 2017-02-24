@@ -2,8 +2,10 @@
 
 using namespace std;
 namespace GOESDump {
-    int Tools::CreateDir(const char* path) {
-        return mkdir(path, 0700);
+    int Tools::CreateDir(string path) {
+        boost::filesystem::path p(path);
+        boost::filesystem::create_directories(p);
+        return 1;
     }
 
     int Tools::DirExists(const char* path) {
@@ -66,5 +68,23 @@ namespace GOESDump {
             s += static_cast<char>(byte);
         }
         return s;
+    }
+
+    vector<uint8_t> Tools::ReadAllBytes(string filename) {
+        ifstream file(filename, ios::binary);
+        file.unsetf(ios::skipws);
+        streampos fileSize;
+        file.seekg(0, ios::end);
+        fileSize = file.tellg();
+        file.seekg(0, ios::beg);
+
+        vector<uint8_t> vec;
+        vec.reserve(fileSize);
+
+        vec.insert(vec.begin(),
+                istream_iterator<uint8_t>(file),
+                istream_iterator<uint8_t>());
+
+        return vec;
     }
 }

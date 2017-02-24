@@ -9,8 +9,6 @@ namespace GOESDump {
         int maxLength = data.size(); // Initial Guess
         int c = 0;
 
-        cout << "maxLength: " << maxLength << "\n";
-
         while (c < maxLength) {
             uint8_t type = data.at(0);
 
@@ -25,7 +23,7 @@ namespace GOESDump {
                 break;
             }
 
-            cout << "TYPE: " << (int)type << "\n";
+            //cout << "TYPE: " << (int)type << "\n";
             
             switch ((int)type) {
                 case HeaderType::PrimaryHeader: {
@@ -175,7 +173,6 @@ namespace GOESDump {
                     break;
             }
 
-            cout << "---" << endl;
             c += size;
             data.erase(data.begin(), data.begin()+size);
         }

@@ -4,7 +4,7 @@
 
 using namespace std;
 namespace GOESDump {
-    void StatisticsHandler::Init(GOESDump::WatchMan watchMan) {
+    void StatisticsHandler::Init() {
         SatHelper::TcpClient tcpClient((string)"127.0.0.1", port);
         char buffer[BUFFER_SIZE];
 
@@ -19,11 +19,8 @@ namespace GOESDump {
             try {
                 tcpClient.WaitForData(BUFFER_SIZE, 2);
                 tcpClient.Receive((char *)buffer, BUFFER_SIZE);
-
-                StatisticsStruct tmp;
-                memcpy(&tmp, buffer, BUFFER_SIZE);
-                watchMan.UpdateStatistics(tmp);
-
+                memcpy(&StatisticsData, buffer, BUFFER_SIZE);
+                usleep(1500000);
             } catch(SatHelper::SocketException &e) {
                 tcpClient.Close();
                 cerr << "[StatisticsHandler] Client disconnected:\n";

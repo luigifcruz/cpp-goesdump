@@ -5,7 +5,6 @@
 #include <thread>
 #include <iostream>
 #include <SatHelper/sathelper.h>
-#include "WatchMan.h"
 #include "Demuxer.h"
 
 using namespace std;
@@ -26,11 +25,11 @@ namespace GOESDump {
             if(dataThread.joinable()) dataThread.join();
         }
 
-        void Start(WatchMan watchMan){
-            dataThread = std::thread(&DataHandler::Init, this, watchMan);
+        void Start(){
+            dataThread = std::thread(&DataHandler::Init, this);
         }
 
-        void Init(WatchMan watchMan);
+        void Init();
     }; 
 }
 

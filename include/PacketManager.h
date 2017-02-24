@@ -9,6 +9,7 @@
 #include "NOAAProduct.h"
 #include "NOAASubproduct.h"
 #include "Tools.h"
+#include "ImageHandler.h"
 
 extern "C" {
     #include <szlib.h>
@@ -27,6 +28,7 @@ namespace GOESDump {
             string UnknownDataFolder = "Unknown";
 
             Tools Tools;
+            ImageHandler ImageHandler;
 
         public:
             string FixFileFolder(string dir, string filename, NOAAProduct product, NOAASubproduct subProduct);
@@ -35,6 +37,7 @@ namespace GOESDump {
             void DumpFile(string filename, XRITHeader fileHeader, string newExt);
             string Decompressor(string filename, int pixels);
             string Decompressor(string prefix, int pixels, int startnum, int endnum);
+            int DecompressRice(char *input, char *output, size_t inputLength, size_t outputLength, int bitsPerPixel, int pixelsPerBlock, int pixelsPerScanline, int mask);
     }; 
 }
 

@@ -97,16 +97,19 @@ namespace GOESDump {
         tmp.erase(tmp.begin(), tmp.begin()+(firstOrSinglePacket ? 10 : 0));
         tmp.erase(tmp.begin()+(firstOrSinglePacket ? msdu.PacketLength - 10 : msdu.PacketLength), tmp.end());
 
-        ofstream FILE(filename.str(), firstOrSinglePacket || fileHeader.Compression() == CompressionType::LRIT_RICE ? ios::out : ios::app | ios::binary);
-        copy(tmp.begin(), tmp.end(), ostreambuf_iterator<char>(FILE));
+        ofstream f(filename.str(), firstOrSinglePacket || fileHeader.Compression() == CompressionType::LRIT_RICE ? ios::out : ios::app | ios::binary);
+        copy(tmp.begin(), tmp.end(), ostreambuf_iterator<char>(f));
+        f.close();
 
         if (msdu.Sequence == SequenceType::LAST_SEGMENT || msdu.Sequence == SequenceType::SINGLE_DATA) {
             if (fileHeader.Compression() == CompressionType::LRIT_RICE) {
                 string decompressed;
                 if (msdu.Sequence == SequenceType::SINGLE_DATA) {
-                    //decompressed = PacketManager.Decompressor(filename, fileHeader.ImageStructureHeader.Columns);
+                    decompressed = PacketManager.Decompressor(filename.str(), fileHeader.ImageStructureHeader.Columns);
                 } else {
-                    //decompressed = PacketManager.Decompressor(String.Format("channels/{0}/{1}_{2}_", channelId, msdu.APID, msdu.Version), fileHeader.ImageStructureHeader.Columns, startnum, endnum);
+                    ostringstream packets;
+                    packets << "./channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << "_";
+                    decompressed = PacketManager.Decompressor(packets.str(), fileHeader.ImageStructureHeader.Columns, startnum, endnum);
                 }
 
                 FileHandler.HandleFile(decompressed, fileHeader);

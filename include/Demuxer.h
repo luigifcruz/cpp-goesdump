@@ -16,6 +16,7 @@
 #include "Types/CompressionType.h"
 #include "MSDU.h"
 #include "Tools.h"
+#include "PacketManager.h"
 
 typedef struct {
     int lastAPID;
@@ -40,6 +41,7 @@ namespace GOESDump {
             XRITHeader fileHeader;
             FileHandler FileHandler;
             Tools Tools;
+            PacketManager PacketManager;
 
             void FinishMSDU(MSDU msdu);
 
