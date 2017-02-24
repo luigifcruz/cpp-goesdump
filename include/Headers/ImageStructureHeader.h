@@ -37,7 +37,7 @@ namespace GOESDump {
             uint8_t BitsPerPixel;
             uint16_t Columns;
             uint16_t Lines;
-            HeaderType::CompressionType Compression;
+            CompressionType::CompressionType Compression;
             bool Init = false;
             
             ImageStructureHeader(){}
@@ -47,7 +47,7 @@ namespace GOESDump {
                 BitsPerPixel = data.BitsPerPixel;
                 Columns = data.Columns;
                 Lines = data.Lines;
-                Compression = (HeaderType::CompressionType)data.Compression;
+                Compression = (CompressionType::CompressionType)data.Compression;
                 Init = true;
             }
     };

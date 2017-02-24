@@ -49,11 +49,15 @@ namespace GOESDump {
     }
 
     int Tools::Move(string filename, string f) {
+        boost::filesystem::path oldPath(filename);
+        boost::filesystem::path newPath(f);
+        boost::filesystem::rename(oldPath, newPath);
         return 1;
     }
 
     int Tools::Delete(string filename) {
-        return 1;
+        boost::filesystem::path path(filename);
+        return boost::filesystem::remove(path);
     }
 
     string Tools::Binary2String(vector<uint8_t> binary) {

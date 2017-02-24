@@ -45,9 +45,9 @@ namespace GOESDump {
         
         Packets++;
 
-        /*bool firstOrSinglePacket = msdu.Sequence == FIRST_SEGMENT || msdu.Sequence == SINGLE_DATA;
+        bool firstOrSinglePacket = msdu.Sequence == SequenceType::FIRST_SEGMENT || msdu.Sequence == SequenceType::SINGLE_DATA;
 
-        if (!msdu.Valid()) {
+        /*if (!msdu.Valid()) {
             cout << "Wrong CRC!" << "\n";
             CRCFails++;
         }
@@ -57,6 +57,7 @@ namespace GOESDump {
             cout << "New Packet for APID " << msdu.APID << " - Valid CRC: " << msdu.Valid() << " - Full: " << msdu.Full() << " - Remaining Bytes: " <<  msdu.RemainingData.size() << " - Frame Lost: " << msdu.FrameLost << "\n";
             cout << "  Total Size: " << (msdu.PacketLength + 2) << " Current Size: " << msdu.Data.size() << "\n";
         }*/
+        
         ostringstream filename;
         FileParser fileParser;
 
@@ -68,11 +69,11 @@ namespace GOESDump {
         } else if (msdu.Sequence == SequenceType::LAST_SEGMENT) {
             endnum = msdu.PacketNumber;
             if (startnum == -1) {
-                //cout << "NOT BIG DEAL: Orphan Packet. Dropping\n";
+                //cout << "Orphan Packet. Dropping\n";
                 return;
             }
         } else if (msdu.Sequence != SequenceType::SINGLE_DATA && startnum == -1) {
-            //cout << "NOT BIG DEAL: Orphan Packet. Dropping\n";
+            //cout << "Orphan Packet. Dropping\n";
             return;
         }
 
@@ -83,17 +84,30 @@ namespace GOESDump {
         }
         
         switch (fileHeader.Compression()) {
-            case HeaderType::LRIT_RICE: {
-                filename << "channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << "_" << msdu.PacketNumber << ".lrit";
+            case CompressionType::LRIT_RICE: {
+                filename << "./channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << "_" << msdu.PacketNumber << ".lrit";
                 break;
             }
             default:
-                filename << "channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << ".lrit";
+                filename << "./channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << ".lrit";
             break;
         }
 
+        vector<uint8_t> tmp = msdu.Data;
+        tmp.erase(tmp.begin(), tmp.begin()+(firstOrSinglePacket ? 10 : 0));
+        tmp.erase(tmp.begin()+(firstOrSinglePacket ? msdu.PacketLength - 10 : msdu.PacketLength), tmp.end());
+
+        ofstream FILE(filename.str(), firstOrSinglePacket || fileHeader.Compression() == CompressionType::LRIT_RICE ? ios::out : ios::app | ios::binary);
+        copy(tmp.begin(), tmp.end(), ostreambuf_iterator<char>(FILE));
+
+        /*cout << "FILE RESUME" << endl;
+        cout << "Filename: " << fileHeader.Filename() << endl;
+        cout << "Compression: " << fileHeader.Compression() << endl;
+        cout << "IsCompressed: " << fileHeader.IsCompressed()<< endl;
+        cout << "Product: " << fileHeader.Product().ID<< endl;*/
+
         if (msdu.Sequence == SequenceType::LAST_SEGMENT || msdu.Sequence == SequenceType::SINGLE_DATA) {
-            if (fileHeader.Compression() == HeaderType::LRIT_RICE) {
+            if (fileHeader.Compression() == CompressionType::LRIT_RICE) {
                 /* IMPLEMENT DECOMPRESSOR
                 string decompressed;
                 if (msdu.Sequence == SINGLE_DATA) {
@@ -143,7 +157,7 @@ namespace GOESDump {
         if (fhp != 2047) {
             if (lastAPID == -1 && buffer.size() > 0) {
                 if (fhp > 0) {
-                    buffer.insert(buffer.end(), data+fhp, data+BUFFER_SIZE-8);
+                    buffer.insert(buffer.end(), data, data+fhp);
                 }         
 
                 p = CreatePacket(buffer);
@@ -166,6 +180,7 @@ namespace GOESDump {
                 if (!temporaryStorage[lastAPID].Full()) {
                     //Maybe a bug?
                 }
+
                 FinishMSDU(temporaryStorage[lastAPID]);
                 temporaryStorage.erase(lastAPID);
                 lastAPID = -1;

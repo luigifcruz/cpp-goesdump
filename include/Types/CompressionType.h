@@ -1,7 +1,7 @@
 #ifndef _COMPRESSIONTYPE_H_
 #define _COMPRESSIONTYPE_H_
 
-namespace HeaderType {
+namespace CompressionType {
     enum CompressionType {
         NO_COMPRESSION = 0,
         LRIT_RICE = 1,

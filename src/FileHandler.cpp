@@ -4,16 +4,15 @@ using namespace std;
 namespace GOESDump {
     void FileHandler::HandleFile(string filename, XRITHeader fileHeader) {
         switch(fileHeader.Compression()) {
-            case HeaderType::CompressionType::JPEG: {
+            case CompressionType::JPEG: {
                 PacketManager.DumpFile(filename, fileHeader, "jpg");
                 break;
             }
-            case HeaderType::CompressionType::GIF: {
+            case CompressionType::GIF: {
                 PacketManager.DumpFile(filename, fileHeader, "gif");
                 break;
             }
             default:
-                DefaultHandler(filename, fileHeader);
                 break;
         }
 

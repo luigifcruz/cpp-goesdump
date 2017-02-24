@@ -42,7 +42,7 @@ namespace GOESDump {
             NOAAProduct Product;
             NOAASubproduct SubProduct;
             uint16_t Parameter;
-            HeaderType::CompressionType Compression;
+            CompressionType::CompressionType Compression;
             Presets Presets;
             bool Init = false;
             
@@ -54,7 +54,7 @@ namespace GOESDump {
                 Product = Presets.GetProductById(data.ProductID); 
                 SubProduct = Product.getSubProduct(data.ProductSubID);
                 Parameter = data.Parameter;
-                Compression = (HeaderType::CompressionType)data.Compression;
+                Compression = (CompressionType::CompressionType)data.Compression;
                 Init = true;
             }
     };

@@ -7,11 +7,13 @@
 #include <tuple>
 #include <map>
 #include <sstream>
+#include <fstream>
 #include "WatchMan.h"
 #include "FileParser.h"
 #include "XRITHeader.h"
 #include "FileHandler.h"
 #include "Types/SequenceType.h"
+#include "Types/CompressionType.h"
 #include "MSDU.h"
 #include "Tools.h"
 
@@ -31,7 +33,7 @@ namespace GOESDump {
             int startnum = -1;
             int endnum = -1;
             int Packets = 0;
-            int CRCFails = 0;
+            //int CRCFails = 0;
             vector<uint8_t> buffer;
             map<int, MSDU> temporaryStorage;
             packet CreatePacket(vector<uint8_t> data);

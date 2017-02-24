@@ -16,9 +16,7 @@ namespace GOESDump {
                 // Skip DCS for HRIT
                 return;
             }
-
-            cout << "==================" << endl;
-
+            
             if (!demuxers.count(vcid)) {
                 cout << "[DataHandler] Creating new demuxer for #" << (vcid) << "...\n";
                 demuxers[vcid] = Demuxer();
@@ -38,8 +36,6 @@ namespace GOESDump {
             cerr << "[DataHandler] Cannot connect to port " << port << ".\n";
             exit(0);
         }
-
-        cout << "[DataHandler] Client connected to port " << port << "\n";
 
         while (1) {
             try {

@@ -39,16 +39,16 @@ namespace GOESDump {
 
         data.erase(data.begin(), data.begin()+6);
         if (data.size() > this->PacketLength + 2) {
-                this->RemainingData.insert(this->RemainingData.end(), data.begin()+(this->PacketLength+2), data.end());
-                data.erase(data.begin()+((this->PacketLength + 2)), data.end());
+            this->RemainingData.insert(this->RemainingData.end(), data.begin()+(this->PacketLength+2), data.end());
+            data.erase(data.begin()+((this->PacketLength + 2)), data.end());
         } else {
-                this->RemainingData.clear();
+            this->RemainingData.clear();
         }
 
         this->Data.insert(this->Data.end(), data.begin(), data.end());
         this->FrameLost = false;
         
-        /*cout << "this->Version: " << this->Version << "\n" << 
+        cout << "this->Version: " << this->Version << "\n" << 
                 "this->Type: " << this->Type << "\n" << 
                 "this->SecondHeader: " << this->SecondHeader << "\n" << 
                 "this->APID: " << this->APID << "\n" <<
@@ -56,7 +56,7 @@ namespace GOESDump {
                 "this->PacketNumber: " << this->PacketNumber << "\n" << 
                 "this->PacketLength: " << this->PacketLength << "\n" <<
                 "this->RemainingData: " << this->RemainingData.size() << "\n" << 
-                "this->Data: " << this->Data.size() << "\n";*/
+                "this->Data: " << this->Data.size() << "\n";
         
    }
 }

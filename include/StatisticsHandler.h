@@ -7,6 +7,7 @@
 #include <iostream>
 #include <SatHelper/sathelper.h>
 #include "WatchMan.h"
+#include "StatisticsStruct.h"
 
 using namespace std;
 namespace GOESDump {
