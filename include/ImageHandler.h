@@ -2,7 +2,9 @@
 #define _IMAGEHANDLER_H_
 
 #include <string>
+#include <iostream>
 #include "XRITHeader.h"
+#include "Tools.h"
 
 using namespace std;
 namespace GOESDump {

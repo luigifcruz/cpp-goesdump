@@ -4,11 +4,15 @@
 #include <regex>
 #include <string>
 #include <iostream>
+#include <fstream>
 #include "XRITHeader.h"
 #include "NOAAProduct.h"
 #include "NOAASubproduct.h"
 #include "Tools.h"
-#include <szlib.h>
+
+extern "C" {
+    #include <szlib.h>
+}
 
 using namespace std;
 namespace GOESDump {
@@ -31,7 +35,6 @@ namespace GOESDump {
             void DumpFile(string filename, XRITHeader fileHeader, string newExt);
             string Decompressor(string filename, int pixels);
             string Decompressor(string prefix, int pixels, int startnum, int endnum);
-            int DecompressRICE(char *input, char *output, size_t inputLength, size_t outputLength, int bitsPerPixel, int pixelsPerBlock, int pixelsPerScanline, int mask);
     }; 
 }
 

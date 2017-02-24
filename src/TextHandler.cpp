@@ -27,7 +27,7 @@ namespace GOESDump {
             ProcessFile(f, header, outputFolder);
             f.Close();
         } else {
-            Console.WriteLine("Expected header type 0 for first header. Got {0}.", (int)firstHeader[0]);
+            cout << "Expected header type 0 for first header. Got " << (int)firstHeader[0] << "." << endl;
         }*/
     }
 

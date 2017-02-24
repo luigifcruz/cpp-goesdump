@@ -146,6 +146,17 @@ namespace GOESDump {
         }
 
         cout << "Renaming " << filename << " to " << f << endl;
+
+        ifstream fs;
+        fs.open(filename);
+        fs.seekg(fileHeader.PrimaryHeader.HeaderLength);
+
+        ofstream os;
+        os.open(f);
+
+        fs.close();
+        os.close();
+
         /*FileStream fs = File.OpenRead(filename);
         fs.Seek(fileHeader.PrimaryHeader.HeaderLength, SeekOrigin.Begin);
         FileStream os = File.OpenWrite(f);
@@ -170,20 +181,20 @@ namespace GOESDump {
     string PacketManager::Decompressor(string prefix, int pixels, int startnum, int endnum) {
         return "s";
     }
+}
 
-    int PacketManager::DecompressRICE(char *input, char *output, size_t inputLength, size_t outputLength, int bitsPerPixel, int pixelsPerBlock, int pixelsPerScanline, int mask) {
-        SZ_com_t params;
+int DecompressRICE(char *input, char *output, size_t inputLength, size_t outputLength, int bitsPerPixel, int pixelsPerBlock, int pixelsPerScanline, int mask) {
+    SZ_com_t params;
 
-        mask = mask | SZ_RAW_OPTION_MASK; // By default NOAA dont as for RAW, but their images are RAW. No Compression header.
+    mask = mask | SZ_RAW_OPTION_MASK; // By default NOAA dont as for RAW, but their images are RAW. No Compression header.
 
-        params.options_mask = mask;
-        params.bits_per_pixel = bitsPerPixel;
-        params.pixels_per_block = pixelsPerBlock;
-        params.pixels_per_scanline = pixelsPerScanline;
+    params.options_mask = mask;
+    params.bits_per_pixel = bitsPerPixel;
+    params.pixels_per_block = pixelsPerBlock;
+    params.pixels_per_scanline = pixelsPerScanline;
 
-        size_t destLen = pixelsPerScanline;
-        int status = SZ_BufftoBuffDecompress(output, &destLen, input, inputLength, &params);
+    size_t destLen = pixelsPerScanline;
+    int status = SZ_BufftoBuffDecompress(output, &destLen, input, inputLength, &params);
 
-        return status != SZ_OK ? status : destLen;
-    }
+    return status != SZ_OK ? status : destLen;
 }

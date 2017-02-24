@@ -100,12 +100,6 @@ namespace GOESDump {
         ofstream FILE(filename.str(), firstOrSinglePacket || fileHeader.Compression() == CompressionType::LRIT_RICE ? ios::out : ios::app | ios::binary);
         copy(tmp.begin(), tmp.end(), ostreambuf_iterator<char>(FILE));
 
-        cout << "FILE RESUME" << endl;
-        cout << "Filename: " << fileHeader.Filename() << endl;
-        cout << "Compression: " << fileHeader.Compression() << endl;
-        cout << "IsCompressed: " << fileHeader.IsCompressed()<< endl;
-        cout << "Product: " << fileHeader.Product().ID<< endl;
-
         if (msdu.Sequence == SequenceType::LAST_SEGMENT || msdu.Sequence == SequenceType::SINGLE_DATA) {
             if (fileHeader.Compression() == CompressionType::LRIT_RICE) {
                 string decompressed;
