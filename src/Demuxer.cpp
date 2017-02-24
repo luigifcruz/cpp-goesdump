@@ -57,7 +57,7 @@ namespace GOESDump {
             cout << "New Packet for APID " << msdu.APID << " - Valid CRC: " << msdu.Valid() << " - Full: " << msdu.Full() << " - Remaining Bytes: " <<  msdu.RemainingData.size() << " - Frame Lost: " << msdu.FrameLost << "\n";
             cout << "  Total Size: " << (msdu.PacketLength + 2) << " Current Size: " << msdu.Data.size() << "\n";
         }*/
-        
+
         ostringstream filename;
         FileParser fileParser;
 
@@ -100,11 +100,11 @@ namespace GOESDump {
         ofstream FILE(filename.str(), firstOrSinglePacket || fileHeader.Compression() == CompressionType::LRIT_RICE ? ios::out : ios::app | ios::binary);
         copy(tmp.begin(), tmp.end(), ostreambuf_iterator<char>(FILE));
 
-        /*cout << "FILE RESUME" << endl;
+        cout << "FILE RESUME" << endl;
         cout << "Filename: " << fileHeader.Filename() << endl;
         cout << "Compression: " << fileHeader.Compression() << endl;
         cout << "IsCompressed: " << fileHeader.IsCompressed()<< endl;
-        cout << "Product: " << fileHeader.Product().ID<< endl;*/
+        cout << "Product: " << fileHeader.Product().ID<< endl;
 
         if (msdu.Sequence == SequenceType::LAST_SEGMENT || msdu.Sequence == SequenceType::SINGLE_DATA) {
             if (fileHeader.Compression() == CompressionType::LRIT_RICE) {
@@ -148,7 +148,7 @@ namespace GOESDump {
         cb = (cb>>8) | (cb<<8);
         uint16_t fhp = (cb & 0x7FF);
         
-        cout << channelId << "-" << counter << "-" << fhp << "\n";
+        //cout << channelId << "-" << counter << "-" << fhp << "\n";
 
         data = (data+8);
         packet p;

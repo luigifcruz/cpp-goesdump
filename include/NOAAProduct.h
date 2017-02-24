@@ -17,27 +17,38 @@ namespace GOESDump {
             NOAAProduct() {}
 
             NOAAProduct(int id) {
-                
+                ID = id;
+                Name = "Unknown";
             }
 
             NOAAProduct(int id, string name) {
-
+                ID = id;
+                Name = name;
             }
 
             NOAAProduct(NOAAProductID::NOAAProductID id, string name) {
-
+                ID = (int)id;
+                Name = name;
             }
 
             NOAAProduct(NOAAProductID::NOAAProductID id, string name, map<int, NOAASubproduct> subProducts) {
-
+                ID = (int)id;
+                Name = name;
+                SubProducts = subProducts;
             }
 
             NOAAProduct(int id, string name, map<int, NOAASubproduct> subProducts) {
-
+                ID = id;
+                Name = name;
+                SubProducts = subProducts;
             }
 
             NOAASubproduct getSubProduct(int id) {
-                return NOAASubproduct();
+                if (SubProducts.count(id)) {
+                    return SubProducts[id];
+                } else {
+                    return NOAASubproduct(id, "Unknown");
+                }
             }
     }; 
 }

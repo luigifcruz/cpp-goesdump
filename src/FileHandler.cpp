@@ -44,8 +44,6 @@ namespace GOESDump {
             string append = "--dup-" + timestamp + ext;
             f.replace(f.find(ext), ext.length(), append);
         }
-
-        cout << "Filename: " << f << endl;
         
         if (Tools.GetFileName(f) != ofilename) {
             if (fileHeader.SubProduct().Name != "Unknown") {
