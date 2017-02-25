@@ -5,4 +5,5 @@ C++ Implementation with a WebUI of [GOES Dump](https://github.com/opensatellitep
 
 ## Dependencies 
 [Simple-Web-Server](https://github.com/eidheim/Simple-Web-Server)<br>
-[libaec](https://github.com/MathisRosenhauer/libaec)
+[libaec](https://github.com/MathisRosenhauer/libaec)<br>
+[libsathelper](https://github.com/opensatelliteproject/libsathelper)
