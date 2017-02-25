@@ -1,5 +1,4 @@
 build
-lib/*
 bin/*
 channels/*
 .DS_Store

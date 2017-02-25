@@ -4,6 +4,7 @@ using namespace std;
 namespace GOESDump {
     void WatchMan::Log(string out) {
         cout << out << endl;
+        LogFile(out);
     }
 
     void WatchMan::Log(string out, int color) {
@@ -21,5 +22,19 @@ namespace GOESDump {
                  cout << out << endl;
                 break;
         }
+        LogFile(out);
+    }
+
+    void WatchMan::LogFile(string log) {
+        char buff[50];
+        stringstream ss;
+        time_t now = time(0);
+        strftime(buff, 20, "%Y%m%d", localtime(&now));
+        ss << buff;
+        ofstream logFile("./logs/" + ss.str() + ".txt", std::ios_base::app | std::ios_base::out);
+        strftime(buff, 20, "@%H:%M:%S", localtime(&now));
+        ss << buff;
+        logFile << ss.str() << " " << log << "\n"; 
+        logFile.close();
     }
 }

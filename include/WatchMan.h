@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <fstream>
+#include "Tools.h"
 #include "StatisticsStruct.h" 
 
 #define RST  "\x1B[0m"
@@ -19,15 +21,11 @@ using namespace std;
 namespace GOESDump {
     class WatchMan {
         private: 
-            StatisticsStruct StatisticsData;
-
+            void LogFile(string log);
+            
         public:
             WatchMan() {
                 cout << KYEL << "[WatchMan] Invoked!" << RST << endl;
-            }
-
-            int SignalQuality() {
-                return (int)StatisticsData.signalQuality;
             }
 
             void UpdateStatistics(StatisticsStruct newData) {
@@ -37,6 +35,7 @@ namespace GOESDump {
             void Log(string out);
             void Log(string out, int color);
 
+            StatisticsStruct StatisticsData;
             int Packets = 0;
             //int CRCFails = 0;
     }; 
