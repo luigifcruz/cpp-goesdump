@@ -33,21 +33,19 @@ namespace GOESDump {
             int lastAPID = -1;
             int startnum = -1;
             int endnum = -1;
-            int Packets = 0;
-            //int CRCFails = 0;
             vector<uint8_t> buffer;
             map<int, MSDU> temporaryStorage;
-            packet CreatePacket(vector<uint8_t> data);
             XRITHeader fileHeader;
             FileHandler FileHandler;
             Tools Tools;
             PacketManager PacketManager;
 
-            void FinishMSDU(MSDU msdu);
+            packet CreatePacket(vector<uint8_t> data, WatchMan* wm);
+            void FinishMSDU(MSDU msdu, WatchMan* wm);
 
         public:
             Demuxer() { }
-            void ParseBytes(uint8_t* data);
+            void ParseBytes(uint8_t* data, WatchMan* wm);
     }; 
 }
 

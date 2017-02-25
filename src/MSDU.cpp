@@ -10,10 +10,12 @@ namespace GOESDump {
 
         if (data.size() + Data.size() > PacketLength + 2) {
             cout << "(MSDU) Overflow in MSDU!\n";
-        }
-        Data.insert(Data.end(), data.begin(), data.end());
-        if (Data.size() > PacketLength + 2) {
-            Data.erase(Data.begin()+(PacketLength+2), data.end());
+        } else {
+            // Ignore Frame (Prevent Crash)
+            Data.insert(Data.end(), data.begin(), data.end());
+            if (Data.size() > PacketLength + 2) {
+                Data.erase(Data.begin()+(PacketLength+2), data.end());
+            }
         }
     }
 

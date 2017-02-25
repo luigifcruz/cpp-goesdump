@@ -10,6 +10,8 @@
 #include "NOAASubproduct.h"
 #include "Tools.h"
 #include "ImageHandler.h"
+#include "TextHandler.h"
+#include "WatchMan.h"
 
 extern "C" {
     #include <szlib.h>
@@ -29,14 +31,15 @@ namespace GOESDump {
 
             Tools Tools;
             ImageHandler ImageHandler;
+            TextHandler TextHandler;
 
         public:
             string FixFileFolder(string dir, string filename, NOAAProduct product, NOAASubproduct subProduct);
-            bool HandleWeatherData(string filename, XRITHeader header);
-            bool HandleTextData(string filename, XRITHeader header);
-            void DumpFile(string filename, XRITHeader fileHeader, string newExt);
-            string Decompressor(string filename, int pixels);
-            string Decompressor(string prefix, int pixels, int startnum, int endnum);
+            bool HandleWeatherData(string filename, XRITHeader header, WatchMan* wm);
+            bool HandleTextData(string filename, XRITHeader header, WatchMan* wm);
+            void DumpFile(string filename, XRITHeader fileHeader, string newExt, WatchMan* wm);
+            string Decompressor(string filename, int pixels, WatchMan* wm);
+            string Decompressor(string prefix, int pixels, int startnum, int endnum, WatchMan* wm);
             int DecompressRice(char *input, char *output, size_t inputLength, size_t outputLength, int bitsPerPixel, int pixelsPerBlock, int pixelsPerScanline, int mask);
     }; 
 }

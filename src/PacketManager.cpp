@@ -81,7 +81,7 @@ namespace GOESDump {
         return Tools.Combine("./" + dir, filename);
     }
 
-    bool PacketManager::HandleWeatherData(string filename, XRITHeader header) {
+    bool PacketManager::HandleWeatherData(string filename, XRITHeader header, WatchMan* wm) {
         if (header.PrimaryHeader.FileType == FileTypeCode::IMAGE) {
             string basedir = Tools.DirParentName(filename);
             if (header.Product().ID == (int)NOAAProductID::OTHER_SATELLITES_1 || header.Product().ID == (int)NOAAProductID::OTHER_SATELLITES_2) {
@@ -90,11 +90,11 @@ namespace GOESDump {
                 basedir = Tools.Combine(basedir, WeatherDataFolder);
             }
 
-            cout << "New Weather Data - " << header.SubProduct().Name << " - " << header.Filename() << endl;
+            wm->Log("New Weather Data - " + header.SubProduct().Name + " - " + header.Filename(), 1);
             ImageHandler.HandleFile(filename, basedir);
 
             if (!Tools.Delete(filename)) {
-                cout << "Failed to parse Weather Data Image at " << filename << endl;
+                wm->Log("Failed to parse Weather Data Image at " + filename, 3);
             }
         } else {
             return true;
@@ -102,16 +102,16 @@ namespace GOESDump {
         return false;
     }
 
-    bool PacketManager::HandleTextData(string filename, XRITHeader header) {
+    bool PacketManager::HandleTextData(string filename, XRITHeader header, WatchMan* wm) {
         if (header.PrimaryHeader.FileType == FileTypeCode::TEXT) {
             string basedir = Tools.DirParentName(filename);
             basedir = Tools.Combine(basedir, TextFolder);
 
-            cout << "New NOAA Text (" << header.Filename() << ")" << endl;
-            //TextHandler.Handler.HandleFile(filename, basedir);
+            wm->Log("New NOAA Text (" + header.Filename() + ")", 1);
+            TextHandler.HandleFile(filename, basedir);
 
             if (!Tools.Delete(filename)) {
-                cout << "Failed to parse Weather Data Image at " << filename << endl;
+                wm->Log("Failed to parse Weather Data Image at " + filename, 3);
             }
         } else {
             return true;
@@ -119,7 +119,8 @@ namespace GOESDump {
         return false;
     }
 
-    void PacketManager::DumpFile(string filename, XRITHeader fileHeader, string newExt) {
+    void PacketManager::DumpFile(string filename, XRITHeader fileHeader, string newExt, WatchMan* wm) {
+        ostringstream clog;
         string dir = Tools.GetDirectoryName(filename);
         string f = FixFileFolder(dir, fileHeader.Filename(), fileHeader.Product(), fileHeader.SubProduct());
         f.replace(f.find(".lrit"), 6, "." + newExt);
@@ -133,19 +134,20 @@ namespace GOESDump {
 
          if (Tools.GetFileName(f) != fileHeader.Filename()) {
             if (fileHeader.SubProduct().Name != "Unknown") {
-                cout << "New " << fileHeader.Product().Name << " - " << fileHeader.SubProduct().Name << " (" << fileHeader.Filename() << ") saved as " << Tools.GetFileName(f) << endl;
+                clog << "New " << fileHeader.Product().Name << " - " << fileHeader.SubProduct().Name << " (" << fileHeader.Filename() << ") saved as " << Tools.GetFileName(f);
             } else {
-                cout << "New " << fileHeader.Product().Name << " (" << fileHeader.Filename() << ") saved as " << Tools.GetFileName(f) << endl;
+                clog << "New " << fileHeader.Product().Name << " (" << fileHeader.Filename() << ") saved as " << Tools.GetFileName(f);
             }
         } else {
             if (fileHeader.SubProduct().Name != "Unknown") {
-                cout << "New " << fileHeader.Product().Name << " - " << fileHeader.SubProduct().Name << " (" << fileHeader.Filename() << ")" << endl;
+                clog << "New " << fileHeader.Product().Name << " - " << fileHeader.SubProduct().Name << " (" << fileHeader.Filename() << ")";
             } else {
-                cout << "New " << fileHeader.Product().Name << " (" << fileHeader.Filename() << ")" << endl;
+                clog << "New " << fileHeader.Product().Name << " (" << fileHeader.Filename() << ")";
             }
         }
 
-        cout << "Renaming " << filename << " to " << f << endl;
+        wm->Log(clog.str(), 1);
+        wm->Log("Renaming " + filename + " to " + f);
 
         ifstream fs;
         ofstream os;
@@ -173,13 +175,13 @@ namespace GOESDump {
         Tools.Move(filename, f.replace(f.find("." + newExt), newExt.length()+1, ".lrit"));
     }
 
-    string PacketManager::Decompressor(string filename, int pixels) {
+    string PacketManager::Decompressor(string filename, int pixels, WatchMan* wm) {
         cout << "Single Decompressor" << endl;
         exit(0);
         return "s";
     }
 
-    string PacketManager::Decompressor(string prefix, int pixels, int startnum, int endnum) {
+    string PacketManager::Decompressor(string prefix, int pixels, int startnum, int endnum, WatchMan* wm) {
         ostringstream outputFile;
         ostringstream inputFile;
         vector<uint8_t> buffer;
@@ -212,10 +214,10 @@ namespace GOESDump {
             }
 
             if (!DecompressRice(reinterpret_cast<char*>(input.data()), outputData, input.size(), sizeof(char)*pixels, 8, 16, pixels,  1 | 16 | 32)) {
-                cout << "AEC Decompress problem decompressing file " << ifile.str() << endl;
-                cout << "AEC Params: 8 - 16 - " << pixels << endl;
+                wm->Log("AEC Decompress problem decompressing file " + ifile.str(), 3);
+                wm->Log("AEC Params: 8 - 16 - " + to_string(pixels), 3);
             }
-
+            // Fast buffering with vector.
             buffer.insert(buffer.end(), outputData, outputData+outputDataSize);
         }
 

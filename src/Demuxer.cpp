@@ -4,7 +4,7 @@
 
 using namespace std;
 namespace GOESDump {
-    packet Demuxer::CreatePacket(vector<uint8_t> data) {
+    packet Demuxer::CreatePacket(vector<uint8_t> data, WatchMan* wm) {
         packet pk;
         pk.lastAPID = -1;
 
@@ -27,7 +27,7 @@ namespace GOESDump {
             if (msdu.RemainingData.size() > 0 || msdu.Full()) {
                 data = msdu.RemainingData;
                 msdu.RemainingData.clear();
-                FinishMSDU(msdu);
+                FinishMSDU(msdu, wm);
                 temporaryStorage.erase(msdu.APID);
                 pk.lastAPID = -1;
             } else {
@@ -37,25 +37,23 @@ namespace GOESDump {
         return pk;
     } 
 
-    void Demuxer::FinishMSDU(GOESDump::MSDU msdu) {
+    void Demuxer::FinishMSDU(MSDU msdu, WatchMan* wm) {
         if (msdu.APID == 2047) {
             // Skip fill packet
             return;
         }
         
-        Packets++;
+        wm->Packets++;
 
         bool firstOrSinglePacket = msdu.Sequence == SequenceType::FIRST_SEGMENT || msdu.Sequence == SequenceType::SINGLE_DATA;
 
         /*if (!msdu.Valid()) {
-            cout << "Wrong CRC!" << "\n";
-            CRCFails++;
+            wm->Log("Wrong CRC!", 3);
+            wm->CRCFails++;
         }
 
         if (!msdu.Valid() || !msdu.Full()) {
-            cout << "Got a invalid MSDU :(" << "\n";
-            cout << "New Packet for APID " << msdu.APID << " - Valid CRC: " << msdu.Valid() << " - Full: " << msdu.Full() << " - Remaining Bytes: " <<  msdu.RemainingData.size() << " - Frame Lost: " << msdu.FrameLost << "\n";
-            cout << "  Total Size: " << (msdu.PacketLength + 2) << " Current Size: " << msdu.Data.size() << "\n";
+            wm->Log("Got a invalid MSDU :(", 3);
         }*/
 
         ostringstream filename;
@@ -69,11 +67,11 @@ namespace GOESDump {
         } else if (msdu.Sequence == SequenceType::LAST_SEGMENT) {
             endnum = msdu.PacketNumber;
             if (startnum == -1) {
-                //cout << "Orphan Packet. Dropping\n";
+                //wm->Log("Orphan Packet. Dropping...");
                 return;
             }
         } else if (msdu.Sequence != SequenceType::SINGLE_DATA && startnum == -1) {
-            //cout << "Orphan Packet. Dropping\n";
+            //wm->Log("Orphan Packet. Dropping...");
             return;
         }
 
@@ -105,23 +103,23 @@ namespace GOESDump {
             if (fileHeader.Compression() == CompressionType::LRIT_RICE) {
                 string decompressed;
                 if (msdu.Sequence == SequenceType::SINGLE_DATA) {
-                    decompressed = PacketManager.Decompressor(filename.str(), fileHeader.ImageStructureHeader.Columns);
+                    decompressed = PacketManager.Decompressor(filename.str(), fileHeader.ImageStructureHeader.Columns, wm);
                 } else {
                     ostringstream packets;
                     packets << "./channels/" << channelId << "/" << msdu.APID << "_" << msdu.Version << "_";
-                    decompressed = PacketManager.Decompressor(packets.str(), fileHeader.ImageStructureHeader.Columns, startnum, endnum);
+                    decompressed = PacketManager.Decompressor(packets.str(), fileHeader.ImageStructureHeader.Columns, startnum, endnum, wm);
                 }
 
-                FileHandler.HandleFile(decompressed, fileHeader);
+                FileHandler.HandleFile(decompressed, fileHeader, wm);
                 startnum = -1;
                 endnum = -1;
             } else {
-                FileHandler.HandleFile(filename.str(), fileHeader);
+                FileHandler.HandleFile(filename.str(), fileHeader, wm);
             }
         }
     }
 
-    void Demuxer::ParseBytes(uint8_t* data) {
+    void Demuxer::ParseBytes(uint8_t* data, WatchMan* wm) {
         channelId = (data[1] & 0x3F);
 
         uint32_t counter = *((uint32_t *) (data+2));
@@ -130,7 +128,7 @@ namespace GOESDump {
         counter = counter >> 8;
 
         if (lastFrame != -1 && lastFrame + 1 != counter) {
-            cout << "Lost " << (counter - lastFrame - 1) << " frames.\n";
+            wm->Log("Lost " + to_string(counter - lastFrame - 1) + " frames.");
             if (lastAPID != -1) {
                 temporaryStorage[lastAPID].FrameLost = true;
             }
@@ -156,7 +154,7 @@ namespace GOESDump {
                     buffer.insert(buffer.end(), data, data+fhp);
                 }         
 
-                p = CreatePacket(buffer);
+                p = CreatePacket(buffer, wm);
                 lastAPID = p.lastAPID;
 
                 if (lastAPID == -1) {
@@ -177,13 +175,13 @@ namespace GOESDump {
                     //Maybe a bug?
                 }
 
-                FinishMSDU(temporaryStorage[lastAPID]);
+                FinishMSDU(temporaryStorage[lastAPID], wm);
                 temporaryStorage.erase(lastAPID);
                 lastAPID = -1;
             }
 
             buffer.insert(buffer.end(), data+fhp, data+BUFFER_SIZE-8);
-            p = CreatePacket(buffer);
+            p = CreatePacket(buffer, wm);
             lastAPID = p.lastAPID;
  
             if (lastAPID == -1) {
@@ -194,7 +192,7 @@ namespace GOESDump {
         } else {
             if (buffer.size() > 0 && lastAPID != -1) {
                 buffer.insert(buffer.end(), data, data+BUFFER_SIZE-8);
-                p = CreatePacket(buffer);
+                p = CreatePacket(buffer, wm);
                 lastAPID = p.lastAPID;
                 if (lastAPID == -1) {
                     buffer = p.data;
@@ -203,7 +201,7 @@ namespace GOESDump {
                 }
             } else if (lastAPID == -1) {
                 buffer.insert(buffer.end(), data, data+BUFFER_SIZE-8);
-                p = CreatePacket(buffer);
+                p = CreatePacket(buffer, wm);
                 lastAPID = p.lastAPID;
                 if (lastAPID == -1) {
                     buffer = p.data;

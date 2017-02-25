@@ -6,6 +6,7 @@
 #include <iostream>
 #include <SatHelper/sathelper.h>
 #include "Demuxer.h"
+#include "WatchMan.h"
 
 using namespace std;
 namespace GOESDump {
@@ -14,7 +15,7 @@ namespace GOESDump {
             int port;
             map<int, Demuxer> demuxers;
             thread dataThread;
-            void DemuxManager(uint8_t* packet);
+            void DemuxManager(uint8_t* packet, WatchMan* wm);
 
         public:
         DataHandler(int port) : dataThread() {
@@ -25,11 +26,11 @@ namespace GOESDump {
             if(dataThread.joinable()) dataThread.join();
         }
 
-        void Start(){
-            dataThread = std::thread(&DataHandler::Init, this);
+        void Start(WatchMan* wm){
+            dataThread = std::thread(&DataHandler::Init, this, wm);
         }
 
-        void Init();
+        void Init(WatchMan* wm);
     }; 
 }
 

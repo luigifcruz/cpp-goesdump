@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <SatHelper/sathelper.h>
 #include "StatisticsStruct.h"
+#include "WatchMan.h"
 
 using namespace std;
 namespace GOESDump {
@@ -26,11 +27,11 @@ namespace GOESDump {
                 if(statisticsThread.joinable()) statisticsThread.join();
             }
 
-            void Start(){
-                statisticsThread = std::thread(&StatisticsHandler::Init, this);
+            void Start(WatchMan* wm){
+                statisticsThread = std::thread(&StatisticsHandler::Init, this, wm);
             }
 
-            void Init();
+            void Init(WatchMan* wm);
     }; 
 }
 

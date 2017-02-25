@@ -4,7 +4,7 @@
 
 using namespace std;
 namespace GOESDump {
-    void DataHandler::DemuxManager(uint8_t* data) {
+    void DataHandler::DemuxManager(uint8_t* data, WatchMan* wm) {
         int vcid = (data[1] & 0x3F);
         if (vcid != FILL_VCID) {
             if (vcid == 0 || vcid == 1) {
@@ -18,22 +18,22 @@ namespace GOESDump {
             }
             
             if (!demuxers.count(vcid)) {
-                cout << "[DataHandler] Creating new demuxer for #" << (vcid) << "...\n";
+                wm->Log("[DataHandler] Creating new demuxer for #" + to_string(vcid), 2);
                 demuxers[vcid] = Demuxer();
             }
 
-            demuxers[vcid].ParseBytes(data);
+            demuxers[vcid].ParseBytes(data, wm);
         }
     }
 
-    void DataHandler::Init() {
+    void DataHandler::Init(WatchMan* wm) {
         SatHelper::TcpClient tcpClient((string)"127.0.0.1", port);
         uint8_t data[BUFFER_SIZE];
 
         try {
             tcpClient.Connect();
         } catch (SatHelperException &e) {
-            cerr << "[DataHandler] Cannot connect to port " << port << ".\n";
+            wm->Log("[DataHandler] Cannot connect to port " + to_string(port) + ".", 3);
             exit(0);
         }
 
@@ -41,10 +41,10 @@ namespace GOESDump {
             try {
                 tcpClient.WaitForData(BUFFER_SIZE, 2);
                 tcpClient.Receive((char *)data, BUFFER_SIZE);
-                DemuxManager(data);
+                DemuxManager(data, wm);
             } catch(SatHelper::SocketException &e) {
                 tcpClient.Close();
-                cerr << "[DataHandler] Client disconnected:\n";
+                wm->Log("[DataHandler] Client disconnected.", 3);
                 cerr << "   " << e.what() << "\n";
                 break;
             }
