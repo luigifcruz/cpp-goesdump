@@ -176,9 +176,27 @@ namespace GOESDump {
     }
 
     string PacketManager::Decompressor(string filename, int pixels, WatchMan* wm) {
-        cout << "Single Decompressor" << endl;
-        exit(0);
-        return "s";
+        ostringstream outputFile;
+        outputFile << filename << "_decomp.lrit"; 
+
+        char *outputData = new char[pixels];
+
+        for (int z = 0; z < pixels; z++) {
+            outputData[z] = 0x00;
+        }
+
+        vector<uint8_t> input = Tools.ReadAllBytes(filename);
+
+        if (!DecompressRice(reinterpret_cast<char*>(input.data()), outputData, input.size(), sizeof(char)*pixels, 8, 16, pixels,  1 | 16 | 32)) {
+            wm->Log("AEC Decompress problem decompressing file " + filename, 3);
+            wm->Log("AEC Params: 8 - 16 - " + to_string(pixels), 3);
+        }
+
+        ofstream f(outputFile.str(), ios::out | ios::binary);
+        f.write(outputData, sizeof(char)*pixels);
+        f.close();
+
+        return outputFile.str();
     }
 
     string PacketManager::Decompressor(string prefix, int pixels, int startnum, int endnum, WatchMan* wm) {
