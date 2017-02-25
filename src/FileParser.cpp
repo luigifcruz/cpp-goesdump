@@ -13,8 +13,10 @@ namespace GOESDump {
             uint8_t type = data.at(0);
 
             uint16_t size = ((uint16_t)data.at(2) << 8) | data.at(1);
-            size = (size>>8) | (size<<8);
-
+            if (Tools.isLittleEndian()) {
+                size = (size>>8) | (size<<8);
+            }
+            
             vector<uint8_t> tmp;
             tmp.insert(tmp.end(), data.begin(), data.begin()+size);
 

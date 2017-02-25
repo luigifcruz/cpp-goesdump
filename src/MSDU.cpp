@@ -21,21 +21,27 @@ namespace GOESDump {
 
     void MSDU::parseMSDU(vector<uint8_t> data) {
         uint16_t o = ((uint16_t)data.at(1) << 8) | data.at(0);
-        o = (o>>8) | (o<<8);
-
+        if (Tools().isLittleEndian()) {
+            o = (o>>8) | (o<<8);
+        }
+       
         this->Version = (o & 0xE000) >> 13;
         this->Type = (o & 0x1000) >> 12;
         this->SecondHeader = ((o & 0x800) >> 11) > 0;
         this->APID = o & 0x7FF;
 
         o = ((uint16_t)data.at(3) << 8) | data.at(2);
-        o = (o>>8) | (o<<8);
+        if (Tools().isLittleEndian()) {
+            o = (o>>8) | (o<<8);
+        }
 
         this->Sequence = (SequenceType::SequenceType)((o & 0xC000) >> 14);
         this->PacketNumber = (o & 0x3FFF);
         
         o = ((uint16_t)data.at(5) << 8) | data.at(4);
-        o = (o>>8) | (o<<8);
+        if (Tools().isLittleEndian()) {
+            o = (o>>8) | (o<<8);
+        }
         
         this->PacketLength = o - 1;
 

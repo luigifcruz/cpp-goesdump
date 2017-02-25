@@ -17,6 +17,7 @@
 #include "MSDU.h"
 #include "Tools.h"
 #include "PacketManager.h"
+#include "Tools.h"
 
 typedef struct {
     int lastAPID;

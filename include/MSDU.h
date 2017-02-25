@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include "Types/SequenceType.h"
+#include "Tools.h"
 
 using namespace std;
 namespace GOESDump {
@@ -11,7 +12,10 @@ namespace GOESDump {
         private:
             uint16_t CRC() {
                 uint16_t o = ((uint16_t)Data.at(Data.size()-2) << 8) | Data.at(Data.size()-1);
-                return (o>>8) | (o<<8);
+                if (Tools().isLittleEndian()) {
+                    o = (o>>8) | (o<<8);
+                }
+                return o;
             }
 
         public:

@@ -123,7 +123,11 @@ namespace GOESDump {
         channelId = (data[1] & 0x3F);
 
         uint32_t counter = *((uint32_t *) (data+2));
-        counter = ((counter>>24)&0xff) | ((counter<<8)&0xff0000) | ((counter>>8)&0xff00) | ((counter<<24)&0xff000000);
+
+        if(Tools.isLittleEndian()) {
+            counter = ((counter>>24)&0xff) | ((counter<<8)&0xff0000) | ((counter>>8)&0xff00) | ((counter<<24)&0xff000000);
+        }
+        
         counter &= 0xFFFFFF00;
         counter = counter >> 8;
 
@@ -139,7 +143,10 @@ namespace GOESDump {
         }
 
         uint16_t cb = *((uint16_t *) (data+6));
-        cb = (cb>>8) | (cb<<8);
+        if(Tools.isLittleEndian()) {
+            cb = (cb>>8) | (cb<<8);
+        }
+        
         uint16_t fhp = (cb & 0x7FF);
         
         //cout << channelId << "-" << counter << "-" << fhp << "\n";
