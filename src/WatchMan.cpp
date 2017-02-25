@@ -5,6 +5,7 @@ namespace GOESDump {
     void WatchMan::Log(string out) {
         cout << out << endl;
         LogFile(out);
+        AppendConsole(out, 4);
     }
 
     void WatchMan::Log(string out, int color) {
@@ -22,6 +23,7 @@ namespace GOESDump {
                  cout << out << endl;
                 break;
         }
+        AppendConsole(out, color);
         LogFile(out);
     }
 
@@ -36,5 +38,15 @@ namespace GOESDump {
         ss << buff;
         logFile << ss.str() << " " << log << "\n"; 
         logFile.close();
+    }
+
+    void WatchMan::AppendConsole(string out, int color) {
+        console newLog;
+        newLog.text = out;
+        newLog.color = color;
+        ConsoleData.push_back(newLog);
+        if(ConsoleData.size() > 10) {
+            ConsoleData.erase(ConsoleData.begin(), ConsoleData.begin()+1);
+        }
     }
 }

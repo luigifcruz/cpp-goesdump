@@ -19,6 +19,11 @@
 
 using namespace std;
 namespace GOESDump {
+    typedef struct {
+        string text;
+        int color;
+    } console;
+
     class WatchMan {
         private: 
             void LogFile(string log);
@@ -35,6 +40,9 @@ namespace GOESDump {
             void Log(string out);
             void Log(string out, int color);
 
+            void AppendConsole(string out, int color);
+
+            vector<console> ConsoleData;
             StatisticsStruct StatisticsData;
             int Packets = 0;
             //int CRCFails = 0;

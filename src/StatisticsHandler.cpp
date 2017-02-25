@@ -21,7 +21,7 @@ namespace GOESDump {
                 tcpClient.Receive((char *)buffer, BUFFER_SIZE);
                 memcpy(&StatisticsData, buffer, BUFFER_SIZE);
                 wm->UpdateStatistics(StatisticsData);
-                usleep(1500000);
+                usleep(500000);
             } catch(SatHelper::SocketException &e) {
                 tcpClient.Close();
                 wm->Log("[StatisticsHandler] Client disconnected.", 3);

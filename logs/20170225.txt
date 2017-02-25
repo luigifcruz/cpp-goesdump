@@ -1,0 +1,160 @@
+20170225@12:46:45 [StatisticsHandler] Cannot connect to port 5002.
+20170225@12:46:45 [DataHandler] Cannot connect to port 5001.
+20170225@15:03:56 [DataHandler] Creating new demuxer for #42
+20170225@15:04:04 [DataHandler] Creating new demuxer for #21
+20170225@15:04:04 New DCS (pM-16350163824-A.dcs) saved as pM-16350163824-A--dup-20170225150404.dcs
+20170225@15:05:03 [DataHandler] Cannot connect to port 5001.
+20170225@15:05:03 [StatisticsHandler] Cannot connect to port 5002.
+20170225@15:05:35 [DataHandler] Creating new demuxer for #42
+20170225@15:06:57 [DataHandler] Creating new demuxer for #42
+20170225@15:07:05 [DataHandler] Creating new demuxer for #21
+20170225@15:07:05 New DCS (pM-16350163824-A.dcs) saved as pM-16350163824-A--dup-20170225150705.dcs
+20170225@15:07:35 New Scanner Image - Infrared Area of Interest (gos13chnIR04rgnXXseg005res04dat350163825751.lrit) saved as gos13chnIR04rgnXXseg005res04dat350163825751--dup-20170225150735.lrit
+20170225@15:07:43 New Scanner Image - Water Vapour Area of Interest (gos13chnWV03rgnXXseg005res04dat350163825777.lrit) saved as gos13chnWV03rgnXXseg005res04dat350163825777--dup-20170225150743.lrit
+20170225@15:07:43 [DataHandler] Creating new demuxer for #53
+20170225@15:12:38 [DataHandler] Creating new demuxer for #42
+20170225@15:12:46 [DataHandler] Creating new demuxer for #21
+20170225@15:12:46 New DCS (pM-16350163824-A.dcs) saved as pM-16350163824-A--dup-20170225151246.dcs
+20170225@15:13:15 New Scanner Image - Infrared Area of Interest (gos13chnIR04rgnXXseg005res04dat350163825751.lrit) saved as gos13chnIR04rgnXXseg005res04dat350163825751--dup-20170225151315.lrit
+20170225@15:13:23 New Scanner Image - Water Vapour Area of Interest (gos13chnWV03rgnXXseg005res04dat350163825777.lrit) saved as gos13chnWV03rgnXXseg005res04dat350163825777--dup-20170225151323.lrit
+20170225@15:13:23 [DataHandler] Creating new demuxer for #53
+20170225@15:13:32 [DataHandler] Creating new demuxer for #41
+20170225@15:13:48 New DCS (pL-16350163921-A.dcs) saved as pL-16350163921-A--dup-20170225151348.dcs
+20170225@15:13:52 New DCS (pM-16350163924-A.dcs) saved as pM-16350163924-A--dup-20170225151352.dcs
+20170225@15:14:01 New Scanner Image - Water Vapour Northern Hemisphere (gos13chnWV03rgnNHseg005res04dat350163046171.lrit) saved as gos13chnWV03rgnNHseg005res04dat350163046171--dup-20170225151401.lrit
+20170225@15:16:14 [DataHandler] Creating new demuxer for #42
+20170225@15:16:22 [DataHandler] Creating new demuxer for #21
+20170225@15:16:22 New DCS (pM-16350163824-A.dcs) saved as pM-16350163824-A--dup-20170225151622.dcs
+20170225@15:16:51 New Scanner Image - Infrared Area of Interest (gos13chnIR04rgnXXseg005res04dat350163825751.lrit) saved as gos13chnIR04rgnXXseg005res04dat350163825751--dup-20170225151651.lrit
+20170225@15:16:59 New Scanner Image - Water Vapour Area of Interest (gos13chnWV03rgnXXseg005res04dat350163825777.lrit) saved as gos13chnWV03rgnXXseg005res04dat350163825777--dup-20170225151659.lrit
+20170225@15:16:59 [DataHandler] Creating new demuxer for #53
+20170225@15:17:08 [DataHandler] Creating new demuxer for #41
+20170225@15:17:24 New DCS (pL-16350163921-A.dcs) saved as pL-16350163921-A--dup-20170225151724.dcs
+20170225@15:17:28 New DCS (pM-16350163924-A.dcs) saved as pM-16350163924-A--dup-20170225151728.dcs
+20170225@15:17:37 New Scanner Image - Water Vapour Northern Hemisphere (gos13chnWV03rgnNHseg005res04dat350163046171.lrit) saved as gos13chnWV03rgnNHseg005res04dat350163046171--dup-20170225151737.lrit
+20170225@15:22:03 [DataHandler] Creating new demuxer for #42
+20170225@15:22:10 [DataHandler] Creating new demuxer for #21
+20170225@15:22:10 New DCS (pM-16350163824-A.dcs) saved as pM-16350163824-A--dup-20170225152210.dcs
+20170225@15:22:40 New Scanner Image - Infrared Area of Interest (gos13chnIR04rgnXXseg005res04dat350163825751.lrit) saved as gos13chnIR04rgnXXseg005res04dat350163825751--dup-20170225152240.lrit
+20170225@15:22:49 New Scanner Image - Water Vapour Area of Interest (gos13chnWV03rgnXXseg005res04dat350163825777.lrit) saved as gos13chnWV03rgnXXseg005res04dat350163825777--dup-20170225152249.lrit
+20170225@15:22:49 [DataHandler] Creating new demuxer for #53
+20170225@15:22:57 [DataHandler] Creating new demuxer for #41
+20170225@15:23:14 New DCS (pL-16350163921-A.dcs) saved as pL-16350163921-A--dup-20170225152314.dcs
+20170225@15:23:17 New DCS (pM-16350163924-A.dcs) saved as pM-16350163924-A--dup-20170225152317.dcs
+20170225@15:23:28 New Scanner Image - Water Vapour Northern Hemisphere (gos13chnWV03rgnNHseg005res04dat350163046171.lrit) saved as gos13chnWV03rgnNHseg005res04dat350163046171--dup-20170225152328.lrit
+20170225@15:24:10 New Weather Data - Unknown - NWSchrt_DANGER_ATL_LATESTBWdat350163120622.lrit
+20170225@15:24:11 New DCS (pM-16350164025-A.dcs) saved as pM-16350164025-A--dup-20170225152411.dcs
+20170225@15:26:18 [StatisticsHandler] Cannot connect to port 5002.
+20170225@15:26:18 [DataHandler] Cannot connect to port 5001.
+20170225@15:27:01 [StatisticsHandler] Cannot connect to port 5002.
+20170225@15:28:41 [StatisticsHandler] Cannot connect to port 5002.
+20170225@15:28:47 [StatisticsHandler] Cannot connect to port 5002.
+20170225@15:28:47 [DataHandler] Cannot connect to port 5001.
+20170225@15:28:55 [DataHandler] Creating new demuxer for #42
+20170225@15:29:03 [DataHandler] Creating new demuxer for #21
+20170225@15:29:03 New DCS (pM-16350163824-A.dcs) saved as pM-16350163824-A--dup-20170225152903.dcs
+20170225@15:29:32 New Scanner Image - Infrared Area of Interest (gos13chnIR04rgnXXseg005res04dat350163825751.lrit) saved as gos13chnIR04rgnXXseg005res04dat350163825751--dup-20170225152932.lrit
+20170225@15:29:40 New Scanner Image - Water Vapour Area of Interest (gos13chnWV03rgnXXseg005res04dat350163825777.lrit) saved as gos13chnWV03rgnXXseg005res04dat350163825777--dup-20170225152940.lrit
+20170225@15:29:40 [DataHandler] Creating new demuxer for #53
+20170225@15:29:50 [DataHandler] Creating new demuxer for #41
+20170225@15:30:05 New DCS (pL-16350163921-A.dcs) saved as pL-16350163921-A--dup-20170225153005.dcs
+20170225@15:30:09 New DCS (pM-16350163924-A.dcs) saved as pM-16350163924-A--dup-20170225153009.dcs
+20170225@15:30:18 New Scanner Image - Water Vapour Northern Hemisphere (gos13chnWV03rgnNHseg005res04dat350163046171.lrit) saved as gos13chnWV03rgnNHseg005res04dat350163046171--dup-20170225153018.lrit
+20170225@15:47:12 [StatisticsHandler] Cannot connect to port 5002.
+20170225@15:47:12 [DataHandler] Cannot connect to port 5001.
+20170225@15:49:55 [StatisticsHandler] Client disconnected.
+20170225@15:49:55 [DataHandler] Client disconnected.
+20170225@15:50:45 [DataHandler] Creating new demuxer for #42
+20170225@15:50:53 [DataHandler] Creating new demuxer for #21
+20170225@15:50:53 New DCS (pM-16350163824-A.dcs) saved as pM-16350163824-A--dup-20170225155053.dcs
+20170225@15:51:22 New Scanner Image - Infrared Area of Interest (gos13chnIR04rgnXXseg005res04dat350163825751.lrit) saved as gos13chnIR04rgnXXseg005res04dat350163825751--dup-20170225155122.lrit
+20170225@15:51:30 New Scanner Image - Water Vapour Area of Interest (gos13chnWV03rgnXXseg005res04dat350163825777.lrit) saved as gos13chnWV03rgnXXseg005res04dat350163825777--dup-20170225155130.lrit
+20170225@15:51:30 [DataHandler] Creating new demuxer for #53
+20170225@15:51:40 [DataHandler] Creating new demuxer for #41
+20170225@15:51:55 New DCS (pL-16350163921-A.dcs) saved as pL-16350163921-A--dup-20170225155155.dcs
+20170225@15:51:59 New DCS (pM-16350163924-A.dcs) saved as pM-16350163924-A--dup-20170225155159.dcs
+20170225@15:52:15 New Scanner Image - Water Vapour Northern Hemisphere (gos13chnWV03rgnNHseg005res04dat350163046171.lrit) saved as gos13chnWV03rgnNHseg005res04dat350163046171--dup-20170225155215.lrit
+20170225@15:52:53 New Weather Data - Unknown - NWSchrt_DANGER_ATL_LATESTBWdat350163120622.lrit
+20170225@15:52:54 New DCS (pM-16350164025-A.dcs) saved as pM-16350164025-A--dup-20170225155254.dcs
+20170225@15:56:00 [DataHandler] Creating new demuxer for #42
+20170225@15:56:08 [DataHandler] Creating new demuxer for #21
+20170225@15:56:08 New DCS (pM-16350163824-A.dcs) saved as pM-16350163824-A--dup-20170225155608.dcs
+20170225@15:56:35 [DataHandler] Client disconnected.
+20170225@15:56:40 [DataHandler] Cannot connect to port 5001.
+20170225@15:56:40 [StatisticsHandler] Cannot connect to port 5002.
+20170225@15:59:51 [DataHandler] Creating new demuxer for #42
+20170225@15:59:59 [DataHandler] Creating new demuxer for #21
+20170225@15:59:59 New DCS (pM-16350163824-A.dcs) saved as pM-16350163824-A--dup-20170225155959.dcs
+20170225@16:00:28 New Scanner Image - Infrared Area of Interest (gos13chnIR04rgnXXseg005res04dat350163825751.lrit) saved as gos13chnIR04rgnXXseg005res04dat350163825751--dup-20170225160028.lrit
+20170225@16:00:36 New Scanner Image - Water Vapour Area of Interest (gos13chnWV03rgnXXseg005res04dat350163825777.lrit) saved as gos13chnWV03rgnXXseg005res04dat350163825777--dup-20170225160036.lrit
+20170225@16:00:36 [DataHandler] Creating new demuxer for #53
+20170225@16:00:45 [DataHandler] Creating new demuxer for #41
+20170225@16:01:01 New DCS (pL-16350163921-A.dcs) saved as pL-16350163921-A--dup-20170225160101.dcs
+20170225@16:01:08 New DCS (pM-16350163924-A.dcs) saved as pM-16350163924-A--dup-20170225160108.dcs
+20170225@16:01:17 New Scanner Image - Water Vapour Northern Hemisphere (gos13chnWV03rgnNHseg005res04dat350163046171.lrit) saved as gos13chnWV03rgnNHseg005res04dat350163046171--dup-20170225160117.lrit
+20170225@16:01:59 New Weather Data - Unknown - NWSchrt_DANGER_ATL_LATESTBWdat350163120622.lrit
+20170225@16:01:59 New DCS (pM-16350164025-A.dcs) saved as pM-16350164025-A--dup-20170225160159.dcs
+20170225@16:05:19 [DataHandler] Cannot connect to port 5001.
+20170225@16:05:19 [StatisticsHandler] Cannot connect to port 5002.
+20170225@16:23:37 [DataHandler] Creating new demuxer for #42
+20170225@16:23:45 [DataHandler] Creating new demuxer for #21
+20170225@16:23:45 New DCS (pM-16350163824-A.dcs) saved as pM-16350163824-A--dup-20170225162345.dcs
+20170225@16:24:21 New Scanner Image - Infrared Area of Interest (gos13chnIR04rgnXXseg005res04dat350163825751.lrit) saved as gos13chnIR04rgnXXseg005res04dat350163825751--dup-20170225162421.lrit
+20170225@16:24:26 New Scanner Image - Water Vapour Area of Interest (gos13chnWV03rgnXXseg005res04dat350163825777.lrit) saved as gos13chnWV03rgnXXseg005res04dat350163825777--dup-20170225162426.lrit
+20170225@16:24:26 [DataHandler] Creating new demuxer for #53
+20170225@16:24:32 [DataHandler] Creating new demuxer for #41
+20170225@16:24:51 New DCS (pL-16350163921-A.dcs) saved as pL-16350163921-A--dup-20170225162451.dcs
+20170225@16:24:53 New DCS (pM-16350163924-A.dcs) saved as pM-16350163924-A--dup-20170225162453.dcs
+20170225@16:25:01 New Scanner Image - Water Vapour Northern Hemisphere (gos13chnWV03rgnNHseg005res04dat350163046171.lrit) saved as gos13chnWV03rgnNHseg005res04dat350163046171--dup-20170225162501.lrit
+20170225@16:25:44 New Weather Data - Unknown - NWSchrt_DANGER_ATL_LATESTBWdat350163120622.lrit
+20170225@16:25:45 New DCS (pM-16350164025-A.dcs) saved as pM-16350164025-A--dup-20170225162545.dcs
+20170225@16:27:57 [StatisticsHandler] Cannot connect to port 5002.
+20170225@16:28:34 [StatisticsHandler] Cannot connect to port 5002.
+20170225@16:29:11 [StatisticsHandler] Cannot connect to port 5002.
+20170225@16:30:20 [StatisticsHandler] Cannot connect to port 5002.
+20170225@16:31:04 [StatisticsHandler] Cannot connect to port 5002.
+20170225@16:31:54 [StatisticsHandler] Cannot connect to port 5002.
+20170225@16:32:26 [StatisticsHandler] Cannot connect to port 5002.
+20170225@16:34:08 [StatisticsHandler] Cannot connect to port 5002.
+20170225@16:34:48 [DataHandler] Creating new demuxer for #42
+20170225@16:35:14 [DataHandler] Client disconnected.
+20170225@16:36:53 [DataHandler] Cannot connect to port 5001.
+20170225@16:36:53 [StatisticsHandler] Cannot connect to port 5002.
+20170225@16:37:07 [DataHandler] Creating new demuxer for #42
+20170225@16:37:15 [DataHandler] Creating new demuxer for #21
+20170225@16:37:15 New DCS (pM-16350163824-A.dcs) saved as pM-16350163824-A--dup-20170225163715.dcs
+20170225@16:37:51 New Scanner Image - Infrared Area of Interest (gos13chnIR04rgnXXseg005res04dat350163825751.lrit) saved as gos13chnIR04rgnXXseg005res04dat350163825751--dup-20170225163751.lrit
+20170225@16:37:56 New Scanner Image - Water Vapour Area of Interest (gos13chnWV03rgnXXseg005res04dat350163825777.lrit) saved as gos13chnWV03rgnXXseg005res04dat350163825777--dup-20170225163756.lrit
+20170225@16:37:56 [DataHandler] Creating new demuxer for #53
+20170225@16:38:11 [DataHandler] Creating new demuxer for #41
+20170225@16:38:18 New DCS (pL-16350163921-A.dcs) saved as pL-16350163921-A--dup-20170225163818.dcs
+20170225@16:38:22 New DCS (pM-16350163924-A.dcs) saved as pM-16350163924-A--dup-20170225163822.dcs
+20170225@16:38:30 New Scanner Image - Water Vapour Northern Hemisphere (gos13chnWV03rgnNHseg005res04dat350163046171.lrit) saved as gos13chnWV03rgnNHseg005res04dat350163046171--dup-20170225163830.lrit
+20170225@16:39:14 New Weather Data - Unknown - NWSchrt_DANGER_ATL_LATESTBWdat350163120622.lrit
+20170225@16:39:15 New DCS (pM-16350164025-A.dcs) saved as pM-16350164025-A--dup-20170225163915.dcs
+20170225@16:40:00 New Weather Data - Unknown - NWSchrt_DANGER_PAC_LATESTBWdat350163150623.lrit
+20170225@16:40:26 New DCS (pL-16350164123-A.dcs) saved as pL-16350164123-A--dup-20170225164026.dcs
+20170225@16:40:26 New Weather Data - Unknown - NWSchrt_GEHOV1LATESTdat350163220649.lrit
+20170225@16:40:27 New DCS (pM-16350164126-A.dcs) saved as pM-16350164126-A--dup-20170225164027.dcs
+20170225@16:40:32 New Weather Data - Unknown - NWSchrt_GEHOV2LATESTdat350163250686.lrit
+20170225@16:40:39 New Weather Data - Unknown - NWSchrt_GEHOV3LATESTdat350163320739.lrit
+20170225@16:41:37 [StatisticsHandler] Cannot connect to port 5002.
+20170225@16:41:37 [DataHandler] Cannot connect to port 5001.
+20170225@16:45:28 [DataHandler] Creating new demuxer for #42
+20170225@16:45:36 [DataHandler] Creating new demuxer for #21
+20170225@16:45:36 New DCS (pM-16350163824-A.dcs) saved as pM-16350163824-A--dup-20170225164536.dcs
+20170225@16:46:05 New Scanner Image - Infrared Area of Interest (gos13chnIR04rgnXXseg005res04dat350163825751.lrit) saved as gos13chnIR04rgnXXseg005res04dat350163825751--dup-20170225164605.lrit
+20170225@16:46:14 New Scanner Image - Water Vapour Area of Interest (gos13chnWV03rgnXXseg005res04dat350163825777.lrit) saved as gos13chnWV03rgnXXseg005res04dat350163825777--dup-20170225164614.lrit
+20170225@16:46:14 [DataHandler] Creating new demuxer for #53
+20170225@16:46:23 [DataHandler] Creating new demuxer for #41
+20170225@16:46:38 New DCS (pL-16350163921-A.dcs) saved as pL-16350163921-A--dup-20170225164638.dcs
+20170225@16:46:42 New DCS (pM-16350163924-A.dcs) saved as pM-16350163924-A--dup-20170225164642.dcs
+20170225@16:46:51 New Scanner Image - Water Vapour Northern Hemisphere (gos13chnWV03rgnNHseg005res04dat350163046171.lrit) saved as gos13chnWV03rgnNHseg005res04dat350163046171--dup-20170225164651.lrit
+20170225@16:47:09 [StatisticsHandler] Client disconnected.
+20170225@16:47:36 New Weather Data - Unknown - NWSchrt_DANGER_ATL_LATESTBWdat350163120622.lrit
+20170225@16:47:37 New DCS (pM-16350164025-A.dcs) saved as pM-16350164025-A--dup-20170225164737.dcs
+20170225@16:48:22 New Weather Data - Unknown - NWSchrt_DANGER_PAC_LATESTBWdat350163150623.lrit
+20170225@16:48:40 New DCS (pL-16350164123-A.dcs) saved as pL-16350164123-A--dup-20170225164840.dcs
+20170225@16:48:41 New Weather Data - Unknown - NWSchrt_GEHOV1LATESTdat350163220649.lrit
+20170225@16:48:43 New DCS (pM-16350164126-A.dcs) saved as pM-16350164126-A--dup-20170225164843.dcs
+20170225@16:48:46 New Weather Data - Unknown - NWSchrt_GEHOV2LATESTdat350163250686.lrit

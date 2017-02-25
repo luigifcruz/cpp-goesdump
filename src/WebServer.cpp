@@ -25,11 +25,34 @@ namespace GOESDump {
                     ptree obj;
                     obj.put("path", dir->path().string());
                     obj.put("name", dir->path().filename().string());
+                    //obj.put("date", boost::filesystem::last_write_time(dir).string());
                     lst.push_back(std::make_pair("", obj));
                 }
             }
 
             out.add_child("Files", lst);
+
+            ostringstream oss;
+            boost::property_tree::write_json(oss, out);
+
+            *response << "HTTP/1.1 200 OK\r\n"
+                      << "Content-Type: application/json\r\n"
+                      << "Content-Length: " << oss.str().length() << "\r\n\r\n"
+                      << oss.str();
+        };
+
+        server.resource["^/data/console$"]["GET"]=[&wm](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
+            ptree out;
+            ptree lst;
+
+            for (int i=0; i<wm->ConsoleData.size(); i++) {
+                ptree obj;
+                obj.put("text",  wm->ConsoleData[i].text);
+                obj.put("color", wm->ConsoleData[i].color);
+                lst.push_back(std::make_pair("", obj));
+            }
+
+            out.add_child("Console", lst);
 
             ostringstream oss;
             boost::property_tree::write_json(oss, out);
