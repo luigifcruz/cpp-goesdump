@@ -37,8 +37,6 @@ target_link_libraries (${PROJECT_NAME} boost_system)
 target_link_libraries (${PROJECT_NAME} boost_filesystem)
 
 # Includes
-include_directories ("${PROJECT_SOURCE_DIR}/channels")
-include_directories ("${PROJECT_SOURCE_DIR}/lib")
 include_directories ("${PROJECT_SOURCE_DIR}/include")
 include_directories ("${PROJECT_SOURCE_DIR}/include/Headers")
 include_directories ("${PROJECT_SOURCE_DIR}/include/Types")
@@ -53,3 +51,7 @@ INCLUDE(CPack)
 # Make Directories
 file(MAKE_DIRECTORY "${PROJECT_SOURCE_DIR}/build/logs")
 file(MAKE_DIRECTORY "${PROJECT_SOURCE_DIR}/build/channels")
+
+add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                   ${CMAKE_SOURCE_DIR}/lib $<TARGET_FILE_DIR:${PROJECT_NAME}>/lib)
