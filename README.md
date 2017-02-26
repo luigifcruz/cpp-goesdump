@@ -1,22 +1,28 @@
 # cpp-goesdump
-Warning Work in Progress. This program currently only outputs decompressed RICE images. All files will be supported soon.
-This is a C++ implementation of C# [GOES Dump](https://github.com/opensatelliteproject/goesdump). You can use XRIT2PIC to convert the generated .lrit files to an image.
+***Warning:*** Work in Progress.<br>
+This program receives the packets created by OSP's xritDecoder via TCP and parse them into .lrit files.
+It works with LRIT and HRIT packets from NOAA Geostationary Satellites (GOES-13, GOES-15, GOES-16 and GOES-14). 
+Currently, it only outputs decompressed RICE images. All files will be supported soon.
+This is a C++ implementation of C# [GOES Dump](https://github.com/opensatelliteproject/goesdump). 
+You can use XRIT2PIC to convert the generated .lrit files into an image.
 
 ### Installation 
-CMake will be available soon.
-
+Using CMake:
 ```
 git clone https://github.com/luigifreitas/cpp-goesdump.git
-cd cpp-goesdump
+mkdir build
+cd build
+cmake ..
 make
 ```
 
 ### Dependencies 
-[Simple-Web-Server](https://github.com/eidheim/Simple-Web-Server)
-[libaec](https://github.com/MathisRosenhauer/libaec)
-[libsathelper](https://github.com/opensatelliteproject/libsathelper)
+- [Simple-Web-Server](https://github.com/eidheim/Simple-Web-Server)
+- [libaec](https://github.com/MathisRosenhauer/libaec)
+- [libsathelper](https://github.com/opensatelliteproject/libsathelper)
 
 ### Todo 
+- [x] Add CMake.
 - [ ] Finish WebUI.
 - [ ] Check the frame CRC.
 - [ ] Implement Weather Data dumping.
