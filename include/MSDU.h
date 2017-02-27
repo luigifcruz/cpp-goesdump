@@ -11,7 +11,9 @@ namespace GOESDump {
     class MSDU {
         private:
             uint16_t CRC() {
-                uint16_t o = ((uint16_t)Data.at(Data.size()-2) << 8) | Data.at(Data.size()-1);
+                vector<uint8_t> data = Data;
+                data.erase(data.begin(), data.end()-2);
+                uint16_t o = ((uint16_t)data.at(1) << 8) | data.at(0);
                 if (Tools().isLittleEndian()) {
                     o = (o>>8) | (o<<8);
                 }
@@ -43,17 +45,16 @@ namespace GOESDump {
 
             bool Valid() {
                 vector<uint8_t> data = Data;
-                data.erase(data.begin(), data.end()-2);
-                uint8_t lsb = 0xFF, msb = 0xFF, x;
+                data.erase(data.end()-2, data.end());
 
+                uint8_t lsb = 0xFF, msb = 0xFF, x;
                 for(uint8_t b: data) {
                     x = (uint8_t)(b ^ msb);
                     x ^= (uint8_t)(x >> 4);
                     msb = (uint8_t)(lsb ^ (x >> 3) ^ (x << 4));
                     lsb = (uint8_t)(x ^ (x << 5));
                 }
-
-                return (((int)msb) << 8) == CRC();
+                return ((((int)msb) << 8) + lsb) == CRC();
             }
 
             bool FillPacket() {

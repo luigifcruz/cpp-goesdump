@@ -45,7 +45,7 @@ namespace GOESDump {
             vector<console> ConsoleData;
             StatisticsStruct StatisticsData;
             int Packets = 0;
-            //int CRCFails = 0;
+            int CRCFails = 0;
     }; 
 }
 

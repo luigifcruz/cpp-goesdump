@@ -47,14 +47,14 @@ namespace GOESDump {
 
         bool firstOrSinglePacket = msdu.Sequence == SequenceType::FIRST_SEGMENT || msdu.Sequence == SequenceType::SINGLE_DATA;
 
-        /*if (!msdu.Valid()) {
+        if (!msdu.Valid()) {
             wm->Log("Wrong CRC!", 3);
             wm->CRCFails++;
         }
 
         if (!msdu.Valid() || !msdu.Full()) {
             wm->Log("Got a invalid MSDU :(", 3);
-        }*/
+        }
 
         ostringstream filename;
         FileParser fileParser;
