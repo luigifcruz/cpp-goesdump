@@ -8,7 +8,7 @@ namespace GOESDump {
             f.erase(f.begin(), f.begin()+(int)header.PrimaryHeader.HeaderLength);
             ProcessFile(f, outputFolder, header, wm);
         } else {
-            wm->Log("Expected header type 0 for first header. Got " + to_string((int)f.at(0)) + ".");
+            wm->Log("Expected header type 0 for first header. Got " + to_string((int)f.at(0)) + ".", 3);
         }
     }
 
