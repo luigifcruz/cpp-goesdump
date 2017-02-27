@@ -48,6 +48,7 @@ namespace GOESDump {
                 cerr << "   " << e.what() << "\n";
                 break;
             }
+            usleep(100);
         }  
     }
 }

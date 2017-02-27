@@ -2,37 +2,56 @@
 
 using namespace std;
 namespace GOESDump {
-    void ImageHandler::HandleFile(string filename, string outputFolder) {
-        /*var f = File.Open(filename, FileMode.Open);
-        var firstHeader = new byte[3];
-        f.Read(firstHeader, 0, 3);
-        if (firstHeader[0] == 0) {
-            var tmp = firstHeader.Skip(1).Take(2).ToArray();
-            if (BitConverter.IsLittleEndian) {
-                Array.Reverse(tmp);
-            }
-
-            int size = BitConverter.ToUInt16(tmp, 0);
-
-            firstHeader = new byte[size - 3];
-            f.Seek(0, SeekOrigin.Begin);
-            f.Read(firstHeader, 0, size - 3);
-
-            PrimaryRecord fh = LLTools.ByteArrayToStruct<PrimaryRecord>(firstHeader);
-            fh = LLTools.StructToSystemEndian(fh);
-
-            f.Seek(0, SeekOrigin.Begin);
-            tmp = new byte[fh.HeaderLength];
-            f.Read(tmp, 0, (int)fh.HeaderLength);
-            var header = FileParser.GetHeader(tmp);
-            ProcessFile(f, header, outputFolder);
-            f.Close();
+    void ImageHandler::HandleFile(string filename, string outputFolder, XRITHeader header, WatchMan* wm) {
+        vector<uint8_t> f = Tools.ReadAllBytes(filename);
+        if ((int)f.at(0) == 0) {       
+            f.erase(f.begin(), f.begin()+(int)header.PrimaryHeader.HeaderLength);
+            ProcessFile(f, header, outputFolder, wm);
         } else {
-            Console.WriteLine("Expected header type 0 for first header. Got {0}.", (int)firstHeader[0]);
-        }*/
+            wm->Log("Expected header type 0 for first header. Got " + to_string((int)f.at(0)) + ".");
+        }
     }
 
-    void ImageHandler::ProcessCompressedFile(string file, XRITHeader header, string outputFolder) {
+    void ImageHandler::ProcessFile(vector<uint8_t> file, XRITHeader header, string outputFolder, WatchMan* wm) {
+        uint16_t width = (uint16_t)header.ImageStructureHeader.Columns;
+        uint16_t height = (uint16_t)header.ImageStructureHeader.Lines;
+        int bitsPerPixel = (int)header.ImageStructureHeader.BitsPerPixel;
+        int bytesToRead = (width * height);
+
+        string outName = header.Filename();
+        outName.replace(outName.find(".lrit"), 6,  ".png");
+        outName = Tools.Combine(outputFolder, outName);
+
+        if (header.NOAASpecificHeader.Compression != CompressionType::NO_COMPRESSION && header.NOAASpecificHeader.Compression != CompressionType::LRIT_RICE) {
+            wm->Log("File is Compressed. Proceeding...", 4);
+            ProcessCompressedFile(file, header, outputFolder, wm);
+            return;
+        }
+
+        if (bitsPerPixel != 8 && bitsPerPixel != 1) {
+            wm->Log("Unsupported bits per pixel " + to_string(bitsPerPixel), 3);
+            return;
+        }
+
+        FILE *pFp = fopen(outName.c_str(), "wb");
+        unsigned char * start = file.data();
+
+        if (pFp) {
+            if(bitsPerPixel == 1) {
+                bytesToRead /= 8;
+                fprintf(pFp, "P4\n%d\n%d\n%d\n", width, height, 1);
+            } else {
+                fprintf(pFp, "P5\n%d\n%d\n%d\n", width, height, 255);
+            }
+            
+            for (int i = 0; i < bytesToRead; i++) {
+                putc(start[i], pFp);
+            }
+            fclose(pFp);
+        }
+    }
+
+    void ImageHandler::ProcessCompressedFile(vector<uint8_t> file, XRITHeader header, string outputFolder, WatchMan* wm) {
         /*if (header.NOAASpecificHeader.Compression == CompressionType.GIF) {
             string outName = header.Filename.Replace(".lrit", ".gif");
             outName = Path.Combine(outputFolder, outName);
@@ -62,74 +81,5 @@ namespace GOESDump {
         } else {
             throw new Exception(string.Format("Unknown Compression type: {0}", header.NOAASpecificHeader.Compression.ToString()));
         }*/
-    }
-
-    void ImageHandler::ProcessFile(string file, XRITHeader header, string outputFolder) {
-        /*var width = header.ImageStructureHeader.Columns;
-        var height = header.ImageStructureHeader.Lines;
-        var bitsPerPixel = header.ImageStructureHeader.BitsPerPixel;
-
-        if (header.NOAASpecificHeader.Compression != CompressionType.NO_COMPRESSION && header.NOAASpecificHeader.Compression != CompressionType.LRIT_RICE) {
-            ProcessCompressedFile(file, header, outputFolder);
-            return;
-        }
-
-        if (bitsPerPixel != 8 && bitsPerPixel != 1) {
-            throw new Exception(string.Format("Unsupported bits per pixel {0}", bitsPerPixel));
-        }
-
-        var format = bitsPerPixel == 8 ? PixelFormat.Format8bppIndexed : PixelFormat.Format1bppIndexed;
-        var b = new Bitmap(width, height, format);
-        var bytesToRead = (width * height);
-
-        if (bitsPerPixel == 1) {
-            bytesToRead = (8 * (bytesToRead + 7)) / 8;
-            bytesToRead /= 8;
-        } else {
-            // Create grayscale palette
-            ColorPalette pal = b.Palette;
-            for(int i=0;i<=255;i++) {
-                pal.Entries[i] = Color.FromArgb(i, i, i);
-            }
-            b.Palette = pal;
-        }
-
-        var buffer = new byte[bytesToRead];
-        file.Read(buffer, 0, bytesToRead);
-
-        if (width % 8 == 0 || bitsPerPixel != 1) {
-            var data = b.LockBits(new Rectangle(0, 0, b.Width, b.Height), ImageLockMode.WriteOnly, format);
-            if (data.Stride == width * bitsPerPixel / 8) {
-                Marshal.Copy(buffer, 0, data.Scan0, buffer.Length);
-            } else {
-                // So our stride is bigger than our width (alignment issues). So let's copy line by line.
-                var strideBuffer = new byte[data.Stride * height];
-                int nwidth = width * bitsPerPixel / 8;
-                for (int i = 0; i < height; i++) {
-                    Buffer.BlockCopy(buffer, nwidth * i, strideBuffer, data.Stride * i, nwidth);
-                }
-                Marshal.Copy(strideBuffer, 0, data.Scan0, strideBuffer.Length);
-            }
-            b.UnlockBits(data);
-        } else {
-            // Hard mode, let's optimize this in the future.
-            b = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-            var z = 0;
-            for (int i = 0; i < bytesToRead; i++) {
-                for (int k = 7; k >= 0; k--) {
-                    var x = z % width;
-                    var y = z / width;
-                    bool bitset = ((buffer[i] >> k) & 1) == 1;
-                    if (x < width && y < height) {
-                        b.SetPixel(x, y, Color.FromArgb((int)(bitset ? 0xFFFFFFFF : 0x0)));
-                    }
-                    z++;
-                }
-            }
-        }
-
-        string outName = header.Filename.Replace(".lrit", ".gif");
-        outName = Path.Combine(outputFolder, outName);
-        b.Save(outName, ImageFormat.Gif);*/
     }
 }

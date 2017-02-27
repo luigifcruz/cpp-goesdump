@@ -83,15 +83,20 @@ namespace GOESDump {
 
     bool PacketManager::HandleWeatherData(string filename, XRITHeader header, WatchMan* wm) {
         if (header.PrimaryHeader.FileType == FileTypeCode::IMAGE) {
-            string basedir = Tools.DirParentName(filename);
-            if (header.Product().ID == (int)NOAAProductID::OTHER_SATELLITES_1 || header.Product().ID == (int)NOAAProductID::OTHER_SATELLITES_2) {
+            string basedir = Tools.DirParentName(Tools.DirParentName(filename));
+            if (header.Product().ID == NOAAProductID::OTHER_SATELLITES_1 || header.Product().ID == NOAAProductID::OTHER_SATELLITES_2) {
                 basedir = Tools.Combine(basedir, OtherSatellitesFolder);
             } else {
                 basedir = Tools.Combine(basedir, WeatherDataFolder);
             }
 
             wm->Log("New Weather Data - " + header.SubProduct().Name + " - " + header.Filename(), 1);
-            ImageHandler.HandleFile(filename, basedir);
+
+            if (!Tools.DirExists(basedir)) {
+                Tools.CreateDir(basedir);
+            }
+
+            ImageHandler.HandleFile(filename, basedir, header, wm);
 
             if (!Tools.Delete(filename)) {
                 wm->Log("Failed to parse Weather Data Image at " + filename, 3);
@@ -108,7 +113,7 @@ namespace GOESDump {
             basedir = Tools.Combine(basedir, TextFolder);
 
             wm->Log("New NOAA Text (" + header.Filename() + ")", 1);
-            TextHandler.HandleFile(filename, basedir);
+            TextHandler.HandleFile(filename, basedir, wm);
 
             if (!Tools.Delete(filename)) {
                 wm->Log("Failed to parse Weather Data Image at " + filename, 3);
