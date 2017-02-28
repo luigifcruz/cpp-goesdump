@@ -14,7 +14,7 @@ namespace GOESDump {
                 return pk;
             }
 
-            MSDU msdu;
+            XRIT::MSDU msdu;
             msdu.parseMSDU(data);
 
             if (msdu.APID != 2047) {
@@ -37,7 +37,7 @@ namespace GOESDump {
         return pk;
     } 
 
-    void Demuxer::FinishMSDU(MSDU msdu, WatchMan* wm) {
+    void Demuxer::FinishMSDU(XRIT::MSDU msdu, WatchMan* wm) {
         if (msdu.APID == 2047) {
             // Skip fill packet
             return;
@@ -57,7 +57,7 @@ namespace GOESDump {
         }
 
         ostringstream filename;
-        FileParser fileParser;
+        XRIT::FileParser fileParser;
 
         if (msdu.Sequence == SequenceType::FIRST_SEGMENT || msdu.Sequence == SequenceType::SINGLE_DATA) {
             fileHeader = fileParser.GetHeader(msdu.Data);

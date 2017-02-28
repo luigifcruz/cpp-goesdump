@@ -2,7 +2,7 @@
 
 using namespace std;
 namespace GOESDump {
-    void FileHandler::HandleFile(string filename, XRITHeader fileHeader, WatchMan* wm) {
+    void FileHandler::HandleFile(string filename, XRIT::Header fileHeader, WatchMan* wm) {
         switch(fileHeader.Compression()) {
             case CompressionType::JPEG: {
                 PacketManager.DumpFile(filename, fileHeader, "jpg", wm);
@@ -33,7 +33,7 @@ namespace GOESDump {
         }
     }
 
-    void FileHandler::DefaultHandler(string filename, XRITHeader fileHeader, WatchMan* wm) {
+    void FileHandler::DefaultHandler(string filename, XRIT::Header fileHeader, WatchMan* wm) {
         ostringstream clog;
         string dir = Tools.GetDirectoryName(filename);
         string ofilename = fileHeader.Filename() == "" ? Tools.GetFileName(filename) : fileHeader.Filename(); 

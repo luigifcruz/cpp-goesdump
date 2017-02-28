@@ -3,7 +3,7 @@
 using namespace std;
 namespace GOESDump {
     
-    string PacketManager::FixFileFolder(string dir, string filename, NOAAProduct product, NOAASubproduct subProduct) {
+    string PacketManager::FixFileFolder(string dir, string filename, XRIT::NOAAProduct product, XRIT::NOAASubproduct subProduct) {
         string basedir = Tools.DirParentName(dir);
 
         string folderName = UnknownDataFolder;
@@ -81,7 +81,7 @@ namespace GOESDump {
         return Tools.Combine("./" + dir, filename);
     }
 
-    bool PacketManager::HandleWeatherData(string filename, XRITHeader header, WatchMan* wm) {
+    bool PacketManager::HandleWeatherData(string filename, XRIT::Header header, WatchMan* wm) {
         if (header.PrimaryHeader.FileType == FileTypeCode::IMAGE) {
             string basedir = Tools.DirParentName(Tools.DirParentName(filename));
             if (header.Product().ID == NOAAProductID::OTHER_SATELLITES_1 || header.Product().ID == NOAAProductID::OTHER_SATELLITES_2) {
@@ -96,7 +96,7 @@ namespace GOESDump {
                 Tools.CreateDir(basedir);
             }
 
-            ImageHandler.HandleFile(filename, basedir, header, wm);
+            ImageHandler.HandleFile(filename, basedir, header);
 
             if (!Tools.Delete(filename)) {
                 wm->Log("Failed to parse Weather Data Image at " + filename, 3);
@@ -107,7 +107,7 @@ namespace GOESDump {
         return false;
     }
 
-    bool PacketManager::HandleTextData(string filename, XRITHeader header, WatchMan* wm) {
+    bool PacketManager::HandleTextData(string filename, XRIT::Header header, WatchMan* wm) {
         if (header.PrimaryHeader.FileType == FileTypeCode::TEXT) {
             string basedir = Tools.DirParentName(Tools.DirParentName(filename));
             basedir = Tools.Combine(basedir, TextFolder);
@@ -118,7 +118,7 @@ namespace GOESDump {
                 Tools.CreateDir(basedir);
             }
 
-            TextHandler.HandleFile(filename, basedir, header, wm);
+            TextHandler.HandleFile(filename, basedir, header);
             
             if (!Tools.Delete(filename)) {
                 wm->Log("Failed to parse Weather Data Image at " + filename, 3);
@@ -129,7 +129,7 @@ namespace GOESDump {
         return false;
     }
 
-    void PacketManager::DumpFile(string filename, XRITHeader fileHeader, string newExt, WatchMan* wm) {
+    void PacketManager::DumpFile(string filename, XRIT::Header fileHeader, string newExt, WatchMan* wm) {
         ostringstream clog;
         string dir = Tools.GetDirectoryName(filename);
         string f = FixFileFolder(dir, fileHeader.Filename(), fileHeader.Product(), fileHeader.SubProduct());

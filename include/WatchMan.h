@@ -5,7 +5,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
-#include "Tools.h"
+#include <vector>
 #include "StatisticsStruct.h" 
 
 #define RST  "\x1B[0m"

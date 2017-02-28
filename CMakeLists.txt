@@ -31,6 +31,7 @@ add_executable (${PROJECT_NAME} ${SOURCES})
 
 # Links
 target_link_libraries (${PROJECT_NAME} SatHelper)
+target_link_libraries (${PROJECT_NAME} xrit)
 target_link_libraries (${PROJECT_NAME} sz)
 target_link_libraries (${PROJECT_NAME} aec)
 target_link_libraries (${PROJECT_NAME} boost_system)
