@@ -197,7 +197,8 @@ namespace GOESDump {
 
         vector<uint8_t> input = Tools.ReadAllBytes(filename);
 
-        if (!DecompressRice(reinterpret_cast<char*>(input.data()), outputData, input.size(), sizeof(char)*pixels, 8, 16, pixels,  1 | 16 | 32)) {
+        if (!AEC.Decompress(reinterpret_cast<char*>(input.data()), outputData, input.size(), sizeof(char)*pixels,
+                            8, 16, pixels, AEC.ALLOW_K13_OPTION_MASK | AEC.MSB_OPTION_MASK | AEC.NN_OPTION_MASK)) {
             wm->Log("AEC Decompress problem decompressing file " + filename, 3);
             wm->Log("AEC Params: 8 - 16 - " + to_string(pixels), 3);
         }
@@ -241,7 +242,8 @@ namespace GOESDump {
                 outputData[z] = 0x00;
             }
 
-            if (!DecompressRice(reinterpret_cast<char*>(input.data()), outputData, input.size(), sizeof(char)*pixels, 8, 16, pixels,  1 | 16 | 32)) {
+            if (!AEC.Decompress(reinterpret_cast<char*>(input.data()), outputData, input.size(), sizeof(char)*pixels,
+                                8, 16, pixels, AEC.ALLOW_K13_OPTION_MASK | AEC.MSB_OPTION_MASK | AEC.NN_OPTION_MASK)) {
                 wm->Log("AEC Decompress problem decompressing file " + ifile.str(), 3);
                 wm->Log("AEC Params: 8 - 16 - " + to_string(pixels), 3);
             }
@@ -259,21 +261,5 @@ namespace GOESDump {
         f.close();
 
         return outputFile.str();
-    }
-
-    int PacketManager::DecompressRice(char *input, char *output, size_t inputLength, size_t outputLength, int bitsPerPixel, int pixelsPerBlock, int pixelsPerScanline, int mask) {
-        SZ_com_t params;
-
-        mask = mask | SZ_RAW_OPTION_MASK; // By default NOAA dont as for RAW, but their images are RAW. No Compression header.
-
-        params.options_mask = mask;
-        params.bits_per_pixel = bitsPerPixel;
-        params.pixels_per_block = pixelsPerBlock;
-        params.pixels_per_scanline = pixelsPerScanline;
-
-        size_t destLen = pixelsPerScanline;
-        int status = SZ_BufftoBuffDecompress(output, &destLen, input, inputLength, &params);
-
-        return status != SZ_OK ? status : destLen;
     }
 }

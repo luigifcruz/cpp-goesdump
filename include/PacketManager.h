@@ -8,10 +8,6 @@
 #include <xrit/lib.h>
 #include "WatchMan.h"
 
-extern "C" {
-    #include <szlib.h>
-}
-
 using namespace std;
 namespace GOESDump {
     class PacketManager {
@@ -27,6 +23,7 @@ namespace GOESDump {
             XRIT::Tools Tools;
             XRIT::ImageHandler ImageHandler;
             XRIT::TextHandler TextHandler;
+            XRIT::AEC AEC;
 
         public:
             string FixFileFolder(string dir, string filename, XRIT::NOAAProduct product, XRIT::NOAASubproduct subProduct);
@@ -35,7 +32,6 @@ namespace GOESDump {
             void DumpFile(string filename, XRIT::Header fileHeader, string newExt, WatchMan* wm);
             string Decompressor(string filename, int pixels, WatchMan* wm);
             string Decompressor(string prefix, int pixels, int startnum, int endnum, WatchMan* wm);
-            int DecompressRice(char *input, char *output, size_t inputLength, size_t outputLength, int bitsPerPixel, int pixelsPerBlock, int pixelsPerScanline, int mask);
     }; 
 }
 
