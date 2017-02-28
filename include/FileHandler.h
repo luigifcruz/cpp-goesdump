@@ -3,21 +3,20 @@
 
 #include <map>
 #include <string>
-#include <XRITHeader.h>
+#include <xrit/lib.h>
 #include "PacketManager.h"
-#include "Tools.h"
 #include "WatchMan.h"
 
 using namespace std;
 namespace GOESDump {
     class FileHandler {
         private:
-            Tools Tools;
+            XRIT::Tools Tools;
             PacketManager PacketManager;
-            void DefaultHandler(string filename, XRITHeader fileHeader, WatchMan* wm);
+            void DefaultHandler(string filename, XRIT::Header fileHeader, WatchMan* wm);
 
         public:
-            void HandleFile(string filename, XRITHeader fileHeader, WatchMan* wm);
+            void HandleFile(string filename, XRIT::Header fileHeader, WatchMan* wm);
     };
 }
 

@@ -9,15 +9,9 @@
 #include <sstream>
 #include <fstream>
 #include "WatchMan.h"
-#include "FileParser.h"
-#include "XRITHeader.h"
 #include "FileHandler.h"
-#include "Types/SequenceType.h"
-#include "Types/CompressionType.h"
-#include "MSDU.h"
-#include "Tools.h"
 #include "PacketManager.h"
-#include "Tools.h"
+#include <xrit/lib.h>
 
 typedef struct {
     int lastAPID;
@@ -35,14 +29,14 @@ namespace GOESDump {
             int startnum = -1;
             int endnum = -1;
             vector<uint8_t> buffer;
-            map<int, MSDU> temporaryStorage;
-            XRITHeader fileHeader;
+            map<int, XRIT::MSDU> temporaryStorage;
+            XRIT::Header fileHeader;
             FileHandler FileHandler;
-            Tools Tools;
+            XRIT::Tools Tools;
             PacketManager PacketManager;
 
             packet CreatePacket(vector<uint8_t> data, WatchMan* wm);
-            void FinishMSDU(MSDU msdu, WatchMan* wm);
+            void FinishMSDU(XRIT::MSDU msdu, WatchMan* wm);
 
         public:
             Demuxer() { }

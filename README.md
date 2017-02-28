@@ -16,8 +16,8 @@ make
 
 ### Dependencies 
 - [Simple-Web-Server](https://github.com/eidheim/Simple-Web-Server)
-- [libaec](https://github.com/MathisRosenhauer/libaec)
 - [libsathelper](https://github.com/opensatelliteproject/libsathelper)
+- [xritlib](https://github.com/luigifreitas/xritlib)
 
 ### Todo 
 - [x] Add CMake.

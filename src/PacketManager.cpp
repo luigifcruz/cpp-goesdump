@@ -3,7 +3,7 @@
 using namespace std;
 namespace GOESDump {
     
-    string PacketManager::FixFileFolder(string dir, string filename, NOAAProduct product, NOAASubproduct subProduct) {
+    string PacketManager::FixFileFolder(string dir, string filename, XRIT::NOAAProduct product, XRIT::NOAASubproduct subProduct) {
         string basedir = Tools.DirParentName(dir);
 
         string folderName = UnknownDataFolder;
@@ -81,7 +81,7 @@ namespace GOESDump {
         return Tools.Combine("./" + dir, filename);
     }
 
-    bool PacketManager::HandleWeatherData(string filename, XRITHeader header, WatchMan* wm) {
+    bool PacketManager::HandleWeatherData(string filename, XRIT::Header header, WatchMan* wm) {
         if (header.PrimaryHeader.FileType == FileTypeCode::IMAGE) {
             string basedir = Tools.DirParentName(Tools.DirParentName(filename));
             if (header.Product().ID == NOAAProductID::OTHER_SATELLITES_1 || header.Product().ID == NOAAProductID::OTHER_SATELLITES_2) {
@@ -96,7 +96,7 @@ namespace GOESDump {
                 Tools.CreateDir(basedir);
             }
 
-            ImageHandler.HandleFile(filename, basedir, header, wm);
+            ImageHandler.HandleFile(filename, basedir, header);
 
             if (!Tools.Delete(filename)) {
                 wm->Log("Failed to parse Weather Data Image at " + filename, 3);
@@ -107,7 +107,7 @@ namespace GOESDump {
         return false;
     }
 
-    bool PacketManager::HandleTextData(string filename, XRITHeader header, WatchMan* wm) {
+    bool PacketManager::HandleTextData(string filename, XRIT::Header header, WatchMan* wm) {
         if (header.PrimaryHeader.FileType == FileTypeCode::TEXT) {
             string basedir = Tools.DirParentName(Tools.DirParentName(filename));
             basedir = Tools.Combine(basedir, TextFolder);
@@ -118,7 +118,7 @@ namespace GOESDump {
                 Tools.CreateDir(basedir);
             }
 
-            TextHandler.HandleFile(filename, basedir, header, wm);
+            TextHandler.HandleFile(filename, basedir, header);
             
             if (!Tools.Delete(filename)) {
                 wm->Log("Failed to parse Weather Data Image at " + filename, 3);
@@ -129,7 +129,7 @@ namespace GOESDump {
         return false;
     }
 
-    void PacketManager::DumpFile(string filename, XRITHeader fileHeader, string newExt, WatchMan* wm) {
+    void PacketManager::DumpFile(string filename, XRIT::Header fileHeader, string newExt, WatchMan* wm) {
         ostringstream clog;
         string dir = Tools.GetDirectoryName(filename);
         string f = FixFileFolder(dir, fileHeader.Filename(), fileHeader.Product(), fileHeader.SubProduct());
@@ -197,7 +197,8 @@ namespace GOESDump {
 
         vector<uint8_t> input = Tools.ReadAllBytes(filename);
 
-        if (!DecompressRice(reinterpret_cast<char*>(input.data()), outputData, input.size(), sizeof(char)*pixels, 8, 16, pixels,  1 | 16 | 32)) {
+        if (!AEC.Decompress(reinterpret_cast<char*>(input.data()), outputData, input.size(), sizeof(char)*pixels,
+                            8, 16, pixels, AEC.ALLOW_K13_OPTION_MASK | AEC.MSB_OPTION_MASK | AEC.NN_OPTION_MASK)) {
             wm->Log("AEC Decompress problem decompressing file " + filename, 3);
             wm->Log("AEC Params: 8 - 16 - " + to_string(pixels), 3);
         }
@@ -241,7 +242,8 @@ namespace GOESDump {
                 outputData[z] = 0x00;
             }
 
-            if (!DecompressRice(reinterpret_cast<char*>(input.data()), outputData, input.size(), sizeof(char)*pixels, 8, 16, pixels,  1 | 16 | 32)) {
+            if (!AEC.Decompress(reinterpret_cast<char*>(input.data()), outputData, input.size(), sizeof(char)*pixels,
+                                8, 16, pixels, AEC.ALLOW_K13_OPTION_MASK | AEC.MSB_OPTION_MASK | AEC.NN_OPTION_MASK)) {
                 wm->Log("AEC Decompress problem decompressing file " + ifile.str(), 3);
                 wm->Log("AEC Params: 8 - 16 - " + to_string(pixels), 3);
             }
@@ -259,21 +261,5 @@ namespace GOESDump {
         f.close();
 
         return outputFile.str();
-    }
-
-    int PacketManager::DecompressRice(char *input, char *output, size_t inputLength, size_t outputLength, int bitsPerPixel, int pixelsPerBlock, int pixelsPerScanline, int mask) {
-        SZ_com_t params;
-
-        mask = mask | SZ_RAW_OPTION_MASK; // By default NOAA dont as for RAW, but their images are RAW. No Compression header.
-
-        params.options_mask = mask;
-        params.bits_per_pixel = bitsPerPixel;
-        params.pixels_per_block = pixelsPerBlock;
-        params.pixels_per_scanline = pixelsPerScanline;
-
-        size_t destLen = pixelsPerScanline;
-        int status = SZ_BufftoBuffDecompress(output, &destLen, input, inputLength, &params);
-
-        return status != SZ_OK ? status : destLen;
     }
 }
